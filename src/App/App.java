@@ -2,8 +2,6 @@ package App;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class App extends JFrame {
     private JPanel panel;
@@ -17,19 +15,13 @@ public class App extends JFrame {
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Login();
-                dispose();
-            }
+        loginButton.addActionListener(e -> {
+            new Login();
+            dispose();
         });
-        registerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new Register();
-                dispose();
-            }
+        registerButton.addActionListener(e -> {
+            new Register();
+            dispose();
         });
     }
 }
