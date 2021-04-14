@@ -1,7 +1,7 @@
 package App;
 
 import App.UserArea.Login;
-import org.mindrot.BCrypt;
+import utils.BCrypt;
 
 import javax.swing.*;
 import java.awt.*;
