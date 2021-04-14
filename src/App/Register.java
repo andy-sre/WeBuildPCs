@@ -1,11 +1,12 @@
 package App;
 
+import App.UserArea.Login;
+import org.mindrot.BCrypt;
+
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.Arrays;
 
 public class Register extends JFrame {
     private JPanel panel;
@@ -13,11 +14,11 @@ public class Register extends JFrame {
     private JTextField lastNameField;
     private JTextField emailField;
     private JTextField eircodeField;
-    private JTextField passwordField;
-    private JTextField cpasswordField;
     private JButton submitButton;
     private JButton returnButton;
     private JLabel errorLabel;
+    private JPasswordField passwordField;
+    private JPasswordField cpasswordField;
     private Connection connection;
 
     public Register() {
@@ -36,13 +37,47 @@ public class Register extends JFrame {
             errorLabel.setVisible(false);
             if(checkBlank()) {
                 if(isValidEmail(emailField.getText())) {
-                    if(isValidPassword(passwordField.getText())) {
-                        try {
-                            connection = DriverManager.getConnection("jdbc:sqlite:webuildpcs");
-                            PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-                            checkUserExists.setString(1, emailField.getText());
-                        } catch (SQLException checkUser) {
-                            System.err.println(checkUser.getMessage());
+                    if(isValidPassword(new String(passwordField.getPassword()))) {
+                        if(Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
+                            try {
+                                connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+                                PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                                checkUserExists.setString(1, emailField.getText());
+                                ResultSet rs = checkUserExists.executeQuery();
+                                if(rs.next()) {
+                                    errorLabel.setText("User already exists.  Try logging in!");
+                                    errorLabel.setVisible(true);
+                                } else {
+                                    String passString = new String(passwordField.getPassword());
+                                    String passHashed = BCrypt.hashpw(passString, BCrypt.gensalt());
+                                    rs.close();
+                                    try {
+                                        checkUserExists.close();
+                                        PreparedStatement createUser = connection.prepareStatement("INSERT INTO Users (fname, lname, eircode, password, email) VALUES (?,?,?,?,?)");
+                                        createUser.setString(1, firstNameField.getText());
+                                        createUser.setString(2, lastNameField.getText());
+                                        createUser.setString(3, eircodeField.getText());
+                                        createUser.setString(4, passHashed);
+                                        createUser.setString(5, emailField.getText());
+                                        int rowsAffected = createUser.executeUpdate();
+                                        if (rowsAffected == 1) {
+                                            JOptionPane.showMessageDialog(null, "Account created!  Redirecting you to login now");
+                                            createUser.close();
+                                            connection.close();
+                                            new Login();
+                                            dispose();
+                                        }
+                                    } catch (SQLException registerUser) {
+                                        System.err.println(registerUser.getMessage());
+                                    }
+                                }
+                            } catch (SQLException checkUser) {
+                                System.err.println(checkUser.getMessage());
+                            }
+
+                        } else {
+                            errorLabel.setText("Passwords do not match.  Please try again!");
+                            errorLabel.setVisible(true);
                         }
                     } else {
                         errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
@@ -69,10 +104,10 @@ public class Register extends JFrame {
         } else if (eircodeField.getText().isEmpty()) {
             errorLabel.setText("Please enter an Eircode");
             errorLabel.setVisible(true);
-        } else if (passwordField.getText().isEmpty()) {
+        } else if (passwordField.getPassword().length == 0) {
             errorLabel.setText("Please enter a password");
             errorLabel.setVisible(true);
-        } else if (cpasswordField.getText().isEmpty()) {
+        } else if (cpasswordField.getPassword().length == 0) {
             errorLabel.setText("Please confirm your password");
             errorLabel.setVisible(true);
         } else {
