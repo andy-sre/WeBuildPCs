@@ -2,6 +2,7 @@ package App.UserArea;
 
 import App.App;
 import App.EmployeeArea.EmployeeLogin;
+import App.UserArea.Dashboard.UserDash;
 import utils.BCrypt;
 
 import javax.swing.*;
@@ -19,6 +20,8 @@ public class Login extends JFrame{
     private Connection connection;
     private String passHashed;
     private String passString;
+    private int userID;
+    private String fname;
 
     public Login() {
         errorLabel.setVisible(false);
@@ -43,13 +46,15 @@ public class Login extends JFrame{
                         ResultSet rs = loginUser.executeQuery();
                         while (rs.next()) {
                             passHashed = rs.getString("password");
+                            userID = rs.getInt("userID");
+                            fname = rs.getString("fname");
                         }
                         passString = new String(passwordField.getPassword());
                         if (BCrypt.checkpw(passString, passHashed)) {
                             rs.close();
                             connection.close();
                             JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
-                            new App();
+                            new UserDash(userID, fname);
                             dispose();
                         } else {
                             rs.close();
