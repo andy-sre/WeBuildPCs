@@ -2,6 +2,10 @@ package App;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class Register extends JFrame {
     private JPanel panel;
@@ -14,6 +18,7 @@ public class Register extends JFrame {
     private JButton submitButton;
     private JButton returnButton;
     private JLabel errorLabel;
+    private Connection connection;
 
     public Register() {
         errorLabel.setVisible(false);
@@ -32,7 +37,13 @@ public class Register extends JFrame {
             if(checkBlank()) {
                 if(isValidEmail(emailField.getText())) {
                     if(isValidPassword(passwordField.getText())) {
-                        System.out.println("Pass");
+                        try {
+                            connection = DriverManager.getConnection("jdbc:sqlite:webuildpcs");
+                            PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                            checkUserExists.setString(1, emailField.getText());
+                        } catch (SQLException checkUser) {
+                            System.err.println(checkUser.getMessage());
+                        }
                     } else {
                         errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
                         errorLabel.setVisible(true);
