@@ -2,6 +2,7 @@ package App.UserArea;
 
 import App.App;
 import App.EmployeeArea.EmployeeLogin;
+import utils.BCrypt;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,10 @@ public class Login extends JFrame{
     private JButton returnButton;
     private JButton loginButton;
     private JLabel errorLabel;
+    private JButton employeeLogin;
+    private Connection connection;
+    private String passHashed;
+    private String passString;
 
     public Login() {
         errorLabel.setVisible(false);
@@ -31,12 +36,38 @@ public class Login extends JFrame{
             errorLabel.setVisible(false);
             if (checkBlank()) {
                 if(isValidEmail(emailField.getText())) {
-                    System.out.println("Working");
+                    try {
+                        connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+                        PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                        loginUser.setString(1, emailField.getText());
+                        ResultSet rs = loginUser.executeQuery();
+                        while (rs.next()) {
+                            passHashed = rs.getString("password");
+                        }
+                        passString = new String(passwordField.getPassword());
+                        if (BCrypt.checkpw(passString, passHashed)) {
+                            rs.close();
+                            connection.close();
+                            JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
+                            new App();
+                            dispose();
+                        } else {
+                            rs.close();
+                            errorLabel.setText("Password or email incorrect, please try again!");
+                            errorLabel.setVisible(true);
+                        }
+                    } catch (SQLException loginError) {
+                        System.err.println(loginError.getMessage());
+                    }
                 } else {
                     errorLabel.setText("Email is not a valid email");
                     errorLabel.setVisible(true);
                 }
             }
+        });
+        employeeLogin.addActionListener(e -> {
+            new EmployeeLogin();
+            dispose();
         });
     }
     public boolean checkBlank() {
