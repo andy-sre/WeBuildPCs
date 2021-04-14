@@ -183,7 +183,7 @@
                   <text value="Confirm Password"/>
                 </properties>
               </component>
-              <component id="df63f" class="javax.swing.JPasswordField" binding="passwordField">
+              <component id="c6718" class="javax.swing.JPasswordField" binding="passwordField">
                 <constraints>
                   <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
@@ -191,7 +191,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="4356" class="javax.swing.JPasswordField" binding="cpasswordField">
+              <component id="8152" class="javax.swing.JPasswordField" binding="cpasswordField">
                 <constraints>
                   <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>

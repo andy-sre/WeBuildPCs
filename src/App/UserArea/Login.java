@@ -5,6 +5,7 @@ import App.EmployeeArea.EmployeeLogin;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 
 public class Login extends JFrame{
     private JPanel panel;
@@ -13,7 +14,6 @@ public class Login extends JFrame{
     private JButton returnButton;
     private JButton loginButton;
     private JLabel errorLabel;
-    private JButton employeeLogin;
 
     public Login() {
         errorLabel.setVisible(false);
@@ -37,10 +37,6 @@ public class Login extends JFrame{
                     errorLabel.setVisible(true);
                 }
             }
-        });
-        employeeLogin.addActionListener(e -> {
-            new EmployeeLogin();
-            dispose();
         });
     }
     public boolean checkBlank() {
