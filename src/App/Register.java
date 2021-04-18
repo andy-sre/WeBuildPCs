@@ -29,6 +29,11 @@ public class Register extends JFrame {
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+        } catch (SQLException connection) {
+            connection.printStackTrace();
+        }
         returnButton.addActionListener(e -> {
             new App();
             dispose();
@@ -40,7 +45,6 @@ public class Register extends JFrame {
                     if(isValidPassword(new String(passwordField.getPassword()))) {
                         if(Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
                             try {
-                                connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
                                 PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
                                 checkUserExists.setString(1, emailField.getText());
                                 ResultSet rs = checkUserExists.executeQuery();
@@ -51,6 +55,7 @@ public class Register extends JFrame {
                                     String passString = new String(passwordField.getPassword());
                                     String passHashed = BCrypt.hashpw(passString, BCrypt.gensalt());
                                     rs.close();
+                                    checkUserExists.close();
                                     try {
                                         checkUserExists.close();
                                         PreparedStatement createUser = connection.prepareStatement("INSERT INTO Users (fname, lname, eircode, password, email) VALUES (?,?,?,?,?)");
