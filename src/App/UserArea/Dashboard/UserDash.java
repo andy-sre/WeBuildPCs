@@ -1,7 +1,11 @@
 package App.UserArea.Dashboard;
 
+import App.UserArea.Dashboard.OrderArea.OrderCreate;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class UserDash extends JFrame{
     private JPanel panel;
@@ -19,5 +23,11 @@ public class UserDash extends JFrame{
         this.setVisible(true);
         this.add(panel);
         welcomeLabel.setText("Welcome, " + fname + " to your dashboard");
+        newOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new OrderCreate(userID);
+            }
+        });
     }
 }
