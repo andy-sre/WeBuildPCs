@@ -152,11 +152,11 @@ public class OrderCreate extends JFrame {
         String name;
         int itemID;
         try {
-            PreparedStatement getCPU = connection.prepareStatement("select * from CPU");
+            PreparedStatement getCPU = connection.prepareStatement("select * from Parts where partType == 'cpu'");
             rs = getCPU.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("cpuID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 cpuDropdown.addItem(new Item(itemID, name, price, quantity));
@@ -171,11 +171,11 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getGPU = connection.prepareStatement("select * from GPU");
+            PreparedStatement getGPU = connection.prepareStatement("select * from Parts where partType == 'gpu'");
             rs = getGPU.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("gpuID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 gpuDropdown.addItem(new Item(itemID, name, price, quantity));
@@ -190,11 +190,11 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getMobo = connection.prepareStatement("select * from Motherboard");
+            PreparedStatement getMobo = connection.prepareStatement("select * from Parts where partType == 'motherBoard'");
             rs = getMobo.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("motherboardID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 moboDropdown.addItem(new Item(itemID, name, price, quantity));
@@ -207,11 +207,11 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getPSU = connection.prepareStatement("select * from PSU");
+            PreparedStatement getPSU = connection.prepareStatement("select * from Parts where partType == 'psu'");
             rs = getPSU.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("powerSupplyID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 psuDropdown.addItem(new Item(itemID, name, price, quantity));
@@ -224,11 +224,11 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getRAM = connection.prepareStatement("select * from RAM");
+            PreparedStatement getRAM = connection.prepareStatement("select * from Parts where partType =='ram'");
             rs = getRAM.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("ramID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 ramDropdown.addItem(new Item(itemID, name, price, quantity));
@@ -243,11 +243,11 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getCase = connection.prepareStatement("select * from PCCase");
+            PreparedStatement getCase = connection.prepareStatement("select * from Parts where partType == 'pcCase'");
             rs = getCase.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("pccaseID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 caseDropdown.addItem(new Item(itemID, name, price, quantity));
@@ -260,11 +260,11 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getStorage = connection.prepareStatement("select * from Storage");
+            PreparedStatement getStorage = connection.prepareStatement("select * from Parts where partType == 'storage'");
             rs = getStorage.executeQuery();
             while (rs.next()) {
-                itemID = rs.getInt("storageID");
-                name = rs.getString("name");
+                itemID = rs.getInt("partID");
+                name = rs.getString("partName");
                 price = rs.getDouble("price");
                 quantity = rs.getInt("quantity");
                 storageDropdown.addItem(new Item(itemID, name, price, quantity));
