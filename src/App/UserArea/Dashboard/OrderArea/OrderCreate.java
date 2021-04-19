@@ -319,6 +319,4 @@ public class OrderCreate extends JFrame {
             return "Name: " + getItemName();
         }
     }
-
-
 }
