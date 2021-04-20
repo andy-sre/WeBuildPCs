@@ -8,6 +8,7 @@ import utils.BCrypt;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.util.Locale;
 
 public class Login extends JFrame{
     private JPanel panel;
@@ -36,13 +37,14 @@ public class Login extends JFrame{
             dispose();
         });
         loginButton.addActionListener(e -> {
+            String email = emailField.getText().toLowerCase(Locale.ROOT);
             errorLabel.setVisible(false);
             if (checkBlank()) {
-                if(isValidEmail(emailField.getText())) {
+                if(isValidEmail(email)) {
                     try {
                         connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
                         PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-                        loginUser.setString(1, emailField.getText());
+                        loginUser.setString(1, email);
                         ResultSet rs = loginUser.executeQuery();
                         while (rs.next()) {
                             passHashed = rs.getString("password");

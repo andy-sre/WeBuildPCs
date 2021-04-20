@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Register extends JFrame {
     private JPanel panel;
@@ -39,14 +40,15 @@ public class Register extends JFrame {
             dispose();
         });
         submitButton.addActionListener(e -> {
+            String email = emailField.getText().toLowerCase(Locale.ROOT);
             errorLabel.setVisible(false);
             if(checkBlank()) {
-                if(isValidEmail(emailField.getText())) {
+                if(isValidEmail(email)) {
                     if(isValidPassword(new String(passwordField.getPassword()))) {
                         if(Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
                             try {
                                 PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-                                checkUserExists.setString(1, emailField.getText());
+                                checkUserExists.setString(1, email);
                                 ResultSet rs = checkUserExists.executeQuery();
                                 if(rs.next()) {
                                     errorLabel.setText("User already exists.  Try logging in!");
@@ -63,7 +65,7 @@ public class Register extends JFrame {
                                         createUser.setString(2, lastNameField.getText());
                                         createUser.setString(3, eircodeField.getText());
                                         createUser.setString(4, passHashed);
-                                        createUser.setString(5, emailField.getText());
+                                        createUser.setString(5, email);
                                         int rowsAffected = createUser.executeUpdate();
                                         if (rowsAffected == 1) {
                                             JOptionPane.showMessageDialog(null, "Account created!  Redirecting you to login now");
