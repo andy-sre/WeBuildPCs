@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="panel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1310" height="899"/>
+      <xy x="20" y="20" width="1429" height="899"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -48,7 +48,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="a66aa" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="a66aa" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -59,7 +59,7 @@
               <grid id="5f013" layout-manager="GridLayoutManager" row-count="9" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -264,6 +264,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="14f93" class="javax.swing.JTextField" binding="gpuPrice">
@@ -275,6 +276,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="d6f47" class="javax.swing.JTextField" binding="ramPrice">
@@ -286,6 +288,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="676c5" class="javax.swing.JTextField" binding="moboPrice">
@@ -297,6 +300,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="2a31b" class="javax.swing.JTextField" binding="storagePrice">
@@ -308,6 +312,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="560e8" class="javax.swing.JTextField" binding="psuPrice">
@@ -319,6 +324,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="536cd" class="javax.swing.JTextField" binding="casePrice">
@@ -330,6 +336,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="22ae4" class="javax.swing.JTextField" binding="cpuStock">
@@ -341,6 +348,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="3e13" class="javax.swing.JTextField" binding="gpuStock">
@@ -352,6 +360,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="ab0e5" class="javax.swing.JTextField" binding="ramStock">
@@ -363,6 +372,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="64677" class="javax.swing.JTextField" binding="moboStock">
@@ -374,6 +384,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="21dcd" class="javax.swing.JTextField" binding="storageStock">
@@ -385,6 +396,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="98cd" class="javax.swing.JTextField" binding="psuStock">
@@ -396,6 +408,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                       <text value=""/>
                     </properties>
                   </component>
@@ -408,6 +421,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="ca69b" class="javax.swing.JComboBox" binding="cpuQuantity">
@@ -444,7 +458,9 @@
                         <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <enabled value="false"/>
+                    </properties>
                   </component>
                   <component id="4f3e5" class="javax.swing.JComboBox" binding="storageQuantity">
                     <constraints>
@@ -462,7 +478,10 @@
                         <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                      <enabled value="false"/>
+                    </properties>
                   </component>
                   <component id="dbbf7" class="javax.swing.JComboBox" binding="caseQuantity">
                     <constraints>
@@ -471,7 +490,9 @@
                         <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <enabled value="false"/>
+                    </properties>
                   </component>
                   <component id="f4bb1" class="javax.swing.JTextField" binding="totalPrice">
                     <constraints>
@@ -482,6 +503,7 @@
                     </constraints>
                     <properties>
                       <editable value="false"/>
+                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
                   <component id="de673" class="javax.swing.JLabel">
@@ -543,7 +565,7 @@
               <grid id="5c006" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -574,6 +596,25 @@
                   </component>
                 </children>
               </grid>
+              <component id="6755" class="javax.swing.JLabel" binding="errorLabel">
+                <constraints>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <foreground color="-1618884"/>
+                  <icon value="images/warning.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <vspacer id="f9443">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+                    <minimum-size width="-1" height="30"/>
+                    <preferred-size width="-1" height="40"/>
+                    <maximum-size width="-1" height="50"/>
+                  </grid>
+                </constraints>
+              </vspacer>
             </children>
           </grid>
         </children>

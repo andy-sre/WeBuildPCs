@@ -1,8 +1,12 @@
 package App.UserArea.Dashboard.OrderArea;
 
+import App.App;
+import App.UserArea.Dashboard.UserDash;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.util.Objects;
 
@@ -40,6 +44,7 @@ public class OrderCreate extends JFrame {
     private JComboBox<Integer> storageQuantity;
     private JComboBox<Integer> psuQuantity;
     private JComboBox<Integer> caseQuantity;
+    private JLabel errorLabel;
     private Connection connection;
     private double cpuPriceFinal;
     private double gpuPriceFinal;
@@ -50,7 +55,8 @@ public class OrderCreate extends JFrame {
     private double casePriceFinal;
     private double pcPrice;
 
-    public OrderCreate(int userID) {
+    public OrderCreate(int userID, String fname) {
+        errorLabel.setVisible(false);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,6 +135,81 @@ public class OrderCreate extends JFrame {
         gpuQuantity.addActionListener(e -> updatePrice());
         ramQuantity.addActionListener(e -> updatePrice());
         storageQuantity.addActionListener(e -> updatePrice());
+        submitButton.addActionListener(e -> {
+            if (checkBox()) {
+                errorLabel.setVisible(false);
+                try {
+                    Item cpuItem = (Item) cpuDropdown.getSelectedItem();
+                    Item gpuItem = (Item) gpuDropdown.getSelectedItem();
+                    Item ramItem = (Item) ramDropdown.getSelectedItem();
+                    Item moboItem = (Item) moboDropdown.getSelectedItem();
+                    Item storageItem = (Item) storageDropdown.getSelectedItem();
+                    Item psuItem = (Item) psuDropdown.getSelectedItem();
+                    Item caseItem = (Item) caseDropdown.getSelectedItem();
+
+                    PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
+                            "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
+                            "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    createOrder.setString(1, "Payment Due");
+                    createOrder.setInt(2, userID);
+                    assert cpuItem != null;
+                    createOrder.setInt(3, cpuItem.getItemID());
+                    createOrder.setInt(4, Integer.parseInt(Objects.requireNonNull(cpuQuantity.getSelectedItem()).toString()));
+                    assert gpuItem != null;
+                    createOrder.setInt(5, gpuItem.getItemID());
+                    createOrder.setInt(6, Integer.parseInt(Objects.requireNonNull(gpuQuantity.getSelectedItem()).toString()));
+                    assert ramItem != null;
+                    createOrder.setInt(7, ramItem.getItemID());
+                    createOrder.setInt(8, Integer.parseInt(Objects.requireNonNull(ramQuantity.getSelectedItem()).toString()));
+                    assert moboItem != null;
+                    createOrder.setInt(9, moboItem.getItemID());
+                    createOrder.setInt(10, Integer.parseInt(Objects.requireNonNull(moboQuantity.getSelectedItem()).toString()));
+                    assert storageItem != null;
+                    createOrder.setInt(11, storageItem.getItemID());
+                    createOrder.setInt(12, Integer.parseInt(Objects.requireNonNull(storageQuantity.getSelectedItem()).toString()));
+                    assert psuItem != null;
+                    createOrder.setInt(13, psuItem.getItemID());
+                    createOrder.setInt(14, Integer.parseInt(Objects.requireNonNull(psuQuantity.getSelectedItem()).toString()));
+                    assert caseItem != null;
+                    createOrder.setInt(15, caseItem.getItemID());
+                    createOrder.setInt(16, Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString()));
+                    int rowsAffectedO = createOrder.executeUpdate();
+                    if (rowsAffectedO == 1) {
+                        createOrder.close();
+                        PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal) VALUES (?,?,?,?)");
+                        createPayment.setInt(1, userID);
+                        PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
+                        ResultSet rs = getOrderID.executeQuery();
+                        while (rs.next()) {
+                            createPayment.setInt(2, rs.getInt("orderID"));
+                        }
+                        getOrderID.close();
+                        rs.close();
+                        createPayment.setDouble(3, pcPrice);
+                        createPayment.setDouble(4, pcPrice);
+                        int rowsAffectedP = createPayment.executeUpdate();
+                        if (rowsAffectedP == 1) {
+                            createPayment.close();
+                            JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
+                            connection.close();
+                            new UserDash(userID, fname);
+                            dispose();
+                        }
+                    }
+                } catch (SQLException createOrder) {
+                    System.out.println(createOrder.getMessage());
+                }
+            }
+        });
+        returnButton.addActionListener(e -> {
+            new UserDash(userID, fname);
+            dispose();
+        });
+        logoutButton.addActionListener(e -> {
+            new App();
+            dispose();
+        });
     }
 
     private void getParts() {
@@ -280,6 +361,8 @@ public class OrderCreate extends JFrame {
                 (casePriceFinal * Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString())) +
                 (storagePriceFinal * Integer.parseInt(Objects.requireNonNull(storageQuantity.getSelectedItem()).toString())) +
                 (storagePriceFinal * Integer.parseInt(storageQuantity.getSelectedItem().toString()));
+        BigDecimal round = new BigDecimal(pcPrice).setScale(2, RoundingMode.HALF_UP);
+        pcPrice = round.doubleValue();
         totalPrice.setText(String.valueOf(pcPrice));
     }
 
@@ -310,5 +393,33 @@ public class OrderCreate extends JFrame {
         public String toString() {
             return getItemName();
         }
+    }
+
+    public boolean checkBox() {
+        if (cpuDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a CPU");
+            errorLabel.setVisible(true);
+        } else if (gpuDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a GPU");
+            errorLabel.setVisible(true);
+        } else if (ramDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a RAM module");
+            errorLabel.setVisible(true);
+        } else if (moboDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a Motherboard");
+            errorLabel.setVisible(true);
+        } else if (storageDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a Harddrive");
+            errorLabel.setVisible(true);
+        } else if (psuDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a PSU");
+            errorLabel.setVisible(true);
+        } else if (caseDropdown.getSelectedIndex() == -1) {
+            errorLabel.setText("Please Select a Case");
+            errorLabel.setVisible(true);
+        }else {
+            return true;
+        }
+        return false;
     }
 }

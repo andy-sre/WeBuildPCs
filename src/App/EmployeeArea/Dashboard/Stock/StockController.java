@@ -132,7 +132,7 @@ public class StockController extends JFrame {
                             updateItem.setString(1, itemEditField.getText());
                             updateItem.setDouble(2, Double.parseDouble(priceEditField.getText()));
                             updateItem.setInt(3, Integer.parseInt(quantityEditField.getText()));
-                            updateItem.setString(4, db);
+                            updateItem.setInt(4, selectedID);
                             int rowsAffected = updateItem.executeUpdate();
                             if (rowsAffected == 1) {
                                 JOptionPane.showMessageDialog(null, "Item has been updated");
