@@ -1,6 +1,7 @@
 package App.EmployeeArea.Dashboard;
 
 import App.App;
+import App.EmployeeArea.Dashboard.Orders.ViewOrders;
 import App.EmployeeArea.Dashboard.ProfileDash.ProfileDash;
 import App.EmployeeArea.Dashboard.Stock.StockDash;
 
@@ -49,6 +50,13 @@ public class EmployeeDash extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new App();
+                dispose();
+            }
+        });
+        viewOrdersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new ViewOrders(employeeID, fname);
                 dispose();
             }
         });
