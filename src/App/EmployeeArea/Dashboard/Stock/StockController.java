@@ -29,14 +29,12 @@ public class StockController extends JFrame {
     private JTextField priceEditField;
     private JTextField quantityEditField;
     private JButton returnButton;
-    private final DefaultTableModel model = new DefaultTableModel(new String[]{"CPU ID", "Name", "Price", "Quantity"}, 0);
+    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Part ID", "Name", "Price", "Quantity"}, 0);
     private Connection connection;
     private final String db;
-    private final String dbID;
 
-    public StockController(int employeeID, String fname, String db, String id) {
+    public StockController(int employeeID, String fname, String db) {
         this.db = db;
-        this.dbID = id;
         errorLabel.setVisible(false);
         addItem.setVisible(false);
         editItem.setVisible(false);
@@ -72,16 +70,17 @@ public class StockController extends JFrame {
                         System.out.println(error.getMessage());
                     }
                     try {
-                        PreparedStatement addItemPS = connection.prepareStatement("INSERT INTO " + db + " (name, price, quantity) VALUES (?,?,?)");
-                        addItemPS.setString(1, itemAddField.getText());
+                        PreparedStatement addItemPS = connection.prepareStatement("INSERT INTO Parts (partType, price, quantity, partName) VALUES (? ,? ,? ,?)");
+                        addItemPS.setString(1, db);
                         addItemPS.setDouble(2, Double.parseDouble(priceAddField.getText()));
                         addItemPS.setInt(3, Integer.parseInt(quantityAddField.getText()));
+                        addItemPS.setString(4, itemAddField.getText());
                         int rowsAffected = addItemPS.executeUpdate();
                         if (rowsAffected == 1) {
                             JOptionPane.showMessageDialog(null, "Item added to the database");
                             addItemPS.close();
                             connection.close();
-                            new StockController(employeeID, fname, db, dbID);
+                            new StockController(employeeID, fname, db);
                             dispose();
                         }
                     } catch (SQLException error) {
@@ -96,7 +95,7 @@ public class StockController extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            new StockController(employeeID, fname, db, dbID);
+            new StockController(employeeID, fname, db);
             dispose();
         });
 
@@ -129,17 +128,17 @@ public class StockController extends JFrame {
                             System.out.println(error.getMessage());
                         }
                         try {
-                            PreparedStatement updateItem = connection.prepareStatement("UPDATE "+db+" SET name = ?, price = ?, quantity = ? WHERE "+id+" = ?");
+                            PreparedStatement updateItem = connection.prepareStatement("UPDATE Parts SET partName = ?, price = ?, quantity = ? WHERE partID = ?");
                             updateItem.setString(1, itemEditField.getText());
                             updateItem.setDouble(2, Double.parseDouble(priceEditField.getText()));
                             updateItem.setInt(3, Integer.parseInt(quantityEditField.getText()));
-                            updateItem.setInt(4, selectedID);
+                            updateItem.setString(4, db);
                             int rowsAffected = updateItem.executeUpdate();
                             if (rowsAffected == 1) {
                                 JOptionPane.showMessageDialog(null, "Item has been updated");
                                 updateItem.close();
                                 connection.close();
-                                new StockController(employeeID, fname, db, dbID);
+                                new StockController(employeeID, fname, db);
                                 dispose();
                             }
                         } catch (SQLException error) {
@@ -159,14 +158,14 @@ public class StockController extends JFrame {
                 int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?");
                 if(input == 0) {
                     try {
-                        PreparedStatement deleteItem = connection.prepareStatement("DELETE FROM "+db+" WHERE "+id+" = ?");
+                        PreparedStatement deleteItem = connection.prepareStatement("DELETE FROM Parts WHERE partID = ?");
                         deleteItem.setInt(1, selectedID);
                         int rowsAffected = deleteItem.executeUpdate();
                         if (rowsAffected == 1) {
                             JOptionPane.showMessageDialog(null, "Item has been deleted");
                             deleteItem.close();
                             connection.close();
-                            new StockController(employeeID, fname, db, dbID);
+                            new StockController(employeeID, fname, db);
                             dispose();
                         }
                     } catch (SQLException error) {
@@ -181,7 +180,7 @@ public class StockController extends JFrame {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            new StockController(employeeID, fname, db, dbID);
+            new StockController(employeeID, fname, db);
             dispose();
         });
         returnButton.addActionListener(e -> {
@@ -207,18 +206,19 @@ public class StockController extends JFrame {
     public void getTable() {
         model.setRowCount(0);
         try {
-            PreparedStatement getCPUs = connection.prepareStatement("select * from "+db);
-            ResultSet rs = getCPUs.executeQuery();
+            PreparedStatement getParts = connection.prepareStatement("select * from Parts where partType = ?");
+            getParts.setString(1, db);
+            ResultSet rs = getParts.executeQuery();
             while (rs.next()) {
-                int productID = rs.getInt(dbID);
-                String name = rs.getString("name");
+                int productID = rs.getInt("partID");
+                String name = rs.getString("partName");
                 double price = rs.getDouble("price");
                 int quantity = rs.getInt("quantity");
                 model.addRow(new Object[]{productID, name, price, quantity});
             }
             table1.setModel(model);
             rs.close();
-            getCPUs.close();
+            getParts.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }

@@ -28,31 +28,31 @@ public class StockDash extends JFrame {
         this.setVisible(true);
         this.add(panel);
         CPUButton.addActionListener(e -> {
-            new StockController(employeeID, fname, "CPU", "cpuID");
+            new StockController(employeeID, fname, "cpu");
             dispose();
         });
         GPUButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"GPU", "gpuID");
+            new StockController(employeeID, fname,"gpu");
             dispose();
         });
         RAMButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"RAM", "ramID");
+            new StockController(employeeID, fname,"ram");
             dispose();
         });
         MOBOButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"Motherboard", "motherboardID");
+            new StockController(employeeID, fname,"mobo");
             dispose();
         });
         PSUButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"PSU", "powerSupplyID");
+            new StockController(employeeID, fname,"psu");
             dispose();
         });
         storageButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"Storage", "storageID");
+            new StockController(employeeID, fname,"storage");
             dispose();
         });
         caseButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"PCCase", "pccaseID");
+            new StockController(employeeID, fname,"pcCase");
             dispose();
         });
         returnButton.addActionListener(e -> {

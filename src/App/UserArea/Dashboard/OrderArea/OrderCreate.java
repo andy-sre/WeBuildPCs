@@ -63,20 +63,6 @@ public class OrderCreate extends JFrame {
             throwables.printStackTrace();
         }
         getParts();
-        ActionListener listener = e -> {
-
-        };
-        submitButton.addActionListener(listener);
-        returnButton.addActionListener(listener);
-        ActionListener listener1 = e -> {
-
-        };
-        submitButton.addActionListener(listener1);
-        returnButton.addActionListener(listener1);
-        logoutButton.addActionListener(e -> {
-
-        });
-
         cpuDropdown.addActionListener(e -> {
             Item cpuItem = (Item) cpuDropdown.getSelectedItem();
             assert cpuItem != null;
@@ -152,7 +138,8 @@ public class OrderCreate extends JFrame {
         String name;
         int itemID;
         try {
-            PreparedStatement getCPU = connection.prepareStatement("select * from Parts where partType == 'cpu'");
+            PreparedStatement getCPU = connection.prepareStatement("select * from Parts where partType = ?");
+            getCPU.setString(1, "cpu");
             rs = getCPU.executeQuery();
             while (rs.next()) {
                 itemID = rs.getInt("partID");
@@ -171,7 +158,8 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getGPU = connection.prepareStatement("select * from Parts where partType == 'gpu'");
+            PreparedStatement getGPU = connection.prepareStatement("select * from Parts where partType = ?");
+            getGPU.setString(1, "gpu");
             rs = getGPU.executeQuery();
             while (rs.next()) {
                 itemID = rs.getInt("partID");
@@ -190,7 +178,8 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getMobo = connection.prepareStatement("select * from Parts where partType == 'motherBoard'");
+            PreparedStatement getMobo = connection.prepareStatement("select * from Parts where partType = ?");
+            getMobo.setString(1, "mobo");
             rs = getMobo.executeQuery();
             while (rs.next()) {
                 itemID = rs.getInt("partID");
@@ -207,7 +196,8 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getPSU = connection.prepareStatement("select * from Parts where partType == 'psu'");
+            PreparedStatement getPSU = connection.prepareStatement("select * from Parts where partType = ?");
+            getPSU.setString(1, "psu");
             rs = getPSU.executeQuery();
             while (rs.next()) {
                 itemID = rs.getInt("partID");
@@ -224,7 +214,8 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getRAM = connection.prepareStatement("select * from Parts where partType =='ram'");
+            PreparedStatement getRAM = connection.prepareStatement("select * from Parts where partType = ?");
+            getRAM.setString(1, "ram");
             rs = getRAM.executeQuery();
             while (rs.next()) {
                 itemID = rs.getInt("partID");
@@ -243,7 +234,8 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            PreparedStatement getCase = connection.prepareStatement("select * from Parts where partType == 'pcCase'");
+            PreparedStatement getCase = connection.prepareStatement("select * from Parts where partType = ?");
+            getCase.setString(1, "pcCase");
             rs = getCase.executeQuery();
             while (rs.next()) {
                 itemID = rs.getInt("partID");
@@ -316,7 +308,7 @@ public class OrderCreate extends JFrame {
 
         @Override
         public String toString() {
-            return "Name: " + getItemName();
+            return getItemName();
         }
     }
 }

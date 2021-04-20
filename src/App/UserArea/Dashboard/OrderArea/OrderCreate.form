@@ -40,19 +40,15 @@
           </component>
         </children>
       </grid>
-      <grid id="74e31" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="29cb1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="-1" height="800"/>
-          </grid>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties>
-          <background color="-1"/>
-        </properties>
+        <properties/>
         <border type="none"/>
         <children>
-          <grid id="edfed" layout-manager="GridLayoutManager" row-count="3" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="a66aa" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -60,499 +56,501 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="1719f" layout-manager="GridLayoutManager" row-count="9" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="5f013" layout-manager="GridLayoutManager" row-count="9" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="23c18" class="javax.swing.JComboBox" binding="cpuDropdown">
+                  <component id="d4ce5" class="javax.swing.JComboBox" binding="cpuDropdown">
                     <constraints>
-                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
+                      <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
                       </grid>
                     </constraints>
                     <properties/>
                   </component>
-                  <component id="775a7" class="javax.swing.JLabel">
+                  <component id="9c42d" class="javax.swing.JComboBox" binding="gpuDropdown">
+                    <constraints>
+                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="af7c6" class="javax.swing.JComboBox" binding="ramDropdown">
+                    <constraints>
+                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="47303" class="javax.swing.JComboBox" binding="moboDropdown">
+                    <constraints>
+                      <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <model/>
+                    </properties>
+                  </component>
+                  <component id="d596b" class="javax.swing.JComboBox" binding="storageDropdown">
+                    <constraints>
+                      <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="91174" class="javax.swing.JComboBox" binding="psuDropdown">
+                    <constraints>
+                      <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="3bb34" class="javax.swing.JComboBox" binding="caseDropdown">
+                    <constraints>
+                      <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="800" height="-1"/>
+                        <maximum-size width="800" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="90354" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <horizontalAlignment value="2"/>
+                      <font name="Courier" size="14"/>
                       <text value="CPU"/>
                     </properties>
                   </component>
-                  <component id="4a8b3" class="javax.swing.JComboBox" binding="gpuDropdown">
-                    <constraints>
-                      <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="8186" class="javax.swing.JLabel">
+                  <component id="a808e" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="16"/>
+                      <font name="Courier" size="14"/>
                       <text value="GPU"/>
                     </properties>
                   </component>
-                  <component id="6dd72" class="javax.swing.JComboBox" binding="moboDropdown">
-                    <constraints>
-                      <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="43c16" class="javax.swing.JLabel">
+                  <component id="c6348" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="16"/>
-                      <text value="Motherboard"/>
+                      <font name="Courier" size="14"/>
+                      <text value="RAM"/>
                     </properties>
                   </component>
-                  <component id="5e4ed" class="javax.swing.JComboBox" binding="ramDropdown">
-                    <constraints>
-                      <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="17a8f" class="javax.swing.JLabel">
+                  <component id="73cf3" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="16"/>
-                      <text value="RAM"/>
+                      <font name="Courier" size="14"/>
+                      <text value="Motherboard"/>
                     </properties>
                   </component>
-                  <component id="b2614" class="javax.swing.JComboBox" binding="storageDropdown">
-                    <constraints>
-                      <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="ec8a6" class="javax.swing.JLabel">
+                  <component id="dc26e" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="16"/>
+                      <font name="Courier" size="14"/>
                       <text value="Storage"/>
                     </properties>
                   </component>
-                  <component id="8151" class="javax.swing.JComboBox" binding="psuDropdown">
-                    <constraints>
-                      <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="30c3c" class="javax.swing.JLabel">
+                  <component id="45539" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="16"/>
+                      <font name="Courier" size="14"/>
                       <text value="PSU"/>
                     </properties>
                   </component>
-                  <component id="e5bb4" class="javax.swing.JComboBox" binding="caseDropdown">
-                    <constraints>
-                      <grid row="7" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="ccc95" class="javax.swing.JLabel">
+                  <component id="f5937" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="16"/>
+                      <font name="Courier" size="14"/>
                       <text value="Case"/>
                     </properties>
                   </component>
-                  <component id="7796e" class="javax.swing.JLabel">
+                  <component id="9b152" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Courier" size="20" style="1"/>
-                      <text value="Quantity"/>
-                    </properties>
-                  </component>
-                  <component id="c9ee2" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Courier" size="20" style="1"/>
-                      <text value="Item"/>
-                    </properties>
-                  </component>
-                  <component id="5716e" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <font name="Courier" size="20" style="1"/>
-                      <text value="Part"/>
-                    </properties>
-                  </component>
-                  <component id="6bd40" class="javax.swing.JTextField" binding="totalPrice">
-                    <constraints>
-                      <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                        <preferred-size width="100" height="-1"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <horizontalAlignment value="0"/>
-                    </properties>
-                  </component>
-                  <component id="4de56" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <icon value="images/PC Parts Smaller/CPU.png"/>
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="14047" class="javax.swing.JLabel">
+                  <component id="ea7de" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <icon value="images/PC Parts Smaller/gpu.png"/>
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="e6e52" class="javax.swing.JLabel">
+                  <component id="6c03f" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <icon value="images/PC Parts Smaller/mobo.png"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                  <component id="bd410" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <icon value="images/PC Parts Smaller/ram.png"/>
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="6edc3" class="javax.swing.JLabel">
+                  <component id="d9ee0" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <icon value="images/PC Parts Smaller/mobo.png"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                  <component id="2e35c" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <icon value="images/PC Parts Smaller/hdd.png"/>
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="61343" class="javax.swing.JLabel">
+                  <component id="39e23" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <icon value="images/PC Parts Smaller/psu.png"/>
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="d0cfc" class="javax.swing.JLabel">
+                  <component id="1403b" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <icon value="images/PC Parts Smaller/case.png"/>
                       <text value=""/>
                     </properties>
                   </component>
-                  <component id="8818b" class="javax.swing.JLabel">
+                  <component id="68127" class="javax.swing.JTextField" binding="cpuPrice">
                     <constraints>
-                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Price"/>
-                    </properties>
-                  </component>
-                  <component id="3c913" class="javax.swing.JLabel">
-                    <constraints>
-                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <text value="Stock"/>
-                    </properties>
-                  </component>
-                  <component id="7b21c" class="javax.swing.JTextField" binding="cpuPrice">
-                    <constraints>
-                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="fc395" class="javax.swing.JTextField" binding="cpuStock">
+                  <component id="14f93" class="javax.swing.JTextField" binding="gpuPrice">
                     <constraints>
-                      <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="b08ff" class="javax.swing.JTextField" binding="gpuPrice">
+                  <component id="d6f47" class="javax.swing.JTextField" binding="ramPrice">
                     <constraints>
-                      <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="96a98" class="javax.swing.JTextField" binding="gpuStock">
+                  <component id="676c5" class="javax.swing.JTextField" binding="moboPrice">
                     <constraints>
-                      <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="20a0a" class="javax.swing.JTextField" binding="moboPrice">
+                  <component id="2a31b" class="javax.swing.JTextField" binding="storagePrice">
                     <constraints>
-                      <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="dd86f" class="javax.swing.JTextField" binding="moboStock">
+                  <component id="560e8" class="javax.swing.JTextField" binding="psuPrice">
                     <constraints>
-                      <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="d2ae9" class="javax.swing.JTextField" binding="ramStock">
+                  <component id="536cd" class="javax.swing.JTextField" binding="casePrice">
                     <constraints>
-                      <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="d256a" class="javax.swing.JTextField" binding="storageStock">
+                  <component id="22ae4" class="javax.swing.JTextField" binding="cpuStock">
                     <constraints>
-                      <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="517c7" class="javax.swing.JTextField" binding="psuStock">
+                  <component id="3e13" class="javax.swing.JTextField" binding="gpuStock">
                     <constraints>
-                      <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="afa" class="javax.swing.JTextField" binding="caseStock">
+                  <component id="ab0e5" class="javax.swing.JTextField" binding="ramStock">
                     <constraints>
-                      <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="10f59" class="javax.swing.JTextField" binding="ramPrice">
+                  <component id="64677" class="javax.swing.JTextField" binding="moboStock">
                     <constraints>
-                      <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="5f99e" class="javax.swing.JTextField" binding="storagePrice">
+                  <component id="21dcd" class="javax.swing.JTextField" binding="storageStock">
                     <constraints>
-                      <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="90e75" class="javax.swing.JTextField" binding="psuPrice">
+                  <component id="98cd" class="javax.swing.JTextField" binding="psuStock">
                     <constraints>
-                      <grid row="6" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
+                      <text value=""/>
                     </properties>
                   </component>
-                  <component id="99e7d" class="javax.swing.JTextField" binding="casePrice">
+                  <component id="70ac5" class="javax.swing.JTextField" binding="caseStock">
                     <constraints>
-                      <grid row="7" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                      <grid row="7" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                         <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
                       </grid>
                     </constraints>
                     <properties>
                       <editable value="false"/>
-                      <font name="Courier" size="14"/>
-                      <horizontalAlignment value="0"/>
                     </properties>
                   </component>
-                  <component id="20d5a" class="javax.swing.JLabel">
+                  <component id="ca69b" class="javax.swing.JComboBox" binding="cpuQuantity">
+                    <constraints>
+                      <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="cf498" class="javax.swing.JComboBox" binding="gpuQuantity">
+                    <constraints>
+                      <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="17e28" class="javax.swing.JComboBox" binding="ramQuantity">
+                    <constraints>
+                      <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="d3f1f" class="javax.swing.JComboBox" binding="moboQuantity">
+                    <constraints>
+                      <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="4f3e5" class="javax.swing.JComboBox" binding="storageQuantity">
+                    <constraints>
+                      <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="819ac" class="javax.swing.JComboBox" binding="psuQuantity">
+                    <constraints>
+                      <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="dbbf7" class="javax.swing.JComboBox" binding="caseQuantity">
+                    <constraints>
+                      <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="f4bb1" class="javax.swing.JTextField" binding="totalPrice">
+                    <constraints>
+                      <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <preferred-size width="100" height="-1"/>
+                        <maximum-size width="101" height="-1"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
+                  </component>
+                  <component id="de673" class="javax.swing.JLabel">
                     <constraints>
                       <grid row="8" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <font name="Courier" size="20" style="1"/>
+                      <font name="Courier" size="18"/>
                       <text value="Total Price"/>
                     </properties>
                   </component>
-                  <component id="ecf75" class="javax.swing.JComboBox" binding="cpuQuantity">
+                  <component id="acde2" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="1" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="6e8f7" class="javax.swing.JComboBox" binding="gpuQuantity">
-                    <constraints>
-                      <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="ecfde" class="javax.swing.JComboBox" binding="moboQuantity">
-                    <constraints>
-                      <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <enabled value="false"/>
+                      <font name="Courier" size="20"/>
+                      <text value="Part Type"/>
                     </properties>
                   </component>
-                  <component id="220d4" class="javax.swing.JComboBox" binding="ramQuantity">
+                  <component id="2d70f" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="e6578" class="javax.swing.JComboBox" binding="storageQuantity">
-                    <constraints>
-                      <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties/>
-                  </component>
-                  <component id="bbee6" class="javax.swing.JComboBox" binding="psuQuantity">
-                    <constraints>
-                      <grid row="6" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <enabled value="false"/>
+                      <font name="Courier" size="20"/>
+                      <text value="Part"/>
                     </properties>
                   </component>
-                  <component id="e2f25" class="javax.swing.JComboBox" binding="caseQuantity">
+                  <component id="f6541" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="7" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <enabled value="false"/>
+                      <font name="Courier" size="20"/>
+                      <text value="Price"/>
+                    </properties>
+                  </component>
+                  <component id="d3c68" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Courier" size="20"/>
+                      <text value="Stock"/>
+                    </properties>
+                  </component>
+                  <component id="d456d" class="javax.swing.JLabel">
+                    <constraints>
+                      <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties>
+                      <font name="Courier" size="20"/>
+                      <text value="Quantity"/>
                     </properties>
                   </component>
                 </children>
               </grid>
-              <grid id="5ae7c" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="5c006" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="1" column="0" row-span="2" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="a095" class="javax.swing.JButton" binding="submitButton" default-binding="true">
+                  <component id="f6ae6" class="javax.swing.JButton" binding="returnButton" default-binding="true">
                     <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
-                        <preferred-size width="400" height="50"/>
-                      </grid>
-                    </constraints>
-                    <properties>
-                      <font name="Courier" size="18"/>
-                      <foreground color="-14176672"/>
-                      <text value="Submit"/>
-                    </properties>
-                  </component>
-                  <component id="e44c0" class="javax.swing.JButton" binding="returnButton" default-binding="true">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
                         <preferred-size width="400" height="50"/>
                       </grid>
                     </constraints>
@@ -560,6 +558,18 @@
                       <font name="Courier" size="18"/>
                       <foreground color="-1618884"/>
                       <text value="Return"/>
+                    </properties>
+                  </component>
+                  <component id="74c8b" class="javax.swing.JButton" binding="submitButton" default-binding="true">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="400" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <font name="Courier" size="18"/>
+                      <foreground color="-14176672"/>
+                      <text value="Submit"/>
                     </properties>
                   </component>
                 </children>
