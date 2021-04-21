@@ -103,7 +103,7 @@ public class ViewOrders extends JFrame{
     private void getMyOrders() {
         myOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders INNER JOIN Payments P on O.orderID = P.orderID WHERE employeeID = ?");
+            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders WHERE employeeID = ?");
             getOrders.setInt(1, employeeID);
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {

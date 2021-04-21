@@ -21,6 +21,7 @@ public class UserDash extends JFrame{
     private JButton newOrderButton;
     private JButton viewOrdersButton;
     private JButton editDetailsButton;
+    private JButton rentButton;
     private JLabel welcomeLabel;
     private JLabel paymentAlertMsg;
     private JPanel paymentAlertPanel;
