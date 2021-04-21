@@ -81,7 +81,7 @@ public class EmployeeLogin extends JFrame {
         }
         return false;
     }
-    static boolean isValidEmail(String email) {
+    private static boolean isValidEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         return email.matches(regex);
     }

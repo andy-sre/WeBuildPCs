@@ -38,7 +38,6 @@ public class ViewOrder extends JFrame {
     private JLabel eircode;
     private JButton refundOrderButton;
     private JLabel paymentStatus;
-    private JSpinner spinner1;
     private Connection connection;
     private int cpu;
     private int gpu;

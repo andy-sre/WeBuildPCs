@@ -135,11 +135,11 @@ public class NewEmployee extends JFrame {
         }
         return false;
     }
-    static boolean isValidEmail(String email) {
+    private static boolean isValidEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         return email.matches(regex);
     }
-    static boolean isValidPassword(String password) {
+    private static boolean isValidPassword(String password) {
         String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
         return password.matches(regex);
     }
