@@ -438,7 +438,7 @@ public class OrderCreate extends JFrame {
 
     public void updateStock() {
         try {
-            int updatedStock = cpuItem.getQuantity() - Integer.parseInt(cpuQuantity.getSelectedItem().toString());
+            int updatedStock = cpuItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(cpuQuantity.getSelectedItem()).toString());
             PreparedStatement updateCPUStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updateCPUStock.setInt(1, updatedStock);
             updateCPUStock.setInt(2, cpuItem.getItemID());
@@ -448,7 +448,7 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            int updatedStock = gpuItem.getQuantity() - Integer.parseInt(gpuQuantity.getSelectedItem().toString());
+            int updatedStock = gpuItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(gpuQuantity.getSelectedItem()).toString());
             PreparedStatement updateGPUStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updateGPUStock.setInt(1, updatedStock);
             updateGPUStock.setInt(2, gpuItem.getItemID());
@@ -458,7 +458,7 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            int updatedStock = ramItem.getQuantity() - Integer.parseInt(ramQuantity.getSelectedItem().toString());
+            int updatedStock = ramItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(ramQuantity.getSelectedItem()).toString());
             PreparedStatement updateRAMStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updateRAMStock.setInt(1, updatedStock);
             updateRAMStock.setInt(2, ramItem.getItemID());
@@ -468,7 +468,7 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            int updatedStock = storageItem.getQuantity() - Integer.parseInt(storageQuantity.getSelectedItem().toString());
+            int updatedStock = storageItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(storageQuantity.getSelectedItem()).toString());
             PreparedStatement updateStroageStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updateStroageStock.setInt(1, updatedStock);
             updateStroageStock.setInt(2, storageItem.getItemID());
@@ -478,17 +478,16 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            int updatedStock = moboItem.getQuantity() - Integer.parseInt(moboQuantity.getSelectedItem().toString());
+            int updatedStock = moboItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(moboQuantity.getSelectedItem()).toString());
             PreparedStatement updateMOBOStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updateMOBOStock.setInt(1, updatedStock);
             updateMOBOStock.setInt(2, moboItem.getItemID());
-            int rowsAffected = updateMOBOStock.executeUpdate();
             updateMOBOStock.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
         try {
-            int updatedStock = psuItem.getQuantity() - Integer.parseInt(psuQuantity.getSelectedItem().toString());
+            int updatedStock = psuItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(psuQuantity.getSelectedItem()).toString());
             PreparedStatement updatePSUStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updatePSUStock.setInt(1, updatedStock);
             updatePSUStock.setInt(2, psuItem.getItemID());
@@ -498,7 +497,7 @@ public class OrderCreate extends JFrame {
             System.err.println(e.getMessage());
         }
         try {
-            int updatedStock = caseItem.getQuantity() - Integer.parseInt(caseQuantity.getSelectedItem().toString());
+            int updatedStock = caseItem.getQuantity() - Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString());
             PreparedStatement updateCaseStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
             updateCaseStock.setInt(1, updatedStock);
             updateCaseStock.setInt(2, caseItem.getItemID());
