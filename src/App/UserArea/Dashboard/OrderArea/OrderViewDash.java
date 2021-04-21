@@ -1,10 +1,13 @@
 package App.UserArea.Dashboard.OrderArea;
 
 import App.App;
+import App.UserArea.Dashboard.UserDash;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class OrderViewDash extends JFrame{
@@ -14,7 +17,7 @@ public class OrderViewDash extends JFrame{
     private JPanel panel;
     private JLabel errorLabel;
     private JButton returnButton;
-    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Price", "Remaining Balance"}, 0);
+    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Payment Status", "Price", "Remaining Balance"}, 0);
     private Connection connection;
     private final int userID;
 
@@ -45,19 +48,36 @@ public class OrderViewDash extends JFrame{
             }
         });
         logoutButton.addActionListener(e -> {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
             new App();
             dispose();
+        });
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    connection.close();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                new UserDash(userID, fname);
+                dispose();
+            }
         });
     }
     public void getTable() {
         model.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("select O.orderID, O.orderStatus, P.price, P.remainingBal FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.userID AND P.userID = ?");
+            PreparedStatement getOrders = connection.prepareStatement("select O.orderID, O.orderStatus, P.price, P.remainingBal, P.paymentStatus FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.userID AND P.userID = ?");
             getOrders.setInt(1, userID);
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
                 int orderID = rs.getInt("orderID");
-                model.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getDouble("price"), rs.getDouble("remainingBal")});
+                model.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("paymentStatus"),rs.getDouble("price"), rs.getDouble("remainingBal")});
             }
             table1.setModel(model);
             rs.close();

@@ -2,6 +2,7 @@ package App.UserArea.Dashboard;
 
 import App.UserArea.Dashboard.OrderArea.OrderCreate;
 import App.UserArea.Dashboard.OrderArea.OrderViewDash;
+import App.UserArea.Dashboard.UserControl.UserControlDash;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,6 +67,13 @@ public class UserDash extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 new OrderViewDash(userID, fname);
+                dispose();
+            }
+        });
+        editDetailsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new UserControlDash(userID, fname);
                 dispose();
             }
         });
