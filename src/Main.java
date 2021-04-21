@@ -1,4 +1,4 @@
-import app.App;
+import app.*;
 
 import javax.swing.SwingUtilities;
 
