@@ -1,7 +1,7 @@
-package app.employeearea;
+package app.EmployeeArea;
 
 import app.App;
-import app.employeearea.dashboard.EmployeeDash;
+import app.EmployeeArea.Dashboard.EmployeeDash;
 import utils.BCrypt;
 
 import javax.swing.*;
