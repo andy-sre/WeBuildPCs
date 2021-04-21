@@ -8,6 +8,12 @@ import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class OrderCreate extends JFrame {
@@ -61,7 +67,6 @@ public class OrderCreate extends JFrame {
     private Item storageItem;
     private Item psuItem;
     private Item caseItem;
-
 
     public OrderCreate(int userID, String fname) {
         errorLabel.setVisible(false);
@@ -185,7 +190,17 @@ public class OrderCreate extends JFrame {
                     if (rowsAffectedO == 1) {
                         createOrder.close();
                         try {
-                            PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal, paymentStatus) VALUES (?,?,?,?,?)");
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            Date current = new Date();
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(current);
+                            c.add(Calendar.MONTH, 1);
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                            c.set(Calendar.SECOND, 0);
+                            c.set(Calendar.MILLISECOND, 0);
+                            Date futureDate = c.getTime();
+                            PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal, paymentStatus, dueDate) VALUES (?,?,?,?,?,?)");
                             createPayment.setInt(1, userID);
                             PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
                             ResultSet rs = getOrderID.executeQuery();
@@ -197,6 +212,7 @@ public class OrderCreate extends JFrame {
                             createPayment.setDouble(3, pcPrice);
                             createPayment.setDouble(4, pcPrice);
                             createPayment.setString(5, "Payment Due");
+                            createPayment.setString(6, dateFormat.format(futureDate));
                             int rowsAffectedP = createPayment.executeUpdate();
                             if (rowsAffectedP == 1) {
                                 createPayment.close();

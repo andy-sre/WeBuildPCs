@@ -7,7 +7,13 @@ import app.userarea.dashboard.usercontrol.UserControlDash;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 import java.sql.*;
+
 
 public class UserDash extends JFrame{
     private JPanel panel;
@@ -19,6 +25,11 @@ public class UserDash extends JFrame{
     private JLabel paymentAlertMsg;
     private JPanel paymentAlertPanel;
     private Connection connection;
+    private String date = "";
+    private Date dueDate;
+    private SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private Date current = new Date();
+    private Double balance;
 
     public UserDash(int userID, String fname) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -39,13 +50,22 @@ public class UserDash extends JFrame{
             checkPayment.setInt(1, userID);
             ResultSet rs = checkPayment.executeQuery();
             while (rs.next()) {
-                if (rs.getDouble("remainingBal") > 0) {
-                    paymentAlertMsg.setText("You have pending payments due on orders.  Please view your orders area!");
-                    paymentAlertPanel.setVisible(true);
-                    paymentAlertMsg.setVisible(true);
-                } else {
-                    paymentAlertPanel.setVisible(false);
-                    paymentAlertMsg.setVisible(false);
+                date = rs.getString("dueDate");
+                balance = rs.getDouble("remainingBal");
+                try {
+                    dueDate = sFormat.parse(date);
+                    if(balance > 0) {
+                        if(current.compareTo(dueDate) >= 0) {
+                            paymentAlertMsg.setText("You are overdue on your invoices!");
+                            paymentAlertPanel.setVisible(true);
+                            paymentAlertMsg.setVisible(true);
+                        } else {
+                            paymentAlertPanel.setVisible(false);
+                            paymentAlertMsg.setVisible(false);
+                        }
+                    }
+                } catch (ParseException e) {
+                    System.out.println(e);
                 }
             }
             rs.close();
