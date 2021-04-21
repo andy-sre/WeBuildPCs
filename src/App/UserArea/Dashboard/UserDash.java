@@ -1,13 +1,12 @@
 package App.UserArea.Dashboard;
 
+import App.App;
 import App.UserArea.Dashboard.OrderArea.OrderCreate;
 import App.UserArea.Dashboard.OrderArea.OrderViewDash;
 import App.UserArea.Dashboard.UserControl.UserControlDash;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class UserDash extends JFrame{
@@ -22,14 +21,14 @@ public class UserDash extends JFrame{
     private Connection connection;
 
     public UserDash(int userID, String fname) {
-        paymentAlertPanel.setVisible(false);
-        paymentAlertMsg.setVisible(false);
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+        paymentAlertPanel.setVisible(false);
+        paymentAlertMsg.setVisible(false);
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException throwables) {
@@ -56,26 +55,21 @@ public class UserDash extends JFrame{
             checkOrders.printStackTrace();
         }
         welcomeLabel.setText("Welcome, " + fname + " to your dashboard");
-        newOrderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new OrderCreate(userID, fname);
-                dispose();
-            }
+        newOrderButton.addActionListener(e -> {
+            new OrderCreate(userID, fname);
+            dispose();
         });
-        viewOrdersButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new OrderViewDash(userID, fname);
-                dispose();
-            }
+        viewOrdersButton.addActionListener(e -> {
+            new OrderViewDash(userID, fname);
+            dispose();
         });
-        editDetailsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new UserControlDash(userID, fname);
-                dispose();
-            }
+        editDetailsButton.addActionListener(e -> {
+            new UserControlDash(userID, fname);
+            dispose();
+        });
+        logoutButton.addActionListener(e -> {
+            new App();
+            dispose();
         });
     }
 }

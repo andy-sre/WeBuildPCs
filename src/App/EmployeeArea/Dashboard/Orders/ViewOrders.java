@@ -1,12 +1,8 @@
 package App.EmployeeArea.Dashboard.Orders;
 
-import App.EmployeeArea.Dashboard.Stock.StockController;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class ViewOrders extends JFrame{
@@ -20,7 +16,7 @@ public class ViewOrders extends JFrame{
     private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status"}, 0);
     private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status"}, 0);
     private Connection connection;
-    private int employeeID;
+    private final int employeeID;
 
     public ViewOrders(int employeeID, String fname) {
         errorLabel.setVisible(false);
@@ -38,31 +34,28 @@ public class ViewOrders extends JFrame{
         }
         getMyOrders();
         getNewOrders();
-        claimOrderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (newOrderTable.getSelectionModel().isSelectionEmpty()) {
-                    errorLabel.setText("Please select a row first!");
-                    errorLabel.setVisible(true);
-                } else {
-                    errorLabel.setVisible(false);
-                    int selectedID = (Integer.parseInt(newOrder.getValueAt(newOrderTable.getSelectedRow(), 0).toString()));
-                    try {
-                        PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
-                        setOrder.setInt(1, employeeID);
-                        setOrder.setString(2, "Builder Assigned");
-                        setOrder.setInt(3, selectedID);
-                        int rowsAffected = setOrder.executeUpdate();
-                        if (rowsAffected == 1) {
-                            JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
-                            setOrder.close();
-                            connection.close();
-                            new ViewOrders(employeeID, fname);
-                            dispose();
-                        }
-                    } catch (SQLException error) {
-                        System.err.println(error.getMessage());
+        claimOrderButton.addActionListener(e -> {
+            if (newOrderTable.getSelectionModel().isSelectionEmpty()) {
+                errorLabel.setText("Please select a row first!");
+                errorLabel.setVisible(true);
+            } else {
+                errorLabel.setVisible(false);
+                int selectedID = (Integer.parseInt(newOrder.getValueAt(newOrderTable.getSelectedRow(), 0).toString()));
+                try {
+                    PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
+                    setOrder.setInt(1, employeeID);
+                    setOrder.setString(2, "Builder Assigned");
+                    setOrder.setInt(3, selectedID);
+                    int rowsAffected = setOrder.executeUpdate();
+                    if (rowsAffected == 1) {
+                        JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
+                        setOrder.close();
+                        connection.close();
+                        new ViewOrders(employeeID, fname);
+                        dispose();
                     }
+                } catch (SQLException error) {
+                    System.err.println(error.getMessage());
                 }
             }
         });
@@ -87,7 +80,7 @@ public class ViewOrders extends JFrame{
     private void getNewOrders() {
         newOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders WHERE employeeID = null AND orderStatus = ? OR orderStatus =?");
+            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders WHERE employeeID IS NULL AND orderStatus = ? OR orderStatus =?");
             getOrders.setString(1, "Partial Payment");
             getOrders.setString(2, "Payment In Full");
             ResultSet rs = getOrders.executeQuery();
