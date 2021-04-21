@@ -37,6 +37,8 @@ public class ViewOrder extends JFrame {
     private JButton makePaymentButton;
     private JLabel eircode;
     private JButton refundOrderButton;
+    private JLabel paymentStatus;
+    private JSpinner spinner1;
     private Connection connection;
     private int cpu;
     private int gpu;
@@ -239,12 +241,13 @@ public class ViewOrder extends JFrame {
     }
     private void getPrice() {
         try {
-            PreparedStatement getPrice = connection.prepareStatement("select * FROM Payments where orderID = ?");
+            PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price FROM Payments where orderID = ?");
             getPrice.setInt(1, orderID);
             ResultSet rs = getPrice.executeQuery();
             while(rs.next()) {
                 pcPrice.setText(String.valueOf(rs.getDouble("price")));
                 remainingBal.setText(String.valueOf(rs.getDouble("remainingBal")));
+                paymentStatus.setText(rs.getString("paymentStatus"));
             }
             rs.close();
             getPrice.close();

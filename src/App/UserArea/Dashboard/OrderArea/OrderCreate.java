@@ -54,6 +54,14 @@ public class OrderCreate extends JFrame {
     private double psuPriceFinal;
     private double casePriceFinal;
     private double pcPrice;
+    private Item cpuItem;
+    private Item gpuItem;
+    private Item ramItem;
+    private Item moboItem;
+    private Item storageItem;
+    private Item psuItem;
+    private Item caseItem;
+
 
     public OrderCreate(int userID, String fname) {
         errorLabel.setVisible(false);
@@ -139,19 +147,18 @@ public class OrderCreate extends JFrame {
             if (checkBox()) {
                 errorLabel.setVisible(false);
                 try {
-                    Item cpuItem = (Item) cpuDropdown.getSelectedItem();
-                    Item gpuItem = (Item) gpuDropdown.getSelectedItem();
-                    Item ramItem = (Item) ramDropdown.getSelectedItem();
-                    Item moboItem = (Item) moboDropdown.getSelectedItem();
-                    Item storageItem = (Item) storageDropdown.getSelectedItem();
-                    Item psuItem = (Item) psuDropdown.getSelectedItem();
-                    Item caseItem = (Item) caseDropdown.getSelectedItem();
-
+                    cpuItem = (Item) cpuDropdown.getSelectedItem();
+                    gpuItem = (Item) gpuDropdown.getSelectedItem();
+                    ramItem = (Item) ramDropdown.getSelectedItem();
+                    moboItem = (Item) moboDropdown.getSelectedItem();
+                    storageItem = (Item) storageDropdown.getSelectedItem();
+                    psuItem = (Item) psuDropdown.getSelectedItem();
+                    caseItem = (Item) caseDropdown.getSelectedItem();
                     PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
                             "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
                             "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID) " +
                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    createOrder.setString(1, "Payment Due");
+                    createOrder.setString(1, "Order Created");
                     createOrder.setInt(2, userID);
                     assert cpuItem != null;
                     createOrder.setInt(3, cpuItem.getItemID());
@@ -177,24 +184,30 @@ public class OrderCreate extends JFrame {
                     int rowsAffectedO = createOrder.executeUpdate();
                     if (rowsAffectedO == 1) {
                         createOrder.close();
-                        PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal) VALUES (?,?,?,?)");
-                        createPayment.setInt(1, userID);
-                        PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
-                        ResultSet rs = getOrderID.executeQuery();
-                        while (rs.next()) {
-                            createPayment.setInt(2, rs.getInt("orderID"));
-                        }
-                        getOrderID.close();
-                        rs.close();
-                        createPayment.setDouble(3, pcPrice);
-                        createPayment.setDouble(4, pcPrice);
-                        int rowsAffectedP = createPayment.executeUpdate();
-                        if (rowsAffectedP == 1) {
-                            createPayment.close();
-                            JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
-                            connection.close();
-                            new UserDash(userID, fname);
-                            dispose();
+                        try {
+                            PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal, paymentStatus) VALUES (?,?,?,?,?)");
+                            createPayment.setInt(1, userID);
+                            PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
+                            ResultSet rs = getOrderID.executeQuery();
+                            while (rs.next()) {
+                                createPayment.setInt(2, rs.getInt("orderID"));
+                            }
+                            getOrderID.close();
+                            rs.close();
+                            createPayment.setDouble(3, pcPrice);
+                            createPayment.setDouble(4, pcPrice);
+                            createPayment.setString(5, "Payment Due");
+                            int rowsAffectedP = createPayment.executeUpdate();
+                            if (rowsAffectedP == 1) {
+                                createPayment.close();
+                                updateStock();
+                                JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
+                                connection.close();
+                                new UserDash(userID, fname);
+                                dispose();
+                            }
+                        } catch (SQLException createPayment) {
+                            createPayment.getMessage();
                         }
                     }
                 } catch (SQLException createOrder) {
@@ -421,5 +434,78 @@ public class OrderCreate extends JFrame {
             return true;
         }
         return false;
+    }
+
+    public void updateStock() {
+        try {
+            int updatedStock = cpuItem.getQuantity() - Integer.parseInt(cpuQuantity.getSelectedItem().toString());
+            PreparedStatement updateCPUStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updateCPUStock.setInt(1, updatedStock);
+            updateCPUStock.setInt(2, cpuItem.getItemID());
+            updateCPUStock.executeUpdate();
+            updateCPUStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            int updatedStock = gpuItem.getQuantity() - Integer.parseInt(gpuQuantity.getSelectedItem().toString());
+            PreparedStatement updateGPUStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updateGPUStock.setInt(1, updatedStock);
+            updateGPUStock.setInt(2, gpuItem.getItemID());
+            updateGPUStock.executeUpdate();
+            updateGPUStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            int updatedStock = ramItem.getQuantity() - Integer.parseInt(ramQuantity.getSelectedItem().toString());
+            PreparedStatement updateRAMStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updateRAMStock.setInt(1, updatedStock);
+            updateRAMStock.setInt(2, ramItem.getItemID());
+            updateRAMStock.executeUpdate();
+            updateRAMStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            int updatedStock = storageItem.getQuantity() - Integer.parseInt(storageQuantity.getSelectedItem().toString());
+            PreparedStatement updateStroageStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updateStroageStock.setInt(1, updatedStock);
+            updateStroageStock.setInt(2, storageItem.getItemID());
+            updateStroageStock.executeUpdate();
+            updateStroageStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            int updatedStock = moboItem.getQuantity() - Integer.parseInt(moboQuantity.getSelectedItem().toString());
+            PreparedStatement updateMOBOStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updateMOBOStock.setInt(1, updatedStock);
+            updateMOBOStock.setInt(2, moboItem.getItemID());
+            int rowsAffected = updateMOBOStock.executeUpdate();
+            updateMOBOStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            int updatedStock = psuItem.getQuantity() - Integer.parseInt(psuQuantity.getSelectedItem().toString());
+            PreparedStatement updatePSUStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updatePSUStock.setInt(1, updatedStock);
+            updatePSUStock.setInt(2, psuItem.getItemID());
+            updatePSUStock.executeUpdate();
+            updatePSUStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        try {
+            int updatedStock = caseItem.getQuantity() - Integer.parseInt(caseQuantity.getSelectedItem().toString());
+            PreparedStatement updateCaseStock = connection.prepareStatement("UPDATE Parts SET quantity = ? WHERE partID = ?");
+            updateCaseStock.setInt(1, updatedStock);
+            updateCaseStock.setInt(2, caseItem.getItemID());
+            updateCaseStock.executeUpdate();
+            updateCaseStock.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

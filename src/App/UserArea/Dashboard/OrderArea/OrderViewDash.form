@@ -132,6 +132,8 @@
                       </grid>
                     </constraints>
                     <properties>
+                      <font name="Courier" size="18"/>
+                      <foreground color="-1618884"/>
                       <text value="Return"/>
                     </properties>
                   </component>

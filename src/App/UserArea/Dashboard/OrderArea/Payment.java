@@ -3,6 +3,7 @@ package App.UserArea.Dashboard.OrderArea;
 import App.App;
 
 import javax.swing.*;
+import javax.swing.text.View;
 import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -80,22 +81,21 @@ public class Payment extends JFrame{
                     if (rowsAffectedP == 1) {
                         getPrice.close();
                         try {
-                            PreparedStatement updateOrder = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+                            PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ? WHERE orderID = ?");
                             if (remaining == 0) {
-                                updateOrder.setString(1, "Payment In Full");
+                                updatePayment.setString(1, "Payment In Full");
                             } else {
-                                updateOrder.setString(1, "Partial Payment");
+                                updatePayment.setString(1, "Partial Payment");
                             }
-                            updateOrder.setInt(2, orderID);
-                            int rowsAffectedOrder = updateOrder.executeUpdate();
-                            if (rowsAffectedOrder == 1 ) {
-                                JOptionPane.showMessageDialog(null, "Payment Receiving! Thank you!");
-                                updateOrder.close();
+                            updatePayment.setInt(2, orderID);
+                            int rowsAffectedPayment = updatePayment.executeUpdate();
+                            if (rowsAffectedPayment == 1 ) {
+                                JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
+                                updatePayment.close();
                                 connection.close();
-                                new Payment(userID, orderID, fname);
+                                new ViewOrder(userID, orderID, fname);
                                 dispose();
                             }
-                            updateOrder.close();
                         } catch (SQLException getOrder) {
                             System.out.println(getOrder.getMessage());
                         }
