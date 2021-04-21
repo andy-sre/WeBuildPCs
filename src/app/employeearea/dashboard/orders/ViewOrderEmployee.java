@@ -1,8 +1,6 @@
-package app.employeearea.dashboard.orders;
+package app.EmployeeArea.Dashboard.orders;
 
 import app.App;
-import app.userarea.dashboard.orderarea.Payment;
-import app.userarea.dashboard.orderarea.ViewOrder;
 
 import javax.swing.*;
 import java.awt.*;

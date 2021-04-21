@@ -1,4 +1,4 @@
-package app.employeearea.dashboard.orders;
+package app.EmployeeArea.Dashboard.orders;
 
 import app.App;
 import app.employeearea.dashboard.EmployeeDash;

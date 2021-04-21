@@ -1,4 +1,4 @@
-package app.employeearea.dashboard.profiledash;
+package app.EmployeeArea.Dashboard.profiledash;
 
 import app.App;
 import app.employeearea.dashboard.EmployeeDash;

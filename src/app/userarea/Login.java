@@ -1,7 +1,7 @@
 package app.userarea;
 
 import app.App;
-import app.employeearea.EmployeeLogin;
+import app.EmployeeArea.EmployeeLogin;
 import app.userarea.dashboard.UserDash;
 import utils.BCrypt;
 
