@@ -1,4 +1,8 @@
+<<<<<<< Updated upstream
 import App.*;
+=======
+import app.*;
+>>>>>>> Stashed changes
 
 import javax.swing.*;
 
