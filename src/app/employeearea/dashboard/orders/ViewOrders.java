@@ -1,6 +1,7 @@
 package app.employeearea.dashboard.orders;
 
 import app.App;
+import app.employeearea.dashboard.EmployeeDash;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,6 +16,7 @@ public class ViewOrders extends JFrame{
     private JButton claimOrderButton;
     private JButton logoutButton;
     private JLabel errorLabel;
+    private JButton returnButton;
     private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status"}, 0);
     private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status"}, 0);
     private Connection connection;
@@ -70,6 +72,25 @@ public class ViewOrders extends JFrame{
             new App();
             dispose();
         });
+        returnButton.addActionListener(e -> {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            new EmployeeDash(employeeID,fname);
+            dispose();
+        });
+        viewOrderButton.addActionListener(e -> {
+            if (myOrdersTable.getSelectionModel().isSelectionEmpty()) {
+                errorLabel.setText("Please select a row first!");
+                errorLabel.setVisible(true);
+            } else {
+                int selectedID = (Integer.parseInt(myOrder.getValueAt(myOrdersTable.getSelectedRow(), 0).toString()));
+                new ViewOrder(employeeID, selectedID, fname);
+                dispose();
+            }
+        });
     }
     private void getMyOrders() {
         myOrder.setRowCount(0);
@@ -91,13 +112,13 @@ public class ViewOrders extends JFrame{
     private void getNewOrders() {
         newOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders WHERE employeeID IS NULL AND orderStatus = ? OR orderStatus =?");
-            getOrders.setString(1, "Partial Payment");
-            getOrders.setString(2, "Payment In Full");
+            PreparedStatement getOrders = connection.prepareStatement("select * FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.employeeID IS NULL AND P.paymentStatus = ? or O.orderStatus = ?");
+            getOrders.setString(1, "Payment Received");
+            getOrders.setString(2, "Refund Requested");
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
                 int orderID = rs.getInt("orderID");
-                newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus")});
+                newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("paymentStatus")});
             }
             newOrderTable.setModel(newOrder);
             rs.close();

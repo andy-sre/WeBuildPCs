@@ -81,11 +81,7 @@ public class Payment extends JFrame{
                         getPrice.close();
                         try {
                             PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ? WHERE orderID = ?");
-                            if (remaining == 0) {
-                                updatePayment.setString(1, "Payment In Full");
-                            } else {
-                                updatePayment.setString(1, "Partial Payment");
-                            }
+                            updatePayment.setString(1, "Payment Received");
                             updatePayment.setInt(2, orderID);
                             int rowsAffectedPayment = updatePayment.executeUpdate();
                             if (rowsAffectedPayment == 1 ) {
