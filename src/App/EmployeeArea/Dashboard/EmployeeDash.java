@@ -33,12 +33,6 @@ public class EmployeeDash extends JFrame{
                 dispose();
             }
         });
-        viewOrdersButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
         editDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -5,8 +5,6 @@ import utils.BCrypt;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class EditProfile extends JFrame {
@@ -50,36 +48,33 @@ public class EditProfile extends JFrame {
         } catch (SQLException updateEmployeeErr) {
             System.out.println(updateEmployeeErr.getMessage());
         }
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(checkBlank()) {
-                    if(isValidEmail(emailField.getText())) {
-                        errorLabel.setVisible(false);
-                        password = new String(passwordField.getPassword());
-                        if (BCrypt.checkpw(password, passwordHashed)) {
-                            try {
-                                PreparedStatement updateEmployee = connection.prepareStatement("UPDATE Employee SET fname = ?, lname = ?, email = ? WHERE employeeID = " + employeeID);
-                                updateEmployee.setString(1, firstField.getText());
-                                updateEmployee.setString(2, lastField.getText());
-                                updateEmployee.setString(3, emailField.getText());
-                                int rowsAffected = updateEmployee.executeUpdate();
-                                if (rowsAffected == 1) {
-                                    JOptionPane.showMessageDialog(null, "Your user details have been updated");
-                                    passwordField.setText("");
-                                    updateEmployee.close();
-                                }
-                            } catch (SQLException userUpdateError) {
-                                System.out.println(userUpdateError.getMessage());
+        submitButton.addActionListener(e -> {
+            if(checkBlank()) {
+                if(isValidEmail(emailField.getText())) {
+                    errorLabel.setVisible(false);
+                    password = new String(passwordField.getPassword());
+                    if (BCrypt.checkpw(password, passwordHashed)) {
+                        try {
+                            PreparedStatement updateEmployee = connection.prepareStatement("UPDATE Employee SET fname = ?, lname = ?, email = ? WHERE employeeID = " + employeeID);
+                            updateEmployee.setString(1, firstField.getText());
+                            updateEmployee.setString(2, lastField.getText());
+                            updateEmployee.setString(3, emailField.getText());
+                            int rowsAffected = updateEmployee.executeUpdate();
+                            if (rowsAffected == 1) {
+                                JOptionPane.showMessageDialog(null, "Your user details have been updated");
+                                passwordField.setText("");
+                                updateEmployee.close();
                             }
-                        } else {
-                            errorLabel.setText("Password does not match! Try again!");
-                            errorLabel.setVisible(true);
+                        } catch (SQLException userUpdateError) {
+                            System.out.println(userUpdateError.getMessage());
                         }
                     } else {
-                        errorLabel.setText("Email is not valid, please try again");
+                        errorLabel.setText("Password does not match! Try again!");
                         errorLabel.setVisible(true);
                     }
+                } else {
+                    errorLabel.setText("Email is not valid, please try again");
+                    errorLabel.setVisible(true);
                 }
             }
         });
@@ -120,7 +115,7 @@ public class EditProfile extends JFrame {
         }
         return false;
     }
-    static boolean isValidEmail(String email) {
+    private static boolean isValidEmail(String email) {
         String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
         return email.matches(regex);
     }
