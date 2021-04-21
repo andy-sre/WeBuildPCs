@@ -1,5 +1,7 @@
 package app.employeearea.dashboard.orders;
 
+import app.App;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -58,6 +60,15 @@ public class ViewOrders extends JFrame{
                     System.err.println(error.getMessage());
                 }
             }
+        });
+        logoutButton.addActionListener(e -> {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            new App();
+            dispose();
         });
     }
     private void getMyOrders() {
