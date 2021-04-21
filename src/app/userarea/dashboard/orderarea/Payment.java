@@ -7,6 +7,10 @@ import java.awt.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Payment extends JFrame{
     private JButton logoutButton;
@@ -80,8 +84,19 @@ public class Payment extends JFrame{
                     if (rowsAffectedP == 1) {
                         getPrice.close();
                         try {
-                            PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ? WHERE orderID = ?");
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            java.util.Date current = new java.util.Date();
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(current);
+                            c.add(Calendar.MONTH, 1);
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                            c.set(Calendar.SECOND, 0);
+                            c.set(Calendar.MILLISECOND, 0);
+                            Date futureDate = c.getTime();
+                            PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ?, dueDate = ? WHERE orderID = ?");
                             updatePayment.setString(1, "Payment Received");
+                            updatePayment.setString(2, dateFormat.format(futureDate));
                             updatePayment.setInt(2, orderID);
                             int rowsAffectedPayment = updatePayment.executeUpdate();
                             if (rowsAffectedPayment == 1 ) {

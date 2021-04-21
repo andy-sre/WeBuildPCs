@@ -7,6 +7,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ViewOrders extends JFrame{
     private JButton viewOrderButton;
@@ -17,10 +20,15 @@ public class ViewOrders extends JFrame{
     private JButton logoutButton;
     private JLabel errorLabel;
     private JButton returnButton;
-    private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status"}, 0);
-    private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status"}, 0);
+    private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Remaining Balance", "Payment Status", "Overdue"}, 0);
+    private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Remaining Balance", "Payment Status", "Overdue"}, 0);
     private Connection connection;
     private final int employeeID;
+    private String date = "";
+    private java.util.Date dueDate;
+    private SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private java.util.Date current = new Date();
+    private Double balance;
 
     public ViewOrders(int employeeID, String fname) {
         errorLabel.setVisible(false);
@@ -87,7 +95,7 @@ public class ViewOrders extends JFrame{
                 errorLabel.setVisible(true);
             } else {
                 int selectedID = (Integer.parseInt(myOrder.getValueAt(myOrdersTable.getSelectedRow(), 0).toString()));
-                new ViewOrder(employeeID, selectedID, fname);
+                new ViewOrderEmployee(employeeID, selectedID, fname);
                 dispose();
             }
         });
@@ -118,7 +126,22 @@ public class ViewOrders extends JFrame{
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
                 int orderID = rs.getInt("orderID");
-                newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("paymentStatus")});
+                date = rs.getString("dueDate");
+                balance = rs.getDouble("remainingBal");
+                System.out.println("Test 0");
+                try {
+                    dueDate = sFormat.parse(date);
+                    if(current.compareTo(dueDate) >= 0) {
+                        System.out.println("Test 1");
+                        newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "TRUE"});
+                    } else {
+                        System.out.println("Test 2");
+                        newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "FALSE"});
+                    }
+                } catch (ParseException e) {
+                    System.out.println(e);
+                }
+
             }
             newOrderTable.setModel(newOrder);
             rs.close();
