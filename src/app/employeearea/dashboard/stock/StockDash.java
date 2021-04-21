@@ -1,7 +1,7 @@
 package app.EmployeeArea.Dashboard.stock;
 
 import app.App;
-import app.employeearea.dashboard.EmployeeDash;
+import app.EmployeeArea.Dashboard.EmployeeDash;
 
 import javax.swing.*;
 import java.awt.*;

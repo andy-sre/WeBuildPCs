@@ -18,7 +18,6 @@ public class App extends JFrame {
         this.setVisible(true);
         this.add(panel);
         loginButton.addActionListener(e -> {
-            System.out.println("AndrewH");
             new Login();
             dispose();
         });
