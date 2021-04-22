@@ -28,4 +28,5 @@ hs_err_pid*
 out
 .DS_Store
 identifier.sqlite
+*.accdb
 

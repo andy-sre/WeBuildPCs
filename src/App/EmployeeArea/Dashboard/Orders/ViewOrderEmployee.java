@@ -5,6 +5,9 @@ import App.App;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ViewOrderEmployee extends JFrame{
     private JPanel panel;
@@ -39,6 +42,11 @@ public class ViewOrderEmployee extends JFrame{
     private JLabel eircodeLabel;
     private JLabel customerName;
     private JPanel OrderView;
+    private JLabel overdueLabel;
+    private JButton rejectRefundButton;
+    private JButton approveRefundButton;
+    private JPanel refundArea;
+    private JLabel refundLabel;
     private int cpu;
     private int gpu;
     private int psu;
@@ -47,18 +55,23 @@ public class ViewOrderEmployee extends JFrame{
     private int pcCase;
     private int storage;
     private final int orderID;
-    private final int employeeID;
     private int userID;
+    private String date = "";
+    private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private final java.util.Date current = new Date();
+    private Double balance;
 
     public ViewOrderEmployee(int employeeID, int orderID, String fname) {
         this.orderID = orderID;
-        this.employeeID = employeeID;
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+        refundArea.setVisible(false);
+        OrderView.setVisible(false);
+        refundLabel.setVisible(false);
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException connectionStart) {
@@ -67,7 +80,7 @@ public class ViewOrderEmployee extends JFrame{
         getOrder();
         getParts();
         getPrice();
-        getEircode();
+        getUserDetails();
         logoutButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -85,6 +98,53 @@ public class ViewOrderEmployee extends JFrame{
             }
             new ViewOrders(employeeID, fname);
             dispose();
+        });
+        approveRefundButton.addActionListener(e -> {
+            try {
+                PreparedStatement approveRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+                approveRefund.setString(1, "Refund Approved");
+                approveRefund.setInt(2, orderID);
+                int rowsAffected = approveRefund.executeUpdate();
+                if (rowsAffected == 1) {
+                    System.out.println("Test Approve");
+                    approveRefund.close();
+                    try {
+                        PreparedStatement setBalance = connection.prepareStatement("UPDATE Payments SET remainingBal = ?, paymentStatus = ? WHERE orderID = ?");
+                        setBalance.setDouble(1, 0.0);
+                        setBalance.setString(2, "Refund Approved");
+                        setBalance.setInt(3, orderID);
+                        int rowsAffectedBal = setBalance.executeUpdate();
+                        if (rowsAffectedBal == 1) {
+                            approveRefund.close();
+                            JOptionPane.showMessageDialog(null, "Refund Approved!");
+                            connection.close();
+                            new ViewOrderEmployee(employeeID, orderID, fname);
+                            dispose();
+                        }
+                    } catch (SQLException eBal) {
+                        System.out.println(eBal.getMessage());
+                    }
+                }
+            } catch (SQLException eStatus) {
+                System.out.println(eStatus.getMessage());
+            }
+        });
+        rejectRefundButton.addActionListener(e -> {
+            try {
+                PreparedStatement declineRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+                declineRefund.setString(1, "Refund Declined");
+                declineRefund.setInt(2, orderID);
+                int rowsAffectedBal = declineRefund.executeUpdate();
+                if (rowsAffectedBal == 1) {
+                    declineRefund.close();
+                    JOptionPane.showMessageDialog(null, "Refund Declined!");
+                    connection.close();
+                    new ViewOrderEmployee(employeeID, orderID, fname);
+                    dispose();
+                }
+            } catch (SQLException eBal) {
+                System.out.println(eBal.getMessage());
+            }
         });
     }
 
@@ -111,6 +171,19 @@ public class ViewOrderEmployee extends JFrame{
                 orderStatus.setText(rs.getString("orderStatus"));
                 userID = rs.getInt("userID");
             }
+        if (orderStatus.getText().equals("Refund Requested")) {
+            refundArea.setVisible(true);
+            OrderView.setVisible(false);
+        } else if (orderStatus.getText().equals("Refund Approved")){
+            refundArea.setVisible(true);
+            refundLabel.setVisible(true);
+            approveRefundButton.setVisible(false);
+            rejectRefundButton.setVisible(false);
+            OrderView.setVisible(false);
+        } else {
+            refundArea.setVisible(false);
+            OrderView.setVisible(true);
+        }
             rs.close();
             getOrders.close();
         } catch (SQLException getOrder) {
@@ -213,13 +286,29 @@ public class ViewOrderEmployee extends JFrame{
     }
     private void getPrice() {
         try {
-            PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price FROM Payments where orderID = ?");
+            PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price, dueDate FROM Payments where orderID = ?");
             getPrice.setInt(1, orderID);
             ResultSet rs = getPrice.executeQuery();
             while(rs.next()) {
+                date = rs.getString("dueDate");
                 pcPrice.setText(String.valueOf(rs.getDouble("price")));
-                remainingBal.setText(String.valueOf(rs.getDouble("remainingBal")));
+                balance = rs.getDouble("remainingBal");
                 paymentStatus.setText(rs.getString("paymentStatus"));
+            }
+            remainingBal.setText(String.valueOf(balance));
+            try {
+                Date dueDate = sFormat.parse(date);
+                if(current.compareTo(dueDate) >= 0) {
+                    if (balance == 0.0 ) {
+                        overdueLabel.setText("Payment In Full");
+                    } else {
+                        overdueLabel.setText("Payment was due on: " + date);
+                    }
+                } else {
+                    overdueLabel.setText("Payment is due on: " + date);
+                }
+            } catch (ParseException e) {
+                System.out.println(e.getMessage());
             }
             rs.close();
             getPrice.close();
@@ -227,7 +316,7 @@ public class ViewOrderEmployee extends JFrame{
             System.out.println(getOrder.getMessage());
         }
     }
-    private void getEircode() {
+    private void getUserDetails() {
         try {
             PreparedStatement getEircode = connection.prepareStatement("select * FROM Users where userID = ?");
             getEircode.setInt(1, userID);

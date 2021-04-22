@@ -26,8 +26,8 @@ public class ViewOrders extends JFrame{
     private final int employeeID;
     private String date = "";
     private java.util.Date dueDate;
-    private SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private java.util.Date current = new Date();
+    private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private final java.util.Date current = new Date();
     private Double balance;
 
     public ViewOrders(int employeeID, String fname) {
@@ -103,12 +103,27 @@ public class ViewOrders extends JFrame{
     private void getMyOrders() {
         myOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders WHERE employeeID = ?");
+            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE employeeID = ?");
             getOrders.setInt(1, employeeID);
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
                 int orderID = rs.getInt("orderID");
-                myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus")});
+                date = rs.getString("dueDate");
+                balance = rs.getDouble("remainingBal");
+                try {
+                    dueDate = sFormat.parse(date);
+                    if(current.compareTo(dueDate) >= 0) {
+                        if (balance == 0.0 ) {
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "False"});
+                        } else {
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "True"});
+                        }
+                    } else {
+                        myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "False"});
+                    }
+                } catch (ParseException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             myOrdersTable.setModel(myOrder);
             rs.close();
@@ -132,16 +147,17 @@ public class ViewOrders extends JFrame{
                 try {
                     dueDate = sFormat.parse(date);
                     if(current.compareTo(dueDate) >= 0) {
-                        System.out.println("Test 1");
-                        newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "TRUE"});
+                        if (balance == 0.0 ) {
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "False"});
+                        } else {
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "True"});
+                        }
                     } else {
-                        System.out.println("Test 2");
                         newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "FALSE"});
                     }
                 } catch (ParseException e) {
-                    System.out.println(e);
+                    System.out.println(e.getMessage());
                 }
-
             }
             newOrderTable.setModel(newOrder);
             rs.close();

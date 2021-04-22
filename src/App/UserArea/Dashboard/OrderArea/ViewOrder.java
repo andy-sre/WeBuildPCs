@@ -72,7 +72,6 @@ public class ViewOrder extends JFrame {
         } else {
             makePaymentButton.setVisible(true);
         }
-        refundOrderButton.setVisible(!orderStatus.getText().equals("Refund Requested"));
         logoutButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -137,6 +136,10 @@ public class ViewOrder extends JFrame {
                 storage = rs.getInt("storageID");
                 storageQuantity.setText(String.valueOf(rs.getInt("storageAmount")));
                 orderStatus.setText(rs.getString("orderStatus"));
+            }
+            if ( orderStatus.getText().equals("Refund Approved") || paymentStatus.getText().equals("Refund Approved") || orderStatus.getText().equals("Refund Requested") ) {
+                makePaymentButton.setVisible(false);
+                refundOrderButton.setVisible(false);
             }
             rs.close();
             getOrders.close();
