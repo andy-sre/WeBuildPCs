@@ -58,7 +58,7 @@ public class ViewOrderEmployee extends JFrame{
     private int userID;
     private String date = "";
     private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private final java.util.Date current = new Date();
+    private final Date current = new Date();
     private Double balance;
 
     public ViewOrderEmployee(int employeeID, int orderID, String fname) {
