@@ -1,9 +1,9 @@
-package app.EmployeeArea.Dashboard;
+package app.employeearea.dashboard;
 
 import app.App;
-import app.EmployeeArea.Dashboard.orders.ViewOrders;
-import app.EmployeeArea.Dashboard.profiledash.ProfileDash;
-import app.EmployeeArea.Dashboard.stock.StockDash;
+import app.employeearea.dashboard.orders.ViewOrders;
+import app.employeearea.dashboard.profiledash.ProfileDash;
+import app.employeearea.dashboard.stock.StockDash;
 
 import javax.swing.*;
 import java.awt.*;

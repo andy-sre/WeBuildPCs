@@ -1,4 +1,4 @@
-package app.EmployeeArea.Dashboard.profiledash;
+package app.employeearea.dashboard.profiledash;
 
 import app.App;
 import utils.BCrypt;
