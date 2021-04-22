@@ -85,7 +85,7 @@ public class Payment extends JFrame{
                         getPrice.close();
                         try {
                             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                            java.util.Date current = new java.util.Date();
+                            Date current = new java.util.Date();
                             Calendar c = Calendar.getInstance();
                             c.setTime(current);
                             c.add(Calendar.MONTH, 1);
