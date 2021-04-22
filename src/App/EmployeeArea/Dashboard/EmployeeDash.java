@@ -7,8 +7,6 @@ import App.EmployeeArea.Dashboard.Stock.StockDash;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class EmployeeDash extends JFrame{
     private JPanel panel;
@@ -26,33 +24,21 @@ public class EmployeeDash extends JFrame{
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
-        stockButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new StockDash(employeeID, fname);
-                dispose();
-            }
+        stockButton.addActionListener(e -> {
+            new StockDash(employeeID, fname);
+            dispose();
         });
-        editDetailsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ProfileDash(employeeID, fname);
-                dispose();
-            }
+        editDetailsButton.addActionListener(e -> {
+            new ProfileDash(employeeID, fname);
+            dispose();
         });
-        logoutButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new App();
-                dispose();
-            }
+        logoutButton.addActionListener(e -> {
+            new App();
+            dispose();
         });
-        viewOrdersButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new ViewOrders(employeeID, fname);
-                dispose();
-            }
+        viewOrdersButton.addActionListener(e -> {
+            new ViewOrders(employeeID, fname);
+            dispose();
         });
     }
 }

@@ -67,11 +67,7 @@ public class ViewOrder extends JFrame {
         getParts();
         getPrice();
         getEircode();
-        if (Double.parseDouble(remainingBal.getText()) == 0 || orderStatus.getText().equals("Refund Requested")) {
-            makePaymentButton.setVisible(false);
-        } else {
-            makePaymentButton.setVisible(true);
-        }
+        makePaymentButton.setVisible(Double.parseDouble(remainingBal.getText()) != 0 && !orderStatus.getText().equals("Refund Requested"));
         logoutButton.addActionListener(e -> {
             try {
                 connection.close();

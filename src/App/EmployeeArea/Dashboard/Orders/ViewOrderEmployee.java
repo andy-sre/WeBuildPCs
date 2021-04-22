@@ -299,14 +299,17 @@ public class ViewOrderEmployee extends JFrame{
             try {
                 Date dueDate = sFormat.parse(date);
                 if(current.compareTo(dueDate) >= 0) {
-                    if (balance == 0.0 ) {
+                    if (balance == 0 ) {
                         overdueLabel.setText("Payment In Full");
                     } else {
                         overdueLabel.setText("Payment was due on: " + date);
                     }
                 } else {
-                    overdueLabel.setText("Payment is due on: " + date);
-                }
+                    if (balance == 0 ) {
+                        overdueLabel.setText("Payment In Full");
+                    } else {
+                        overdueLabel.setText("Payment is due on: " + date);
+                    }                }
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }

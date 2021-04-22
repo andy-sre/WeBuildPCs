@@ -221,7 +221,7 @@ public class OrderCreate extends JFrame {
                                 dispose();
                             }
                         } catch (SQLException createPayment) {
-                            createPayment.getMessage();
+                            System.out.println(createPayment.getMessage());
                         }
                     }
                 } catch (SQLException createOrder) {
