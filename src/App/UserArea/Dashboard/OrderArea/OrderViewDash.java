@@ -6,8 +6,6 @@ import App.UserArea.Dashboard.UserDash;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 
 public class OrderViewDash extends JFrame{
@@ -56,17 +54,14 @@ public class OrderViewDash extends JFrame{
             new App();
             dispose();
         });
-        returnButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    connection.close();
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-                new UserDash(userID, fname);
-                dispose();
+        returnButton.addActionListener(e -> {
+            try {
+                connection.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
             }
+            new UserDash(userID, fname);
+            dispose();
         });
     }
     public void getTable() {

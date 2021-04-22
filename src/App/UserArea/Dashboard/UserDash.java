@@ -24,11 +24,6 @@ public class UserDash extends JFrame{
     private JLabel paymentAlertMsg;
     private JPanel paymentAlertPanel;
     private Connection connection;
-    private String date = "";
-    private Date dueDate;
-    private SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private Date current = new Date();
-    private Double balance;
 
     public UserDash(int userID, String fname) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,11 +44,13 @@ public class UserDash extends JFrame{
             checkPayment.setInt(1, userID);
             ResultSet rs = checkPayment.executeQuery();
             while (rs.next()) {
-                date = rs.getString("dueDate");
-                balance = rs.getDouble("remainingBal");
+                String date = rs.getString("dueDate");
+                double balance = rs.getDouble("remainingBal");
                 try {
-                    dueDate = sFormat.parse(date);
+                    SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date dueDate = sFormat.parse(date);
                     if(balance > 0) {
+                        Date current = new Date();
                         if(current.compareTo(dueDate) >= 0) {
                             paymentAlertMsg.setText("You are overdue on your invoices!");
                             paymentAlertPanel.setVisible(true);
@@ -64,7 +61,7 @@ public class UserDash extends JFrame{
                         }
                     }
                 } catch (ParseException e) {
-                    System.out.println(e);
+                    System.out.println(e.getMessage());
                 }
             }
             rs.close();

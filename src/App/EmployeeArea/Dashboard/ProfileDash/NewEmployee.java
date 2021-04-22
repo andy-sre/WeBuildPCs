@@ -5,8 +5,6 @@ import Utils.BCrypt;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -36,62 +34,59 @@ public class NewEmployee extends JFrame {
         } catch (SQLException connect) {
             System.out.println(connect.getMessage());
         }
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (checkBlank()) {
-                    if(isValidEmail(emailField.getText())) {
-                        if(isValidPassword(new String(passwordField.getPassword()))) {
-                            if(Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
-                                try {
-                                    errorLabel.setVisible(false);
-                                    PreparedStatement checkEmployee = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
-                                    checkEmployee.setString(1, emailField.getText());
-                                    ResultSet rs = checkEmployee.executeQuery();
-                                    if(rs.next()) {
-                                        errorLabel.setText("User already exists!");
-                                        errorLabel.setVisible(true);
-                                    } else {
-                                        String passString = new String(passwordField.getPassword());
-                                        String passHashed = BCrypt.hashpw(passString, BCrypt.gensalt());
-                                        rs.close();
-                                        checkEmployee.close();
-                                        try {
-                                            PreparedStatement createEmployee = connection.prepareStatement("INSERT INTO Employee (fname, lname, password, email) VALUES (?, ?, ? ,?)");
-                                            createEmployee.setString(1, firstField.getText());
-                                            createEmployee.setString(2, lastField.getText());
-                                            createEmployee.setString(3, passHashed);
-                                            createEmployee.setString(4, emailField.getText());
-                                            int rowsAffected = createEmployee.executeUpdate();
-                                            if (rowsAffected == 1) {
-                                                JOptionPane.showMessageDialog(null, "Account created!  Direct user to log in!");
-                                                createEmployee.close();
-                                                firstField.setText("");
-                                                lastField.setText("");
-                                                passwordField.setText("");
-                                                cpasswordField.setText("");
-                                                emailField.setText("");
-                                            }
-                                        } catch (SQLException registerUser) {
-                                            System.err.println(registerUser.getMessage());
-                                        }
-                                    }
+        submitButton.addActionListener(e -> {
+            if (checkBlank()) {
+                if(isValidEmail(emailField.getText())) {
+                    if(isValidPassword(new String(passwordField.getPassword()))) {
+                        if(Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
+                            try {
+                                errorLabel.setVisible(false);
+                                PreparedStatement checkEmployee = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
+                                checkEmployee.setString(1, emailField.getText());
+                                ResultSet rs = checkEmployee.executeQuery();
+                                if(rs.next()) {
+                                    errorLabel.setText("User already exists!");
+                                    errorLabel.setVisible(true);
+                                } else {
+                                    String passString = new String(passwordField.getPassword());
+                                    String passHashed = BCrypt.hashpw(passString, BCrypt.gensalt());
                                     rs.close();
-                                } catch (SQLException updateEmployeeErr) {
-                                    System.out.println(updateEmployeeErr.getMessage());
+                                    checkEmployee.close();
+                                    try {
+                                        PreparedStatement createEmployee = connection.prepareStatement("INSERT INTO Employee (fname, lname, password, email) VALUES (?, ?, ? ,?)");
+                                        createEmployee.setString(1, firstField.getText());
+                                        createEmployee.setString(2, lastField.getText());
+                                        createEmployee.setString(3, passHashed);
+                                        createEmployee.setString(4, emailField.getText());
+                                        int rowsAffected = createEmployee.executeUpdate();
+                                        if (rowsAffected == 1) {
+                                            JOptionPane.showMessageDialog(null, "Account created!  Direct user to log in!");
+                                            createEmployee.close();
+                                            firstField.setText("");
+                                            lastField.setText("");
+                                            passwordField.setText("");
+                                            cpasswordField.setText("");
+                                            emailField.setText("");
+                                        }
+                                    } catch (SQLException registerUser) {
+                                        System.err.println(registerUser.getMessage());
+                                    }
                                 }
-                            } else {
-                                errorLabel.setText("Passwords do not match.  Please try again!");
-                                errorLabel.setVisible(true);
+                                rs.close();
+                            } catch (SQLException updateEmployeeErr) {
+                                System.out.println(updateEmployeeErr.getMessage());
                             }
                         } else {
-                            errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
+                            errorLabel.setText("Passwords do not match.  Please try again!");
                             errorLabel.setVisible(true);
                         }
                     } else {
-                        errorLabel.setText("Email is not valid, please try again");
+                        errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
                         errorLabel.setVisible(true);
                     }
+                } else {
+                    errorLabel.setText("Email is not valid, please try again");
+                    errorLabel.setVisible(true);
                 }
             }
         });
