@@ -80,8 +80,8 @@ public class Payment extends JFrame{
                     PreparedStatement getPrice = connection.prepareStatement("UPDATE Payments SET remainingBal = ? WHERE orderID = ?");
                     getPrice.setDouble(1, remaingingRound);
                     getPrice.setInt(2, orderID);
-                    int rowsAffectedP = getPrice.executeUpdate();
-                    if (rowsAffectedP == 1) {
+                    int rowsAffectedPrice = getPrice.executeUpdate();
+                    if (rowsAffectedPrice == 1) {
                         getPrice.close();
                         try {
                             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -97,7 +97,7 @@ public class Payment extends JFrame{
                             PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ?, dueDate = ? WHERE orderID = ?");
                             updatePayment.setString(1, "Payment Received");
                             updatePayment.setString(2, dateFormat.format(futureDate));
-                            updatePayment.setInt(2, orderID);
+                            updatePayment.setInt(3, orderID);
                             int rowsAffectedPayment = updatePayment.executeUpdate();
                             if (rowsAffectedPayment == 1 ) {
                                 JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
