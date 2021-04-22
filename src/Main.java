@@ -1,4 +1,4 @@
-import app.App;
+import App.*;
 
 import javax.swing.*;
 
