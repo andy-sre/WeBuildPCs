@@ -12,7 +12,7 @@ public class App extends JFrame {
 
     public App() {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setTitle("Computer Shop - Welcome");
+        this.setTitle("Computer Shop - Welcome Page");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
