@@ -66,6 +66,7 @@ public class OrderCreate extends JFrame {
     private Item storageItem;
     private Item psuItem;
     private Item caseItem;
+    private boolean stockIssue = false;
 
     public OrderCreate(int userID, String fname) {
         errorLabel.setVisible(false);
@@ -147,6 +148,7 @@ public class OrderCreate extends JFrame {
         gpuQuantity.addActionListener(e -> updatePrice());
         ramQuantity.addActionListener(e -> updatePrice());
         storageQuantity.addActionListener(e -> updatePrice());
+
         submitButton.addActionListener(e -> {
             if (checkBox()) {
                 errorLabel.setVisible(false);
@@ -159,76 +161,104 @@ public class OrderCreate extends JFrame {
                     psuItem = (Item) psuDropdown.getSelectedItem();
                     caseItem = (Item) caseDropdown.getSelectedItem();
 
-                    //if (cpuQuantity > connection.execute("SELECT Quantity FROM Parts WHERE partName = '"+cpuItem+"'")){
+                    if (cpuItem.getQuantity()<cpuQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough cpus in stock");
+                        errorLabel.setVisible(true);
+                    }else if (gpuItem.getQuantity()<cpuQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough gpus in stock");
+                        errorLabel.setVisible(true);
+                    }else if (ramItem.getQuantity()<ramQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough ram in stock");
+                        errorLabel.setVisible(true);
+                        stockIssue = true;
+                    }else if (moboItem.getQuantity()<moboQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough motherboards in stock");
+                        errorLabel.setVisible(true);
+                        stockIssue = true;
+                    }else if (storageItem.getQuantity()<storageQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough storage in stock");
+                        errorLabel.setVisible(true);
+                        stockIssue = true;
+                    }else if (psuItem.getQuantity()<psuQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough psu in stock");
+                        errorLabel.setVisible(true);
+                        stockIssue = true;
+                    }else if (caseItem.getQuantity()<caseQuantity.getSelectedIndex()){
+                        errorLabel.setText("We do not have enough cases in stock");
+                        errorLabel.setVisible(true);
+                        stockIssue = true;
+                    }else{
+                        stockIssue = false;
+                    }
 
-                 //}
-
-                    PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
-                            "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
-                            "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    createOrder.setString(1, "Order Created");
-                    createOrder.setInt(2, userID);
-                    assert cpuItem != null;
-                    createOrder.setInt(3, cpuItem.getItemID());
-                    createOrder.setInt(4, Integer.parseInt(Objects.requireNonNull(cpuQuantity.getSelectedItem()).toString()));
-                    assert gpuItem != null;
-                    createOrder.setInt(5, gpuItem.getItemID());
-                    createOrder.setInt(6, Integer.parseInt(Objects.requireNonNull(gpuQuantity.getSelectedItem()).toString()));
-                    assert ramItem != null;
-                    createOrder.setInt(7, ramItem.getItemID());
-                    createOrder.setInt(8, Integer.parseInt(Objects.requireNonNull(ramQuantity.getSelectedItem()).toString()));
-                    assert moboItem != null;
-                    createOrder.setInt(9, moboItem.getItemID());
-                    createOrder.setInt(10, Integer.parseInt(Objects.requireNonNull(moboQuantity.getSelectedItem()).toString()));
-                    assert storageItem != null;
-                    createOrder.setInt(11, storageItem.getItemID());
-                    createOrder.setInt(12, Integer.parseInt(Objects.requireNonNull(storageQuantity.getSelectedItem()).toString()));
-                    assert psuItem != null;
-                    createOrder.setInt(13, psuItem.getItemID());
-                    createOrder.setInt(14, Integer.parseInt(Objects.requireNonNull(psuQuantity.getSelectedItem()).toString()));
-                    assert caseItem != null;
-                    createOrder.setInt(15, caseItem.getItemID());
-                    createOrder.setInt(16, Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString()));
-                    createOrder.setString(17, "PC");
-                    int rowsAffectedO = createOrder.executeUpdate();
-                    if (rowsAffectedO == 1) {
-                        createOrder.close();
-                        try {
-                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                            Date current = new Date();
-                            Calendar c = Calendar.getInstance();
-                            c.setTime(current);
-                            c.add(Calendar.MONTH, 1);
-                            c.set(Calendar.HOUR_OF_DAY, 0);
-                            c.set(Calendar.MINUTE, 0);
-                            c.set(Calendar.SECOND, 0);
-                            c.set(Calendar.MILLISECOND, 0);
-                            Date futureDate = c.getTime();
-                            PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal, paymentStatus, dueDate) VALUES (?,?,?,?,?,?)");
-                            createPayment.setInt(1, userID);
-                            PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
-                            ResultSet rs = getOrderID.executeQuery();
-                            while (rs.next()) {
-                                createPayment.setInt(2, rs.getInt("orderID"));
+                    if (stockIssue == false){
+                        PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
+                                "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
+                                "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        createOrder.setString(1, "Order Created");
+                        createOrder.setInt(2, userID);
+                        assert cpuItem != null;
+                        createOrder.setInt(3, cpuItem.getItemID());
+                        createOrder.setInt(4, Integer.parseInt(Objects.requireNonNull(cpuQuantity.getSelectedItem()).toString()));
+                        assert gpuItem != null;
+                        createOrder.setInt(5, gpuItem.getItemID());
+                        createOrder.setInt(6, Integer.parseInt(Objects.requireNonNull(gpuQuantity.getSelectedItem()).toString()));
+                        assert ramItem != null;
+                        createOrder.setInt(7, ramItem.getItemID());
+                        createOrder.setInt(8, Integer.parseInt(Objects.requireNonNull(ramQuantity.getSelectedItem()).toString()));
+                        assert moboItem != null;
+                        createOrder.setInt(9, moboItem.getItemID());
+                        createOrder.setInt(10, Integer.parseInt(Objects.requireNonNull(moboQuantity.getSelectedItem()).toString()));
+                        assert storageItem != null;
+                        createOrder.setInt(11, storageItem.getItemID());
+                        createOrder.setInt(12, Integer.parseInt(Objects.requireNonNull(storageQuantity.getSelectedItem()).toString()));
+                        assert psuItem != null;
+                        createOrder.setInt(13, psuItem.getItemID());
+                        createOrder.setInt(14, Integer.parseInt(Objects.requireNonNull(psuQuantity.getSelectedItem()).toString()));
+                        assert caseItem != null;
+                        createOrder.setInt(15, caseItem.getItemID());
+                        createOrder.setInt(16, Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString()));
+                        createOrder.setString(17, "PC");
+                        int rowsAffectedO = createOrder.executeUpdate();
+                        if (rowsAffectedO == 1) {
+                            createOrder.close();
+                            try {
+                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                                Date current = new Date();
+                                Calendar c = Calendar.getInstance();
+                                c.setTime(current);
+                                c.add(Calendar.MONTH, 1);
+                                c.set(Calendar.HOUR_OF_DAY, 0);
+                                c.set(Calendar.MINUTE, 0);
+                                c.set(Calendar.SECOND, 0);
+                                c.set(Calendar.MILLISECOND, 0);
+                                Date futureDate = c.getTime();
+                                PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal, paymentStatus, dueDate) VALUES (?,?,?,?,?,?)");
+                                createPayment.setInt(1, userID);
+                                PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
+                                ResultSet rs = getOrderID.executeQuery();
+                                while (rs.next()) {
+                                    createPayment.setInt(2, rs.getInt("orderID"));
+                                }
+                                getOrderID.close();
+                                rs.close();
+                                createPayment.setDouble(3, pcPrice);
+                                createPayment.setDouble(4, pcPrice);
+                                createPayment.setString(5, "Payment Due");
+                                createPayment.setString(6, dateFormat.format(futureDate));
+                                int rowsAffectedP = createPayment.executeUpdate();
+                                if (rowsAffectedP == 1) {
+                                    createPayment.close();
+                                    updateStock();
+                                    JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
+                                    connection.close();
+                                    new UserDash(userID, fname);
+                                    dispose();
+                                }
+                            } catch (SQLException createPayment) {
+                                System.out.println(createPayment.getMessage());
                             }
-                            getOrderID.close();
-                            rs.close();
-                            createPayment.setDouble(3, pcPrice);
-                            createPayment.setDouble(4, pcPrice);
-                            createPayment.setString(5, "Payment Due");
-                            createPayment.setString(6, dateFormat.format(futureDate));
-                            int rowsAffectedP = createPayment.executeUpdate();
-                            if (rowsAffectedP == 1) {
-                                createPayment.close();
-                                updateStock();
-                                JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
-                                connection.close();
-                                new UserDash(userID, fname);
-                                dispose();
-                            }
-                        } catch (SQLException createPayment) {
-                            System.out.println(createPayment.getMessage());
                         }
                     }
                 } catch (SQLException createOrder) {
