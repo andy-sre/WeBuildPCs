@@ -15,7 +15,7 @@ public class OrderViewDash extends JFrame{
     private JPanel panel;
     private JLabel errorLabel;
     private JButton returnButton;
-    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Payment Status", "Price", "Remaining Balance"}, 0);
+    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type", "Payment Status", "Price", "Remaining Balance"}, 0);
     private Connection connection;
     private final int userID;
 
@@ -67,12 +67,12 @@ public class OrderViewDash extends JFrame{
     public void getTable() {
         model.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("select O.orderID, O.orderStatus, P.price, P.remainingBal, P.paymentStatus FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.userID AND P.userID = ?");
+            PreparedStatement getOrders = connection.prepareStatement("select O.orderID, O.orderType, O.orderStatus, P.price, P.remainingBal, P.paymentStatus FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.userID AND P.userID = ?");
             getOrders.setInt(1, userID);
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
                 int orderID = rs.getInt("orderID");
-                model.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("paymentStatus"),rs.getDouble("price"), rs.getDouble("remainingBal")});
+                model.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), rs.getString("paymentStatus"),rs.getDouble("price"), rs.getDouble("remainingBal")});
             }
             table1.setModel(model);
             rs.close();

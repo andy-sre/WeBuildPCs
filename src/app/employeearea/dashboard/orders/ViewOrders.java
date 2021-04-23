@@ -20,8 +20,8 @@ public class ViewOrders extends JFrame{
     private JButton logoutButton;
     private JLabel errorLabel;
     private JButton returnButton;
-    private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Remaining Balance", "Payment Status", "Overdue"}, 0);
-    private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Remaining Balance", "Payment Status", "Overdue"}, 0);
+    private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type","Remaining Balance", "Payment Status", "Overdue"}, 0);
+    private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type", "Remaining Balance", "Payment Status", "Overdue"}, 0);
     private Connection connection;
     private final int employeeID;
     private String date = "";
@@ -53,22 +53,46 @@ public class ViewOrders extends JFrame{
             } else {
                 errorLabel.setVisible(false);
                 int selectedID = (Integer.parseInt(newOrder.getValueAt(newOrderTable.getSelectedRow(), 0).toString()));
-                try {
-                    PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
-                    setOrder.setInt(1, employeeID);
-                    setOrder.setString(2, "Builder Assigned");
-                    setOrder.setInt(3, selectedID);
-                    int rowsAffected = setOrder.executeUpdate();
-                    if (rowsAffected == 1) {
-                        JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
-                        setOrder.close();
-                        connection.close();
-                        new ViewOrders(employeeID, fname);
-                        dispose();
+                if (newOrder.getValueAt(newOrderTable.getSelectedRow(), 2).toString().equals("Rental")) {
+                    int checkOrder = JOptionPane.showConfirmDialog(null, "This is a rental order.  Do you agree to ship & complete this order?");
+                    if (checkOrder == 0) {
+                        try {
+                            PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
+                            setOrder.setInt(1, employeeID);
+                            setOrder.setString(2, "Complete & Shipped");
+                            setOrder.setInt(3, selectedID);
+                            int rowsAffected = setOrder.executeUpdate();
+                            if (rowsAffected == 1) {
+                                JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
+                                setOrder.close();
+                                connection.close();
+                                new ViewOrders(employeeID, fname);
+                                dispose();
+                            }
+                        } catch (SQLException error) {
+                            System.err.println(error.getMessage());
+                        }
                     }
-                } catch (SQLException error) {
-                    System.err.println(error.getMessage());
+                } else {
+                    try {
+                        PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
+                        setOrder.setInt(1, employeeID);
+                        setOrder.setString(2, "Builder Assigned");
+                        setOrder.setInt(3, selectedID);
+                        int rowsAffected = setOrder.executeUpdate();
+                        if (rowsAffected == 1) {
+                            JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
+                            setOrder.close();
+                            connection.close();
+                            new ViewOrders(employeeID, fname);
+                            dispose();
+                        }
+                    } catch (SQLException error) {
+                        System.err.println(error.getMessage());
+                    }
                 }
+
+
             }
         });
         logoutButton.addActionListener(e -> {
@@ -114,12 +138,12 @@ public class ViewOrders extends JFrame{
                     dueDate = sFormat.parse(date);
                     if(current.compareTo(dueDate) >= 0) {
                         if (balance == 0.0 ) {
-                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "False"});
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "False"});
                         } else {
-                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "True"});
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "True"});
                         }
                     } else {
-                        myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "False"});
+                        myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "False"});
                     }
                 } catch (ParseException e) {
                     System.out.println(e.getMessage());
@@ -135,9 +159,10 @@ public class ViewOrders extends JFrame{
     private void getNewOrders() {
         newOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("select * FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.employeeID IS NULL AND P.paymentStatus = ? or O.orderStatus = ?");
+            PreparedStatement getOrders = connection.prepareStatement("select * FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.employeeID IS NULL AND P.paymentStatus = ? or O.orderStatus = ? or O.orderStatus = ?");
             getOrders.setString(1, "Payment Received");
             getOrders.setString(2, "Refund Requested");
+            getOrders.setString(3, "Awaiting Shipment");
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
                 int orderID = rs.getInt("orderID");
@@ -148,12 +173,12 @@ public class ViewOrders extends JFrame{
                     dueDate = sFormat.parse(date);
                     if(current.compareTo(dueDate) >= 0) {
                         if (balance == 0.0 ) {
-                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "False"});
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "False"});
                         } else {
-                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "True"});
+                            myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "True"});
                         }
                     } else {
-                        newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), balance, rs.getString("paymentStatus"), "FALSE"});
+                        newOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "FALSE"});
                     }
                 } catch (ParseException e) {
                     System.out.println(e.getMessage());

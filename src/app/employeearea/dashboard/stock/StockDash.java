@@ -18,6 +18,7 @@ public class StockDash extends JFrame {
     private JButton caseButton;
     private JButton returnButton;
     private JLabel stockLabel;
+    private JButton serverButton;
 
     public StockDash(int employeeID, String fname) {
         stockLabel.setText("Welcome, " + fname + " to your stock dashboard");
@@ -55,6 +56,10 @@ public class StockDash extends JFrame {
             new StockController(employeeID, fname,"pcCase");
             dispose();
         });
+        serverButton.addActionListener(e -> {
+            new StockController(employeeID, fname,"server");
+            dispose();
+        });
         returnButton.addActionListener(e -> {
             new EmployeeDash(employeeID, fname);
             dispose();
@@ -63,5 +68,6 @@ public class StockDash extends JFrame {
             new App();
             dispose();
         });
+
     }
 }
