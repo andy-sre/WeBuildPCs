@@ -14,6 +14,8 @@ public class UserEdit extends JFrame{
     private JTextField emailField;
     private JPasswordField passwordField;
     private JButton returnButton;
+    private JButton editMyProfileButton;
+    private JButton deleteProfile;
     private JButton submitButton;
     private JLabel errorLabel;
     private JTextField eircode;
