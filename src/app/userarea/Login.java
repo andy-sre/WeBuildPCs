@@ -6,6 +6,7 @@ import app.userarea.dashboard.UserDash;
 import utils.BCrypt;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.*;
 import java.util.Locale;
@@ -68,6 +69,7 @@ public class Login extends JFrame{
                     }
                 } else {
                     errorLabel.setText("Email is not a valid email");
+                    emailField.setBorder(new LineBorder(Color.red,1));
                     errorLabel.setVisible(true);
                 }
             }
@@ -79,10 +81,12 @@ public class Login extends JFrame{
     }
     public boolean checkBlank() {
         if (emailField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a first name");
+            errorLabel.setText("Please enter your email");
+            emailField.setBorder(new LineBorder(Color.red,1));
             errorLabel.setVisible(true);
         } else if (passwordField.getPassword().length == 0) {
-            errorLabel.setText("Please enter a password");
+            errorLabel.setText("Please enter your password");
+            passwordField.setBorder(new LineBorder(Color.red,1));
             errorLabel.setVisible(true);
         } else {
             return true;
