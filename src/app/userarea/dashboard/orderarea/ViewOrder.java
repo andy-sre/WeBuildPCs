@@ -51,8 +51,8 @@ public class ViewOrder extends JFrame {
     private int mobo;
     private int pcCase;
     private int storage;
-    private int orderID;
-    private int userID;
+    private final int orderID;
+    private final int userID;
     private int server;
     private String orderType;
 
