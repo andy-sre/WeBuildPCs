@@ -47,6 +47,12 @@ public class ViewOrderEmployee extends JFrame{
     private JButton approveRefundButton;
     private JPanel refundArea;
     private JLabel refundLabel;
+    private JButton beginBuild;
+    private JButton finishBuild;
+    private JPanel rentalOrder;
+    private JLabel serverPart;
+    private JLabel serverQuantity;
+    private JLabel serverPrice;
     private int cpu;
     private int gpu;
     private int psu;
@@ -60,6 +66,8 @@ public class ViewOrderEmployee extends JFrame{
     private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private final Date current = new Date();
     private Double balance;
+    private int server;
+    private String orderType;
 
     public ViewOrderEmployee(int employeeID, int orderID, String fname) {
         this.orderID = orderID;
@@ -72,6 +80,8 @@ public class ViewOrderEmployee extends JFrame{
         refundArea.setVisible(false);
         OrderView.setVisible(false);
         refundLabel.setVisible(false);
+        beginBuild.setVisible(false);
+        finishBuild.setVisible(false);
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException connectionStart) {
@@ -81,6 +91,13 @@ public class ViewOrderEmployee extends JFrame{
         getParts();
         getPrice();
         getUserDetails();
+        if (orderType.equals("PC")) {
+            OrderView.setVisible(true);
+            rentalOrder.setVisible(false);
+        } else {
+            rentalOrder.setVisible(true);
+            OrderView.setVisible(false);
+        }
         logoutButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -146,6 +163,48 @@ public class ViewOrderEmployee extends JFrame{
                 System.out.println(eBal.getMessage());
             }
         });
+        if (orderStatus.getText().equals("Builder Assigned")) {
+            finishBuild.setVisible(false);
+            beginBuild.setVisible(true);
+        }
+        beginBuild.addActionListener(e -> {
+            try {
+                PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+                beginBuild.setString(1, "Build Started");
+                beginBuild.setInt(2, orderID);
+                int rowsAffected = beginBuild.executeUpdate();
+                if (rowsAffected == 1) {
+                    beginBuild.close();
+                    JOptionPane.showMessageDialog(null, "You began building order: " + orderID);
+                    connection.close();
+                    new ViewOrderEmployee(employeeID, orderID, fname);
+                    dispose();
+                }
+            } catch (SQLException eBal) {
+                System.out.println(eBal.getMessage());
+            }
+        });
+        if (orderStatus.getText().equals("Build Started")) {
+            finishBuild.setVisible(true);
+            beginBuild.setVisible(false);
+        }
+        finishBuild.addActionListener(e -> {
+            try {
+                PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+                beginBuild.setString(1, "Order Complete & Shipped");
+                beginBuild.setInt(2, orderID);
+                int rowsAffected = beginBuild.executeUpdate();
+                if (rowsAffected == 1) {
+                    beginBuild.close();
+                    JOptionPane.showMessageDialog(null, "You completed and shipped order: " + orderID);
+                    connection.close();
+                    new ViewOrderEmployee(employeeID, orderID, fname);
+                    dispose();
+                }
+            } catch (SQLException eBal) {
+                System.out.println(eBal.getMessage());
+            }
+        });
     }
 
     private void getOrder() {
@@ -154,21 +213,27 @@ public class ViewOrderEmployee extends JFrame{
             getOrders.setInt(1, orderID);
             ResultSet rs = getOrders.executeQuery();
             while(rs.next()) {
-                cpu = rs.getInt("cpuID");
-                cpuQuantity.setText(String.valueOf(rs.getInt("cpuAmount")));
-                gpu = rs.getInt("gpuID");
-                gpuQuantity.setText(String.valueOf(rs.getInt("gpuAmount")));
-                ram = rs.getInt("ramID");
-                ramQuantity.setText(String.valueOf(rs.getInt("ramAmount")));
-                mobo = rs.getInt("motherBoardID");
-                moboQuantity.setText(String.valueOf(rs.getInt("motherBoardAmount")));
-                pcCase = rs.getInt("pcCaseID");
-                caseQuantity.setText(String.valueOf(rs.getInt("pcCaseAmount")));
-                psu = rs.getInt("psuID");
-                psuQuantity.setText(String.valueOf(rs.getInt("psuAmount")));
-                storage = rs.getInt("storageID");
-                storageQuantity.setText(String.valueOf(rs.getInt("storageAmount")));
-                orderStatus.setText(rs.getString("orderStatus"));
+                orderType = rs.getString("orderType");
+                if (orderType.equals("PC")) {
+                    cpu = rs.getInt("cpuID");
+                    cpuQuantity.setText(String.valueOf(rs.getInt("cpuAmount")));
+                    gpu = rs.getInt("gpuID");
+                    gpuQuantity.setText(String.valueOf(rs.getInt("gpuAmount")));
+                    ram = rs.getInt("ramID");
+                    ramQuantity.setText(String.valueOf(rs.getInt("ramAmount")));
+                    mobo = rs.getInt("motherBoardID");
+                    moboQuantity.setText(String.valueOf(rs.getInt("motherBoardAmount")));
+                    pcCase = rs.getInt("pcCaseID");
+                    caseQuantity.setText(String.valueOf(rs.getInt("pcCaseAmount")));
+                    psu = rs.getInt("psuID");
+                    psuQuantity.setText(String.valueOf(rs.getInt("psuAmount")));
+                    storage = rs.getInt("storageID");
+                    storageQuantity.setText(String.valueOf(rs.getInt("storageAmount")));
+                    orderStatus.setText(rs.getString("orderStatus"));
+                } else {
+                    serverQuantity.setText(String.valueOf(rs.getInt("serverAmount")));
+                    server = rs.getInt("serverID");
+                }
                 userID = rs.getInt("userID");
             }
         if (orderStatus.getText().equals("Refund Requested")) {
@@ -280,6 +345,19 @@ public class ViewOrderEmployee extends JFrame{
             }
             rs.close();
             getCase.close();
+        } catch (SQLException getPart) {
+            System.out.println(getPart.getMessage());
+        }
+        try {
+            PreparedStatement getCPU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
+            getCPU.setInt(1, server);
+            ResultSet rs = getCPU.executeQuery();
+            while(rs.next()) {
+                serverPart.setText(rs.getString("partName"));
+                serverPrice.setText(rs.getString("price"));
+            }
+            rs.close();
+            getCPU.close();
         } catch (SQLException getPart) {
             System.out.println(getPart.getMessage());
         }

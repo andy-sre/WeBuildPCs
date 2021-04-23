@@ -3,14 +3,15 @@ package app.userarea.dashboard;
 import app.App;
 import app.userarea.dashboard.orderarea.OrderCreate;
 import app.userarea.dashboard.orderarea.OrderViewDash;
+import app.userarea.dashboard.orderarea.RentServer;
 import app.userarea.dashboard.usercontrol.UserControlDash;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.sql.*;
 
 
 public class UserDash extends JFrame{
@@ -71,6 +72,10 @@ public class UserDash extends JFrame{
             checkOrders.printStackTrace();
         }
         welcomeLabel.setText("Welcome, " + fname + " to your dashboard");
+        rentButton.addActionListener(e -> {
+            new RentServer(userID, fname);
+            dispose();
+        });
         newOrderButton.addActionListener(e -> {
             new OrderCreate(userID, fname);
             dispose();
@@ -87,5 +92,6 @@ public class UserDash extends JFrame{
             new App();
             dispose();
         });
+
     }
 }

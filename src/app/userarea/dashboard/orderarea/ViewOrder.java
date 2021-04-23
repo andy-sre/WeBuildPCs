@@ -38,6 +38,11 @@ public class ViewOrder extends JFrame {
     private JLabel eircode;
     private JButton refundOrderButton;
     private JLabel paymentStatus;
+    private JPanel pcOrder;
+    private JPanel rentalOrder;
+    private JLabel serverPart;
+    private JLabel serverQuantity;
+    private JLabel serverPrice;
     private Connection connection;
     private int cpu;
     private int gpu;
@@ -46,8 +51,11 @@ public class ViewOrder extends JFrame {
     private int mobo;
     private int pcCase;
     private int storage;
-    private final int orderID;
-    private final int userID;
+    private int orderID;
+    private int userID;
+    private int server;
+    private String orderType;
+
 
     public ViewOrder (int userID, int orderID, String fname) {
         this.orderID = orderID;
@@ -58,6 +66,8 @@ public class ViewOrder extends JFrame {
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+        pcOrder.setVisible(false);
+        rentalOrder.setVisible(false);
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException connectionStart) {
@@ -67,6 +77,13 @@ public class ViewOrder extends JFrame {
         getParts();
         getPrice();
         getEircode();
+        if (orderType.equals("PC")) {
+            pcOrder.setVisible(true);
+            rentalOrder.setVisible(false);
+        } else {
+            rentalOrder.setVisible(true);
+            pcOrder.setVisible(false);
+        }
         makePaymentButton.setVisible(Double.parseDouble(remainingBal.getText()) != 0 && !orderStatus.getText().equals("Refund Requested"));
         logoutButton.addActionListener(e -> {
             try {
@@ -117,21 +134,28 @@ public class ViewOrder extends JFrame {
             getOrders.setInt(1, orderID);
             ResultSet rs = getOrders.executeQuery();
             while(rs.next()) {
-                cpu = rs.getInt("cpuID");
-                cpuQuantity.setText(String.valueOf(rs.getInt("cpuAmount")));
-                gpu = rs.getInt("gpuID");
-                gpuQuantity.setText(String.valueOf(rs.getInt("gpuAmount")));
-                ram = rs.getInt("ramID");
-                ramQuantity.setText(String.valueOf(rs.getInt("ramAmount")));
-                mobo = rs.getInt("motherBoardID");
-                moboQuantity.setText(String.valueOf(rs.getInt("motherBoardAmount")));
-                pcCase = rs.getInt("pcCaseID");
-                caseQuantity.setText(String.valueOf(rs.getInt("pcCaseAmount")));
-                psu = rs.getInt("psuID");
-                psuQuantity.setText(String.valueOf(rs.getInt("psuAmount")));
-                storage = rs.getInt("storageID");
-                storageQuantity.setText(String.valueOf(rs.getInt("storageAmount")));
-                orderStatus.setText(rs.getString("orderStatus"));
+                orderType = rs.getString("orderType");
+                if (orderType.equals("PC")) {
+                    cpu = rs.getInt("cpuID");
+                    cpuQuantity.setText(String.valueOf(rs.getInt("cpuAmount")));
+                    gpu = rs.getInt("gpuID");
+                    gpuQuantity.setText(String.valueOf(rs.getInt("gpuAmount")));
+                    ram = rs.getInt("ramID");
+                    ramQuantity.setText(String.valueOf(rs.getInt("ramAmount")));
+                    mobo = rs.getInt("motherBoardID");
+                    moboQuantity.setText(String.valueOf(rs.getInt("motherBoardAmount")));
+                    pcCase = rs.getInt("pcCaseID");
+                    caseQuantity.setText(String.valueOf(rs.getInt("pcCaseAmount")));
+                    psu = rs.getInt("psuID");
+                    psuQuantity.setText(String.valueOf(rs.getInt("psuAmount")));
+                    storage = rs.getInt("storageID");
+                    storageQuantity.setText(String.valueOf(rs.getInt("storageAmount")));
+                    orderStatus.setText(rs.getString("orderStatus"));
+                } else {
+                    serverQuantity.setText(String.valueOf(rs.getInt("serverAmount")));
+                    server = rs.getInt("serverID");
+                }
+
             }
             if ( orderStatus.getText().equals("Refund Approved") || paymentStatus.getText().equals("Refund Approved") || orderStatus.getText().equals("Refund Requested") ) {
                 makePaymentButton.setVisible(false);
@@ -151,7 +175,7 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getCPU.executeQuery();
             while(rs.next()) {
                 cpuPart.setText(rs.getString("partName"));
-                cpuPrice.setText(rs.getString("price"));
+                cpuPrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getCPU.close();
@@ -164,7 +188,7 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getGPU.executeQuery();
             while(rs.next()) {
                 gpuPart.setText(rs.getString("partName"));
-                gpuPrice.setText(rs.getString("price"));
+                gpuPrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getGPU.close();
@@ -177,7 +201,7 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getRAM.executeQuery();
             while(rs.next()) {
                 ramPart.setText(rs.getString("partName"));
-                ramPrice.setText(rs.getString("price"));
+                ramPrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getRAM.close();
@@ -190,7 +214,7 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getMobo.executeQuery();
             while(rs.next()) {
                 moboPart.setText(rs.getString("partName"));
-                moboPrice.setText(rs.getString("price"));
+                moboPrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getMobo.close();
@@ -203,7 +227,7 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getPSU.executeQuery();
             while(rs.next()) {
                 psuPart.setText(rs.getString("partName"));
-                psuPrice.setText(rs.getString("price"));
+                psuPrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getPSU.close();
@@ -216,7 +240,7 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getStorage.executeQuery();
             while(rs.next()) {
                 storagePart.setText(rs.getString("partName"));
-                storagePrice.setText(rs.getString("price"));
+                storagePrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getStorage.close();
@@ -229,7 +253,20 @@ public class ViewOrder extends JFrame {
             ResultSet rs = getCase.executeQuery();
             while(rs.next()) {
                 casePart.setText(rs.getString("partName"));
-                casePrice.setText(rs.getString("price"));
+                casePrice.setText(String.valueOf(rs.getDouble("price")));
+            }
+            rs.close();
+            getCase.close();
+        } catch (SQLException getPart) {
+            System.out.println(getPart.getMessage());
+        }
+        try {
+            PreparedStatement getCase = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
+            getCase.setInt(1, server);
+            ResultSet rs = getCase.executeQuery();
+            while(rs.next()) {
+                serverPart.setText(rs.getString("partName"));
+                serverPrice.setText(String.valueOf(rs.getDouble("price")));
             }
             rs.close();
             getCase.close();
