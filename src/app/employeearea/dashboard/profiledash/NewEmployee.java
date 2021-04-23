@@ -4,9 +4,11 @@ import app.App;
 import utils.BCrypt;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class NewEmployee extends JFrame {
     private JPanel panel;
@@ -20,6 +22,7 @@ public class NewEmployee extends JFrame {
     private JButton returnButton;
     private JLabel errorLabel;
     private Connection connection;
+    private boolean problem = false;
 
     public NewEmployee(int employeeID, String fname) {
         errorLabel.setVisible(false);
@@ -57,7 +60,7 @@ public class NewEmployee extends JFrame {
                                         createEmployee.setString(1, firstField.getText());
                                         createEmployee.setString(2, lastField.getText());
                                         createEmployee.setString(3, passHashed);
-                                        createEmployee.setString(4, emailField.getText());
+                                        createEmployee.setString(4, emailField.getText().toLowerCase(Locale.ROOT));
                                         int rowsAffected = createEmployee.executeUpdate();
                                         if (rowsAffected == 1) {
                                             JOptionPane.showMessageDialog(null, "Account created!  Direct user to log in!");
@@ -78,14 +81,18 @@ public class NewEmployee extends JFrame {
                             }
                         } else {
                             errorLabel.setText("Passwords do not match.  Please try again!");
+                            passwordField.setBorder(new LineBorder(Color.red,1));
+                            cpasswordField.setBorder(new LineBorder(Color.red,1));
                             errorLabel.setVisible(true);
                         }
                     } else {
                         errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
+                        passwordField.setBorder(new LineBorder(Color.red,1));
                         errorLabel.setVisible(true);
                     }
                 } else {
                     errorLabel.setText("Email is not valid, please try again");
+                    emailField.setBorder(new LineBorder(Color.red,1));
                     errorLabel.setVisible(true);
                 }
             }
@@ -111,20 +118,28 @@ public class NewEmployee extends JFrame {
     }
     public boolean checkBlank() {
         if (firstField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a first name");
             errorLabel.setVisible(true);
-        } else if (lastField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a last name");
-            errorLabel.setVisible(true);
-        } else if (emailField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a email");
-            errorLabel.setVisible(true);
-        }  else if (passwordField.getPassword().length == 0) {
-            errorLabel.setText("Please enter a password");
-            errorLabel.setVisible(true);
-        } else if (cpasswordField.getPassword().length == 0) {
-            errorLabel.setText("Please confirm your password");
-            errorLabel.setVisible(true);
+        }
+        if (lastField.getText().isEmpty()) {
+            lastField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (emailField.getText().isEmpty()) {
+            emailField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (passwordField.getPassword().length == 0) {
+            passwordField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (cpasswordField.getPassword().length == 0) {
+            cpasswordField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+
+        if (problem == true){
+            errorLabel.setText("Fill in the highlighted Fields");
+            problem = false;
         } else {
             return true;
         }

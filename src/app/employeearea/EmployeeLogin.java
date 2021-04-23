@@ -5,8 +5,10 @@ import app.employeearea.dashboard.EmployeeDash;
 import utils.BCrypt;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.*;
+import java.util.Locale;
 
 public class EmployeeLogin extends JFrame {
     private JTextField emailField;
@@ -40,7 +42,7 @@ public class EmployeeLogin extends JFrame {
                     try {
                         connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
                         PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
-                        loginUser.setString(1, emailField.getText());
+                        loginUser.setString(1, emailField.getText().toLowerCase(Locale.ROOT));
                         ResultSet rs = loginUser.executeQuery();
                         while (rs.next()) {
                             passHashed = rs.getString("password");
@@ -64,6 +66,7 @@ public class EmployeeLogin extends JFrame {
                     }
                 } else {
                     errorLabel.setText("Email is not a valid email");
+                    emailField.setBorder(new LineBorder(Color.red,1));
                     errorLabel.setVisible(true);
                 }
             }
@@ -72,9 +75,11 @@ public class EmployeeLogin extends JFrame {
     public boolean checkBlank() {
         if (emailField.getText().isEmpty()) {
             errorLabel.setText("Please enter a first name");
+            emailField.setBorder(new LineBorder(Color.red,1));
             errorLabel.setVisible(true);
         } else if (passwordField.getPassword().length == 0) {
             errorLabel.setText("Please enter a password");
+            passwordField.setBorder(new LineBorder(Color.red,1));
             errorLabel.setVisible(true);
         } else {
             return true;

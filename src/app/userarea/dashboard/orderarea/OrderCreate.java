@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
+
 public class OrderCreate extends JFrame {
     private JPanel panel;
     private JComboBox<Item> cpuDropdown;
@@ -157,6 +158,11 @@ public class OrderCreate extends JFrame {
                     storageItem = (Item) storageDropdown.getSelectedItem();
                     psuItem = (Item) psuDropdown.getSelectedItem();
                     caseItem = (Item) caseDropdown.getSelectedItem();
+
+                    //if (cpuQuantity > connection.execute("SELECT Quantity FROM Parts WHERE partName = '"+cpuItem+"'")){
+
+                 //}
+
                     PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
                             "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
                             "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType) " +

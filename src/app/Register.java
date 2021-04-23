@@ -4,6 +4,7 @@ import app.userarea.Login;
 import utils.BCrypt;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.sql.*;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ public class Register extends JFrame {
     private JPasswordField passwordField;
     private JPasswordField cpasswordField;
     private Connection connection;
+    private boolean problem;
 
     public Register() {
         errorLabel.setVisible(false);
@@ -84,14 +86,18 @@ public class Register extends JFrame {
 
                         } else {
                             errorLabel.setText("Passwords do not match.  Please try again!");
+                            passwordField.setBorder(new LineBorder(Color.red,1));
+                            cpasswordField.setBorder(new LineBorder(Color.red,1));
                             errorLabel.setVisible(true);
                         }
                     } else {
                         errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
+                        passwordField.setBorder(new LineBorder(Color.red,1));
                         errorLabel.setVisible(true);
                     }
                 } else {
                     errorLabel.setText("Email is not valid, please try again");
+                    emailField.setBorder(new LineBorder(Color.red,1));
                     errorLabel.setVisible(true);
                 }
             }
@@ -100,23 +106,35 @@ public class Register extends JFrame {
 
     public boolean checkBlank() {
         if (firstNameField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a first name");
+            firstNameField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (lastNameField.getText().isEmpty()) {
+            lastNameField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (emailField.getText().isEmpty()) {
+            emailField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (eircodeField.getText().isEmpty()) {
+            eircodeField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+        }
+        if (passwordField.getPassword().length == 0) {
+            passwordField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+
+        }
+        if (cpasswordField.getPassword().length == 0) {
+            cpasswordField.setBorder(new LineBorder(Color.red,1));
+            problem = true;
+
+        }
+        if (problem == true){
+            errorLabel.setText("Fill in the highlighted Fields");
             errorLabel.setVisible(true);
-        } else if (lastNameField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a last name");
-            errorLabel.setVisible(true);
-        } else if (emailField.getText().isEmpty()) {
-            errorLabel.setText("Please enter a email");
-            errorLabel.setVisible(true);
-        } else if (eircodeField.getText().isEmpty()) {
-            errorLabel.setText("Please enter an Eircode");
-            errorLabel.setVisible(true);
-        } else if (passwordField.getPassword().length == 0) {
-            errorLabel.setText("Please enter a password");
-            errorLabel.setVisible(true);
-        } else if (cpasswordField.getPassword().length == 0) {
-            errorLabel.setText("Please confirm your password");
-            errorLabel.setVisible(true);
+            problem = false;
         } else {
             return true;
         }
