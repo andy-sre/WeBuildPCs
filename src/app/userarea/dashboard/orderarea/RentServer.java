@@ -91,7 +91,7 @@ public class RentServer extends JFrame {
                     createOrder.setString(1, "Awaiting Shipment");
                     createOrder.setInt(2, userID);
                     createOrder.setInt(3, serverItem.getItemID());
-                    createOrder.setInt(4, Integer.parseInt(serverQuantity.getSelectedItem().toString()));
+                    createOrder.setInt(4, Integer.parseInt(Objects.requireNonNull(serverQuantity.getSelectedItem()).toString()));
                     createOrder.setString(5, "Rental");
                     int rowsAffectedO = createOrder.executeUpdate();
                     if (rowsAffectedO == 1) {
