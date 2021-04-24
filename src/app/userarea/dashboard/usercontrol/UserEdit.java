@@ -91,7 +91,7 @@ public class UserEdit extends JFrame{
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            new UserControlDash(userID, fname);
+            new UserEditDash(userID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {
