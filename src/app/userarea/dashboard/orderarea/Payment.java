@@ -61,7 +61,7 @@ public class Payment extends JFrame {
                 JOptionPane.showMessageDialog(null, "Please enter a number less than or equal to remaining balance");
             } else {
                 double afterPayment = Double.parseDouble(remainingBalLabel.getText()) - totalD;
-                BigDecimal round = new BigDecimal(afterPayment).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal round = new BigDecimal(String.valueOf(afterPayment)).setScale(2, RoundingMode.HALF_UP);
                 double afterPaymentRound = round.doubleValue();
                 afterPaymentLabel.setText(String.valueOf(afterPaymentRound));
             }
@@ -73,7 +73,7 @@ public class Payment extends JFrame {
         });
         submitButton.addActionListener(e -> {
             double remaining = Double.parseDouble(remainingBalLabel.getText()) - Double.parseDouble(total.getText());
-            BigDecimal round = new BigDecimal(remaining).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal round = new BigDecimal(String.valueOf(remaining)).setScale(2, RoundingMode.HALF_UP);
             double remaingingRound = round.doubleValue();
             if (Double.parseDouble(total.getText()) > Double.parseDouble(remainingBalLabel.getText())) {
                 JOptionPane.showMessageDialog(null, "Please enter a number less than or equal to remaining balance");
