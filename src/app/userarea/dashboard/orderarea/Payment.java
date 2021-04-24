@@ -72,85 +72,7 @@ public class Payment extends JFrame {
             dispose();
         });
         submitButton.addActionListener(e -> {
-            double remaining = Double.parseDouble(remainingBalLabel.getText()) - Double.parseDouble(total.getText());
-            BigDecimal round = new BigDecimal(String.valueOf(remaining)).setScale(2, RoundingMode.HALF_UP);
-            double remaingingRound = round.doubleValue();
-            if (Double.parseDouble(total.getText()) > Double.parseDouble(remainingBalLabel.getText())) {
-                JOptionPane.showMessageDialog(null, "Please enter a number less than or equal to remaining balance");
-            } else {
-                if (orderType.equals("PC")) {
-                    try {
-                        PreparedStatement getPrice = connection.prepareStatement("UPDATE Payments SET remainingBal = ? WHERE orderID = ?");
-                        getPrice.setDouble(1, remaingingRound);
-                        getPrice.setInt(2, orderID);
-                        int rowsAffectedPrice = getPrice.executeUpdate();
-                        if (rowsAffectedPrice == 1) {
-                            getPrice.close();
-                            try {
-                                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                                Date current = new Date();
-                                Calendar c = Calendar.getInstance();
-                                c.setTime(current);
-                                c.add(Calendar.MONTH, 1);
-                                c.set(Calendar.HOUR_OF_DAY, 0);
-                                c.set(Calendar.MINUTE, 0);
-                                c.set(Calendar.SECOND, 0);
-                                c.set(Calendar.MILLISECOND, 0);
-                                Date futureDate = c.getTime();
-                                PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ?, dueDate = ? WHERE orderID = ?");
-                                updatePayment.setString(1, "Payment Received");
-                                updatePayment.setString(2, dateFormat.format(futureDate));
-                                updatePayment.setInt(3, orderID);
-                                int rowsAffectedPayment = updatePayment.executeUpdate();
-                                if (rowsAffectedPayment == 1) {
-                                    JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
-                                    updatePayment.close();
-                                    connection.close();
-                                    new ViewOrder(userID, orderID, fname);
-                                    dispose();
-                                }
-                            } catch (SQLException getOrder) {
-                                System.out.println(getOrder.getMessage());
-                            }
-                        }
-                    } catch (SQLException getOrder) {
-                        System.out.println(getOrder.getMessage());
-                    }
-                } else {
-                    try {
-                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                        try {
-                            due = dateFormat.parse(dueDateString);
-                        } catch (ParseException parseErr) {
-                            System.out.println(parseErr.getMessage());
-                        }
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(due);
-                        c.add(Calendar.MONTH, 1);
-                        c.set(Calendar.HOUR_OF_DAY, 0);
-                        c.set(Calendar.MINUTE, 0);
-                        c.set(Calendar.SECOND, 0);
-                        c.set(Calendar.MILLISECOND, 0);
-                        Date futureDate = c.getTime();
-                        PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ?, dueDate = ? WHERE orderID = ?");
-                        updatePayment.setString(1, "Check next due date");
-                        updatePayment.setString(2, dateFormat.format(futureDate));
-                        updatePayment.setInt(3, orderID);
-                        int rowsAffectedPayment = updatePayment.executeUpdate();
-                        if (rowsAffectedPayment == 1) {
-                            JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
-                            updatePayment.close();
-                            connection.close();
-                            new ViewOrder(userID, orderID, fname);
-                            dispose();
-                        }
-                    } catch (SQLException getOrder) {
-                        System.out.println(getOrder.getMessage());
-                    }
-
-                }
-
-            }
+            submit(userID, orderID,fname);
         });
         returnButton.addActionListener(e -> {
             closeConnection();
@@ -158,6 +80,89 @@ public class Payment extends JFrame {
             dispose();
         });
     }
+
+    private void submit(int userID, int orderID, String fname){
+        double remaining = Double.parseDouble(remainingBalLabel.getText()) - Double.parseDouble(total.getText());
+        BigDecimal round = new BigDecimal(String.valueOf(remaining)).setScale(2, RoundingMode.HALF_UP);
+        double remaingingRound = round.doubleValue();
+        if (Double.parseDouble(total.getText()) > Double.parseDouble(remainingBalLabel.getText())) {
+            JOptionPane.showMessageDialog(null, "Please enter a number less than or equal to remaining balance");
+        } else {
+            if (orderType.equals("PC")) {
+                try {
+                    PreparedStatement getPrice = connection.prepareStatement("UPDATE Payments SET remainingBal = ? WHERE orderID = ?");
+                    getPrice.setDouble(1, remaingingRound);
+                    getPrice.setInt(2, orderID);
+                    int rowsAffectedPrice = getPrice.executeUpdate();
+                    if (rowsAffectedPrice == 1) {
+                        getPrice.close();
+                        try {
+                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                            Date current = new Date();
+                            Calendar c = Calendar.getInstance();
+                            c.setTime(current);
+                            c.add(Calendar.MONTH, 1);
+                            c.set(Calendar.HOUR_OF_DAY, 0);
+                            c.set(Calendar.MINUTE, 0);
+                            c.set(Calendar.SECOND, 0);
+                            c.set(Calendar.MILLISECOND, 0);
+                            Date futureDate = c.getTime();
+                            PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ?, dueDate = ? WHERE orderID = ?");
+                            updatePayment.setString(1, "Payment Received");
+                            updatePayment.setString(2, dateFormat.format(futureDate));
+                            updatePayment.setInt(3, orderID);
+                            int rowsAffectedPayment = updatePayment.executeUpdate();
+                            if (rowsAffectedPayment == 1) {
+                                JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
+                                updatePayment.close();
+                                connection.close();
+                                new ViewOrder(userID, orderID, fname);
+                                dispose();
+                            }
+                        } catch (SQLException getOrder) {
+                            System.out.println(getOrder.getMessage());
+                        }
+                    }
+                } catch (SQLException getOrder) {
+                    System.out.println(getOrder.getMessage());
+                }
+            } else {
+                try {
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    try {
+                        due = dateFormat.parse(dueDateString);
+                    } catch (ParseException parseErr) {
+                        System.out.println(parseErr.getMessage());
+                    }
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(due);
+                    c.add(Calendar.MONTH, 1);
+                    c.set(Calendar.HOUR_OF_DAY, 0);
+                    c.set(Calendar.MINUTE, 0);
+                    c.set(Calendar.SECOND, 0);
+                    c.set(Calendar.MILLISECOND, 0);
+                    Date futureDate = c.getTime();
+                    PreparedStatement updatePayment = connection.prepareStatement("UPDATE Payments SET paymentStatus = ?, dueDate = ? WHERE orderID = ?");
+                    updatePayment.setString(1, "Check next due date");
+                    updatePayment.setString(2, dateFormat.format(futureDate));
+                    updatePayment.setInt(3, orderID);
+                    int rowsAffectedPayment = updatePayment.executeUpdate();
+                    if (rowsAffectedPayment == 1) {
+                        JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
+                        updatePayment.close();
+                        connection.close();
+                        new ViewOrder(userID, orderID, fname);
+                        dispose();
+                    }
+                } catch (SQLException getOrder) {
+                    System.out.println(getOrder.getMessage());
+                }
+
+            }
+
+        }
+    }
+
     private void closeConnection() {
         try {
             connection.close();

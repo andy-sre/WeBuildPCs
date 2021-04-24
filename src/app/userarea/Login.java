@@ -38,46 +38,50 @@ public class Login extends JFrame {
             dispose();
         });
         loginButton.addActionListener(e -> {
-            String email = emailField.getText().toLowerCase(Locale.ROOT);
-            errorLabel.setVisible(false);
-            if (checkBlank()) {
-                if (isValidEmail(email)) {
-                    try {
-                        connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
-                        PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-                        loginUser.setString(1, email);
-                        ResultSet rs = loginUser.executeQuery();
-                        while (rs.next()) {
-                            passHashed = rs.getString("password");
-                            userID = rs.getInt("userID");
-                            fname = rs.getString("fname");
-                        }
-                        passString = new String(passwordField.getPassword());
-                        if (BCrypt.checkpw(passString, passHashed)) {
-                            rs.close();
-                            connection.close();
-                            JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
-                            new UserDash(userID, fname);
-                            dispose();
-                        } else {
-                            rs.close();
-                            errorLabel.setText("Password or email incorrect, please try again!");
-                            errorLabel.setVisible(true);
-                        }
-                    } catch (SQLException loginError) {
-                        System.err.println(loginError.getMessage());
-                    }
-                } else {
-                    errorLabel.setText("Email is not a valid email");
-                    emailField.setBorder(new LineBorder(Color.red, 1));
-                    errorLabel.setVisible(true);
-                }
-            }
+            login();
         });
         employeeLogin.addActionListener(e -> {
             new EmployeeLogin();
             dispose();
         });
+    }
+
+    private void login(){
+        String email = emailField.getText().toLowerCase(Locale.ROOT);
+        errorLabel.setVisible(false);
+        if (checkBlank()) {
+            if (isValidEmail(email)) {
+                try {
+                    connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+                    PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                    loginUser.setString(1, email);
+                    ResultSet rs = loginUser.executeQuery();
+                    while (rs.next()) {
+                        passHashed = rs.getString("password");
+                        userID = rs.getInt("userID");
+                        fname = rs.getString("fname");
+                    }
+                    passString = new String(passwordField.getPassword());
+                    if (BCrypt.checkpw(passString, passHashed)) {
+                        rs.close();
+                        connection.close();
+                        JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
+                        new UserDash(userID, fname);
+                        dispose();
+                    } else {
+                        rs.close();
+                        errorLabel.setText("Password or email incorrect, please try again!");
+                        errorLabel.setVisible(true);
+                    }
+                } catch (SQLException loginError) {
+                    System.err.println(loginError.getMessage());
+                }
+            } else {
+                errorLabel.setText("Email is not a valid email");
+                emailField.setBorder(new LineBorder(Color.red, 1));
+                errorLabel.setVisible(true);
+            }
+        }
     }
 
     private static boolean isValidEmail(String email) {

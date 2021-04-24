@@ -52,36 +52,7 @@ public class UserEdit extends JFrame {
             System.out.println(updateUserErr.getMessage());
         }
         submitButton.addActionListener(e -> {
-            if (checkBlank()) {
-                if (isValidEmail(emailField.getText())) {
-                    errorLabel.setVisible(false);
-                    password = new String(passwordField.getPassword());
-                    if (BCrypt.checkpw(password, passwordHashed)) {
-                        try {
-                            PreparedStatement updateUser = connection.prepareStatement("UPDATE Users SET fname = ?, lname = ?, email = ?, eircode = ? WHERE userID = ?");
-                            updateUser.setString(1, firstField.getText());
-                            updateUser.setString(2, lastField.getText());
-                            updateUser.setString(3, emailField.getText());
-                            updateUser.setString(4, eircode.getText());
-                            updateUser.setInt(5, userID);
-                            int rowsAffected = updateUser.executeUpdate();
-                            if (rowsAffected == 1) {
-                                JOptionPane.showMessageDialog(null, "Your user details have been updated");
-                                passwordField.setText("");
-                                updateUser.close();
-                            }
-                        } catch (SQLException userUpdateError) {
-                            System.out.println(userUpdateError.getMessage());
-                        }
-                    } else {
-                        errorLabel.setText("Password does not match! Try again!");
-                        errorLabel.setVisible(true);
-                    }
-                } else {
-                    errorLabel.setText("Email is not valid, please try again");
-                    errorLabel.setVisible(true);
-                }
-            }
+            submit(userID);
         });
         returnButton.addActionListener(e -> {
             try {
@@ -101,6 +72,39 @@ public class UserEdit extends JFrame {
             new App();
             dispose();
         });
+    }
+
+    private void submit(int userID){
+        if (checkBlank()) {
+            if (isValidEmail(emailField.getText())) {
+                errorLabel.setVisible(false);
+                password = new String(passwordField.getPassword());
+                if (BCrypt.checkpw(password, passwordHashed)) {
+                    try {
+                        PreparedStatement updateUser = connection.prepareStatement("UPDATE Users SET fname = ?, lname = ?, email = ?, eircode = ? WHERE userID = ?");
+                        updateUser.setString(1, firstField.getText());
+                        updateUser.setString(2, lastField.getText());
+                        updateUser.setString(3, emailField.getText());
+                        updateUser.setString(4, eircode.getText());
+                        updateUser.setInt(5, userID);
+                        int rowsAffected = updateUser.executeUpdate();
+                        if (rowsAffected == 1) {
+                            JOptionPane.showMessageDialog(null, "Your user details have been updated");
+                            passwordField.setText("");
+                            updateUser.close();
+                        }
+                    } catch (SQLException userUpdateError) {
+                        System.out.println(userUpdateError.getMessage());
+                    }
+                } else {
+                    errorLabel.setText("Password does not match! Try again!");
+                    errorLabel.setVisible(true);
+                }
+            } else {
+                errorLabel.setText("Email is not valid, please try again");
+                errorLabel.setVisible(true);
+            }
+        }
     }
 
     private static boolean isValidEmail(String email) {

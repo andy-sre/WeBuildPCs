@@ -49,35 +49,9 @@ public class EditProfile extends JFrame {
             System.out.println(updateEmployeeErr.getMessage());
         }
         submitButton.addActionListener(e -> {
-            if (checkBlank()) {
-                if (isValidEmail(emailField.getText())) {
-                    errorLabel.setVisible(false);
-                    password = new String(passwordField.getPassword());
-                    if (BCrypt.checkpw(password, passwordHashed)) {
-                        try {
-                            PreparedStatement updateEmployee = connection.prepareStatement("UPDATE Employee SET fname = ?, lname = ?, email = ? WHERE employeeID = " + employeeID);
-                            updateEmployee.setString(1, firstField.getText());
-                            updateEmployee.setString(2, lastField.getText());
-                            updateEmployee.setString(3, emailField.getText());
-                            int rowsAffected = updateEmployee.executeUpdate();
-                            if (rowsAffected == 1) {
-                                JOptionPane.showMessageDialog(null, "Your user details have been updated");
-                                passwordField.setText("");
-                                updateEmployee.close();
-                            }
-                        } catch (SQLException userUpdateError) {
-                            System.out.println(userUpdateError.getMessage());
-                        }
-                    } else {
-                        errorLabel.setText("Password does not match! Try again!");
-                        errorLabel.setVisible(true);
-                    }
-                } else {
-                    errorLabel.setText("Email is not valid, please try again");
-                    errorLabel.setVisible(true);
-                }
-            }
+            submit(employeeID);
         });
+
         returnButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -96,6 +70,37 @@ public class EditProfile extends JFrame {
             new App();
             dispose();
         });
+    }
+
+    private void submit(int employeeID){
+        if (checkBlank()) {
+            if (isValidEmail(emailField.getText())) {
+                errorLabel.setVisible(false);
+                password = new String(passwordField.getPassword());
+                if (BCrypt.checkpw(password, passwordHashed)) {
+                    try {
+                        PreparedStatement updateEmployee = connection.prepareStatement("UPDATE Employee SET fname = ?, lname = ?, email = ? WHERE employeeID = " + employeeID);
+                        updateEmployee.setString(1, firstField.getText());
+                        updateEmployee.setString(2, lastField.getText());
+                        updateEmployee.setString(3, emailField.getText());
+                        int rowsAffected = updateEmployee.executeUpdate();
+                        if (rowsAffected == 1) {
+                            JOptionPane.showMessageDialog(null, "Your user details have been updated");
+                            passwordField.setText("");
+                            updateEmployee.close();
+                        }
+                    } catch (SQLException userUpdateError) {
+                        System.out.println(userUpdateError.getMessage());
+                    }
+                } else {
+                    errorLabel.setText("Password does not match! Try again!");
+                    errorLabel.setVisible(true);
+                }
+            } else {
+                errorLabel.setText("Email is not valid, please try again");
+                errorLabel.setVisible(true);
+            }
+        }
     }
 
     private static boolean isValidEmail(String email) {

@@ -50,8 +50,8 @@ public class ViewOrderEmployee extends JFrame {
     private JButton approveRefundButton;
     private JPanel refundArea;
     private JLabel refundLabel;
-    private JButton beginBuild;
-    private JButton finishBuild;
+    private JButton beginBuildButton;
+    private JButton finishBuildButton;
     private JPanel rentalOrder;
     private JLabel serverPart;
     private JLabel serverQuantity;
@@ -78,8 +78,9 @@ public class ViewOrderEmployee extends JFrame {
         refundArea.setVisible(false);
         OrderView.setVisible(false);
         refundLabel.setVisible(false);
-        beginBuild.setVisible(false);
-        finishBuild.setVisible(false);
+        beginBuildButton.setVisible(false);
+        finishBuildButton.setVisible(false);
+
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException connectionStart) {
@@ -115,94 +116,114 @@ public class ViewOrderEmployee extends JFrame {
             dispose();
         });
         approveRefundButton.addActionListener(e -> {
-            try {
-                PreparedStatement approveRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
-                approveRefund.setString(1, "Refund Approved");
-                approveRefund.setInt(2, orderID);
-                int rowsAffected = approveRefund.executeUpdate();
-                if (rowsAffected == 1) {
-                    System.out.println("Test Approve");
-                    approveRefund.close();
-                    try {
-                        PreparedStatement setBalance = connection.prepareStatement("UPDATE Payments SET remainingBal = ?, paymentStatus = ? WHERE orderID = ?");
-                        setBalance.setDouble(1, 0.0);
-                        setBalance.setString(2, "Refund Approved");
-                        setBalance.setInt(3, orderID);
-                        int rowsAffectedBal = setBalance.executeUpdate();
-                        if (rowsAffectedBal == 1) {
-                            approveRefund.close();
-                            JOptionPane.showMessageDialog(null, "Refund Approved!");
-                            connection.close();
-                            new ViewOrderEmployee(employeeID, orderID, fname);
-                            dispose();
-                        }
-                    } catch (SQLException eBal) {
-                        System.out.println(eBal.getMessage());
-                    }
-                }
-            } catch (SQLException eStatus) {
-                System.out.println(eStatus.getMessage());
-            }
+            approveRefund(employeeID,orderID,fname);
         });
+
         rejectRefundButton.addActionListener(e -> {
-            try {
-                PreparedStatement declineRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
-                declineRefund.setString(1, "Refund Declined");
-                declineRefund.setInt(2, orderID);
-                int rowsAffectedBal = declineRefund.executeUpdate();
-                if (rowsAffectedBal == 1) {
-                    declineRefund.close();
-                    JOptionPane.showMessageDialog(null, "Refund Declined!");
-                    connection.close();
-                    new ViewOrderEmployee(employeeID, orderID, fname);
-                    dispose();
-                }
-            } catch (SQLException eBal) {
-                System.out.println(eBal.getMessage());
-            }
+            rejectRefund(employeeID,orderID,fname);
         });
+
         if (orderStatus.getText().equals("Builder Assigned")) {
-            finishBuild.setVisible(false);
-            beginBuild.setVisible(true);
+            finishBuildButton.setVisible(false);
+            beginBuildButton.setVisible(true);
         }
-        beginBuild.addActionListener(e -> {
-            try {
-                PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
-                beginBuild.setString(1, "Build Started");
-                beginBuild.setInt(2, orderID);
-                int rowsAffected = beginBuild.executeUpdate();
-                if (rowsAffected == 1) {
-                    beginBuild.close();
-                    JOptionPane.showMessageDialog(null, "You began building order: " + orderID);
-                    connection.close();
-                    new ViewOrderEmployee(employeeID, orderID, fname);
-                    dispose();
-                }
-            } catch (SQLException eBal) {
-                System.out.println(eBal.getMessage());
-            }
+        beginBuildButton.addActionListener(e -> {
+            beginBuild(employeeID, orderID, fname);
         });
+
         if (orderStatus.getText().equals("Build Started")) {
-            finishBuild.setVisible(true);
-            beginBuild.setVisible(false);
+            finishBuildButton.setVisible(true);
+            beginBuildButton.setVisible(false);
         }
-        finishBuild.addActionListener(e -> {
-            try {
-                PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
-                beginBuild.setString(1, "Order Complete & Shipped");
-                beginBuild.setInt(2, orderID);
-                int rowsAffected = beginBuild.executeUpdate();
-                if (rowsAffected == 1) {
-                    beginBuild.close();
-                    JOptionPane.showMessageDialog(null, "You completed and shipped order: " + orderID);
-                    connection.close();
-                    new ViewOrderEmployee(employeeID, orderID, fname);
-                    dispose();
-                }
-            } catch (SQLException eBal) {
-                System.out.println(eBal.getMessage());
-            }
+
+        finishBuildButton.addActionListener(e -> {
+            finishBuild(employeeID,orderID,fname);
         });
+    }
+
+    private void finishBuild(int employeeID, int orderID, String fname){
+        try {
+            PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+            beginBuild.setString(1, "Order Complete & Shipped");
+            beginBuild.setInt(2, orderID);
+            int rowsAffected = beginBuild.executeUpdate();
+            if (rowsAffected == 1) {
+                beginBuild.close();
+                JOptionPane.showMessageDialog(null, "You completed and shipped order: " + orderID);
+                connection.close();
+                new ViewOrderEmployee(employeeID, orderID, fname);
+                dispose();
+            }
+        } catch (SQLException eBal) {
+            System.out.println(eBal.getMessage());
+        }
+    }
+
+    private void beginBuild(int employeeID, int orderID, String fname){
+        try {
+            PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+            beginBuild.setString(1, "Build Started");
+            beginBuild.setInt(2, orderID);
+            int rowsAffected = beginBuild.executeUpdate();
+            if (rowsAffected == 1) {
+                beginBuild.close();
+                JOptionPane.showMessageDialog(null, "You began building order: " + orderID);
+                connection.close();
+                new ViewOrderEmployee(employeeID, orderID, fname);
+                dispose();
+            }
+        } catch (SQLException eBal) {
+            System.out.println(eBal.getMessage());
+        }
+    }
+
+    private void rejectRefund(int employeeID, int orderID, String fname){
+        try {
+            PreparedStatement declineRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+            declineRefund.setString(1, "Refund Declined");
+            declineRefund.setInt(2, orderID);
+            int rowsAffectedBal = declineRefund.executeUpdate();
+            if (rowsAffectedBal == 1) {
+                declineRefund.close();
+                JOptionPane.showMessageDialog(null, "Refund Declined!");
+                connection.close();
+                new ViewOrderEmployee(employeeID, orderID, fname);
+                dispose();
+            }
+        } catch (SQLException eBal) {
+            System.out.println(eBal.getMessage());
+        }
+    }
+
+    private void approveRefund(int employeeID, int orderID,String fname){
+        try {
+            PreparedStatement approveRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+            approveRefund.setString(1, "Refund Approved");
+            approveRefund.setInt(2, orderID);
+            int rowsAffected = approveRefund.executeUpdate();
+            if (rowsAffected == 1) {
+                System.out.println("Test Approve");
+                approveRefund.close();
+                try {
+                    PreparedStatement setBalance = connection.prepareStatement("UPDATE Payments SET remainingBal = ?, paymentStatus = ? WHERE orderID = ?");
+                    setBalance.setDouble(1, 0.0);
+                    setBalance.setString(2, "Refund Approved");
+                    setBalance.setInt(3, orderID);
+                    int rowsAffectedBal = setBalance.executeUpdate();
+                    if (rowsAffectedBal == 1) {
+                        approveRefund.close();
+                        JOptionPane.showMessageDialog(null, "Refund Approved!");
+                        connection.close();
+                        new ViewOrderEmployee(employeeID, orderID, fname);
+                        dispose();
+                    }
+                } catch (SQLException eBal) {
+                    System.out.println(eBal.getMessage());
+                }
+            }
+        } catch (SQLException eStatus) {
+            System.out.println(eStatus.getMessage());
+        }
     }
 
     private void getOrder() {
