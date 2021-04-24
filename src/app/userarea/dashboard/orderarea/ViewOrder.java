@@ -43,6 +43,7 @@ public class ViewOrder extends JFrame {
     private JLabel serverPart;
     private JLabel serverQuantity;
     private JLabel serverPrice;
+    private JLabel dueDateLabel;
     private Connection connection;
     private int cpu;
     private int gpu;
@@ -55,7 +56,6 @@ public class ViewOrder extends JFrame {
     private final int userID;
     private int server;
     private String orderType;
-
 
     public ViewOrder (int userID, int orderID, String fname) {
         this.orderID = orderID;
@@ -276,13 +276,14 @@ public class ViewOrder extends JFrame {
     }
     private void getPrice() {
         try {
-            PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price FROM Payments where orderID = ?");
+            PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price, dueDate FROM Payments where orderID = ?");
             getPrice.setInt(1, orderID);
             ResultSet rs = getPrice.executeQuery();
             while(rs.next()) {
                 pcPrice.setText(String.valueOf(rs.getDouble("price")));
                 remainingBal.setText(String.valueOf(rs.getDouble("remainingBal")));
                 paymentStatus.setText(rs.getString("paymentStatus"));
+                dueDateLabel.setText(rs.getString("dueDate"));
             }
             rs.close();
             getPrice.close();

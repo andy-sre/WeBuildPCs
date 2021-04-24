@@ -194,8 +194,8 @@ public class OrderCreate extends JFrame {
                     if (stockIssue == false){
                         PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
                                 "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
-                                "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType) " +
-                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                                "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType, serverID, serverAmount) " +
+                                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         createOrder.setString(1, "Order Created");
                         createOrder.setInt(2, userID);
                         assert cpuItem != null;
@@ -220,6 +220,8 @@ public class OrderCreate extends JFrame {
                         createOrder.setInt(15, caseItem.getItemID());
                         createOrder.setInt(16, Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString()));
                         createOrder.setString(17, "PC");
+                        createOrder.setInt(18, 0);
+                        createOrder.setInt(19, 0);
                         int rowsAffectedO = createOrder.executeUpdate();
                         if (rowsAffectedO == 1) {
                             createOrder.close();

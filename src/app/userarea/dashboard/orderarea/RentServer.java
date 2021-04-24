@@ -87,12 +87,29 @@ public class RentServer extends JFrame {
             if (checkBox()) {
                 errorLabel.setVisible(false);
                 try {
-                    PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, userID, serverID, serverAmount, orderType) VALUES (?, ?, ?, ?, ?)");
+                    PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
+                            "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
+                            "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType, serverID, serverAmount) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     createOrder.setString(1, "Awaiting Shipment");
                     createOrder.setInt(2, userID);
-                    createOrder.setInt(3, serverItem.getItemID());
-                    createOrder.setInt(4, Integer.parseInt(Objects.requireNonNull(serverQuantity.getSelectedItem()).toString()));
-                    createOrder.setString(5, "Rental");
+                    createOrder.setInt(3, 0);
+                    createOrder.setInt(4, 0);
+                    createOrder.setInt(5, 0);
+                    createOrder.setInt(6, 0);
+                    createOrder.setInt(7, 0);
+                    createOrder.setInt(8, 0);
+                    createOrder.setInt(9, 0);
+                    createOrder.setInt(10, 0);
+                    createOrder.setInt(11, 0);
+                    createOrder.setInt(12, 0);
+                    createOrder.setInt(13, 0);
+                    createOrder.setInt(14, 0);
+                    createOrder.setInt(15, 0);
+                    createOrder.setInt(16, 0);
+                    createOrder.setString(17, "Rental");
+                    createOrder.setInt(18, serverItem.getItemID());
+                    createOrder.setInt(19, Integer.parseInt(serverQuantity.getSelectedItem().toString()));
                     int rowsAffectedO = createOrder.executeUpdate();
                     if (rowsAffectedO == 1) {
                         createOrder.close();
