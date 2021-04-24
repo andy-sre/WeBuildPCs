@@ -213,6 +213,7 @@ public class ViewOrderEmployee extends JFrame{
             getOrders.setInt(1, orderID);
             ResultSet rs = getOrders.executeQuery();
             while(rs.next()) {
+                orderStatus.setText(rs.getString("orderStatus"));
                 orderType = rs.getString("orderType");
                 if (orderType.equals("PC")) {
                     cpu = rs.getInt("cpuID");
