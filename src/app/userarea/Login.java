@@ -11,7 +11,7 @@ import java.awt.*;
 import java.sql.*;
 import java.util.Locale;
 
-public class Login extends JFrame{
+public class Login extends JFrame {
     private JPanel panel;
     private JTextField emailField;
     private JPasswordField passwordField;
@@ -30,7 +30,7 @@ public class Login extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         returnButton.addActionListener(e -> {
@@ -41,7 +41,7 @@ public class Login extends JFrame{
             String email = emailField.getText().toLowerCase(Locale.ROOT);
             errorLabel.setVisible(false);
             if (checkBlank()) {
-                if(isValidEmail(email)) {
+                if (isValidEmail(email)) {
                     try {
                         connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
                         PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
@@ -69,7 +69,7 @@ public class Login extends JFrame{
                     }
                 } else {
                     errorLabel.setText("Email is not a valid email");
-                    emailField.setBorder(new LineBorder(Color.red,1));
+                    emailField.setBorder(new LineBorder(Color.red, 1));
                     errorLabel.setVisible(true);
                 }
             }
@@ -79,22 +79,24 @@ public class Login extends JFrame{
             dispose();
         });
     }
+
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
     public boolean checkBlank() {
         if (emailField.getText().isEmpty()) {
             errorLabel.setText("Please enter your email");
-            emailField.setBorder(new LineBorder(Color.red,1));
+            emailField.setBorder(new LineBorder(Color.red, 1));
             errorLabel.setVisible(true);
         } else if (passwordField.getPassword().length == 0) {
             errorLabel.setText("Please enter your password");
-            passwordField.setBorder(new LineBorder(Color.red,1));
+            passwordField.setBorder(new LineBorder(Color.red, 1));
             errorLabel.setVisible(true);
         } else {
             return true;
         }
         return false;
-    }
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
     }
 }

@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Payment extends JFrame{
+public class Payment extends JFrame {
     private JButton logoutButton;
     private JTextField total;
     private JButton submitButton;
@@ -31,7 +31,7 @@ public class Payment extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         afterPaymentLabel.setText("Please Enter Amount To Pay Below and Hit Enter On Keyboard");
@@ -44,7 +44,7 @@ public class Payment extends JFrame{
             PreparedStatement getPrice = connection.prepareStatement("select * FROM Payments P INNER JOIN Orders O on O.orderID = P.orderID where P.orderID = ?");
             getPrice.setInt(1, orderID);
             ResultSet rs = getPrice.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 pcPriceLabel.setText(String.valueOf(rs.getDouble("price")));
                 remainingBalLabel.setText(String.valueOf(rs.getDouble("remainingBal")));
                 dueDateString = rs.getString("dueDate");
@@ -106,7 +106,7 @@ public class Payment extends JFrame{
                                 updatePayment.setString(2, dateFormat.format(futureDate));
                                 updatePayment.setInt(3, orderID);
                                 int rowsAffectedPayment = updatePayment.executeUpdate();
-                                if (rowsAffectedPayment == 1 ) {
+                                if (rowsAffectedPayment == 1) {
                                     JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
                                     updatePayment.close();
                                     connection.close();
@@ -141,7 +141,7 @@ public class Payment extends JFrame{
                         updatePayment.setString(2, dateFormat.format(futureDate));
                         updatePayment.setInt(3, orderID);
                         int rowsAffectedPayment = updatePayment.executeUpdate();
-                        if (rowsAffectedPayment == 1 ) {
+                        if (rowsAffectedPayment == 1) {
                             JOptionPane.showMessageDialog(null, "Payment Received! Thank you!");
                             updatePayment.close();
                             connection.close();

@@ -161,37 +161,37 @@ public class OrderCreate extends JFrame {
                     psuItem = (Item) psuDropdown.getSelectedItem();
                     caseItem = (Item) caseDropdown.getSelectedItem();
 
-                    if (cpuItem.getQuantity()<cpuQuantity.getSelectedIndex()){
+                    if (cpuItem.getQuantity() < cpuQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough cpus in stock");
                         errorLabel.setVisible(true);
-                    }else if (gpuItem.getQuantity()<cpuQuantity.getSelectedIndex()){
+                    } else if (gpuItem.getQuantity() < cpuQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough gpus in stock");
                         errorLabel.setVisible(true);
-                    }else if (ramItem.getQuantity()<ramQuantity.getSelectedIndex()){
+                    } else if (ramItem.getQuantity() < ramQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough ram in stock");
                         errorLabel.setVisible(true);
                         stockIssue = true;
-                    }else if (moboItem.getQuantity()<moboQuantity.getSelectedIndex()){
+                    } else if (moboItem.getQuantity() < moboQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough motherboards in stock");
                         errorLabel.setVisible(true);
                         stockIssue = true;
-                    }else if (storageItem.getQuantity()<storageQuantity.getSelectedIndex()){
+                    } else if (storageItem.getQuantity() < storageQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough storage in stock");
                         errorLabel.setVisible(true);
                         stockIssue = true;
-                    }else if (psuItem.getQuantity()<psuQuantity.getSelectedIndex()){
+                    } else if (psuItem.getQuantity() < psuQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough psu in stock");
                         errorLabel.setVisible(true);
                         stockIssue = true;
-                    }else if (caseItem.getQuantity()<caseQuantity.getSelectedIndex()){
+                    } else if (caseItem.getQuantity() < caseQuantity.getSelectedIndex()) {
                         errorLabel.setText("We do not have enough cases in stock");
                         errorLabel.setVisible(true);
                         stockIssue = true;
-                    }else{
+                    } else {
                         stockIssue = false;
                     }
 
-                    if (stockIssue == false){
+                    if (!stockIssue) {
                         PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
                                 "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
                                 "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType, serverID, serverAmount) " +
@@ -238,7 +238,7 @@ public class OrderCreate extends JFrame {
                                 Date futureDate = c.getTime();
                                 PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, remainingBal, paymentStatus, dueDate) VALUES (?,?,?,?,?,?)");
                                 createPayment.setInt(1, userID);
-                                PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
+                                PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = " + userID);
                                 ResultSet rs = getOrderID.executeQuery();
                                 while (rs.next()) {
                                     createPayment.setInt(2, rs.getInt("orderID"));
@@ -442,35 +442,6 @@ public class OrderCreate extends JFrame {
         totalPrice.setText(String.valueOf(pcPrice));
     }
 
-    private static class Item {
-        private final int itemID;
-        private final String name;
-        private final double price;
-        private final int quantity;
-
-        private Item(Integer itemID, String name, Double price, int quantity) {
-            this.itemID = itemID;
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-        }
-
-        private int getItemID() { return itemID; }
-
-        private String getItemName() {
-            return name;
-        }
-
-        private double getPrice() { return price; }
-
-        private int getQuantity() { return quantity; }
-
-        @Override
-        public String toString() {
-            return getItemName();
-        }
-    }
-
     public boolean checkBox() {
         if (cpuDropdown.getSelectedIndex() == -1) {
             errorLabel.setText("Please Select a CPU");
@@ -493,7 +464,7 @@ public class OrderCreate extends JFrame {
         } else if (caseDropdown.getSelectedIndex() == -1) {
             errorLabel.setText("Please Select a Case");
             errorLabel.setVisible(true);
-        }else {
+        } else {
             return true;
         }
         return false;
@@ -568,6 +539,41 @@ public class OrderCreate extends JFrame {
             updateCaseStock.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    private static class Item {
+        private final int itemID;
+        private final String name;
+        private final double price;
+        private final int quantity;
+
+        private Item(Integer itemID, String name, Double price, int quantity) {
+            this.itemID = itemID;
+            this.name = name;
+            this.price = price;
+            this.quantity = quantity;
+        }
+
+        private int getItemID() {
+            return itemID;
+        }
+
+        private String getItemName() {
+            return name;
+        }
+
+        private double getPrice() {
+            return price;
+        }
+
+        private int getQuantity() {
+            return quantity;
+        }
+
+        @Override
+        public String toString() {
+            return getItemName();
         }
     }
 }

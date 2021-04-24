@@ -7,6 +7,8 @@ import java.awt.*;
 import java.sql.*;
 
 public class ViewOrder extends JFrame {
+    private final int orderID;
+    private final int userID;
     private JButton logoutButton;
     private JPanel panel;
     private JLabel casePart;
@@ -52,18 +54,16 @@ public class ViewOrder extends JFrame {
     private int mobo;
     private int pcCase;
     private int storage;
-    private final int orderID;
-    private final int userID;
     private int server;
     private String orderType;
 
-    public ViewOrder (int userID, int orderID, String fname) {
+    public ViewOrder(int userID, int orderID, String fname) {
         this.orderID = orderID;
         this.userID = userID;
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         pcOrder.setVisible(false);
@@ -133,7 +133,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getOrders = connection.prepareStatement("select * FROM Orders where orderID = ?");
             getOrders.setInt(1, orderID);
             ResultSet rs = getOrders.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 orderType = rs.getString("orderType");
                 if (orderType.equals("PC")) {
                     cpu = rs.getInt("cpuID");
@@ -157,7 +157,7 @@ public class ViewOrder extends JFrame {
                 }
 
             }
-            if ( orderStatus.getText().equals("Refund Approved") || paymentStatus.getText().equals("Refund Approved") || orderStatus.getText().equals("Refund Requested") ) {
+            if (orderStatus.getText().equals("Refund Approved") || paymentStatus.getText().equals("Refund Approved") || orderStatus.getText().equals("Refund Requested")) {
                 makePaymentButton.setVisible(false);
                 refundOrderButton.setVisible(false);
             }
@@ -173,7 +173,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getCPU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getCPU.setInt(1, cpu);
             ResultSet rs = getCPU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 cpuPart.setText(rs.getString("partName"));
                 cpuPrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -186,7 +186,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getGPU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getGPU.setInt(1, gpu);
             ResultSet rs = getGPU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 gpuPart.setText(rs.getString("partName"));
                 gpuPrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -199,7 +199,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getRAM = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getRAM.setInt(1, ram);
             ResultSet rs = getRAM.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 ramPart.setText(rs.getString("partName"));
                 ramPrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -212,7 +212,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getMobo = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getMobo.setInt(1, mobo);
             ResultSet rs = getMobo.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 moboPart.setText(rs.getString("partName"));
                 moboPrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -225,7 +225,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getPSU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getPSU.setInt(1, psu);
             ResultSet rs = getPSU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 psuPart.setText(rs.getString("partName"));
                 psuPrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -238,7 +238,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getStorage = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getStorage.setInt(1, storage);
             ResultSet rs = getStorage.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 storagePart.setText(rs.getString("partName"));
                 storagePrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -251,7 +251,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getCase = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getCase.setInt(1, pcCase);
             ResultSet rs = getCase.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 casePart.setText(rs.getString("partName"));
                 casePrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -264,7 +264,7 @@ public class ViewOrder extends JFrame {
             PreparedStatement getCase = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getCase.setInt(1, server);
             ResultSet rs = getCase.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 serverPart.setText(rs.getString("partName"));
                 serverPrice.setText(String.valueOf(rs.getDouble("price")));
             }
@@ -274,12 +274,13 @@ public class ViewOrder extends JFrame {
             System.out.println(getPart.getMessage());
         }
     }
+
     private void getPrice() {
         try {
             PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price, dueDate FROM Payments where orderID = ?");
             getPrice.setInt(1, orderID);
             ResultSet rs = getPrice.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 pcPrice.setText(String.valueOf(rs.getDouble("price")));
                 remainingBal.setText(String.valueOf(rs.getDouble("remainingBal")));
                 paymentStatus.setText(rs.getString("paymentStatus"));
@@ -291,12 +292,13 @@ public class ViewOrder extends JFrame {
             System.out.println(getOrder.getMessage());
         }
     }
+
     private void getEircode() {
         try {
             PreparedStatement getEircode = connection.prepareStatement("select eircode FROM Users where userID = ?");
             getEircode.setInt(1, userID);
             ResultSet rs = getEircode.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 eircode.setText(rs.getString("eircode"));
             }
             rs.close();

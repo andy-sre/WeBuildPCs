@@ -29,7 +29,7 @@ public class NewEmployee extends JFrame {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         try {
@@ -39,15 +39,15 @@ public class NewEmployee extends JFrame {
         }
         submitButton.addActionListener(e -> {
             if (checkBlank()) {
-                if(isValidEmail(emailField.getText())) {
-                    if(isValidPassword(new String(passwordField.getPassword()))) {
-                        if(Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
+                if (isValidEmail(emailField.getText())) {
+                    if (isValidPassword(new String(passwordField.getPassword()))) {
+                        if (Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
                             try {
                                 errorLabel.setVisible(false);
                                 PreparedStatement checkEmployee = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
                                 checkEmployee.setString(1, emailField.getText());
                                 ResultSet rs = checkEmployee.executeQuery();
-                                if(rs.next()) {
+                                if (rs.next()) {
                                     errorLabel.setText("User already exists!");
                                     errorLabel.setVisible(true);
                                 } else {
@@ -81,18 +81,18 @@ public class NewEmployee extends JFrame {
                             }
                         } else {
                             errorLabel.setText("Passwords do not match.  Please try again!");
-                            passwordField.setBorder(new LineBorder(Color.red,1));
-                            cpasswordField.setBorder(new LineBorder(Color.red,1));
+                            passwordField.setBorder(new LineBorder(Color.red, 1));
+                            cpasswordField.setBorder(new LineBorder(Color.red, 1));
                             errorLabel.setVisible(true);
                         }
                     } else {
                         errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
-                        passwordField.setBorder(new LineBorder(Color.red,1));
+                        passwordField.setBorder(new LineBorder(Color.red, 1));
                         errorLabel.setVisible(true);
                     }
                 } else {
                     errorLabel.setText("Email is not valid, please try again");
-                    emailField.setBorder(new LineBorder(Color.red,1));
+                    emailField.setBorder(new LineBorder(Color.red, 1));
                     errorLabel.setVisible(true);
                 }
             }
@@ -116,41 +116,44 @@ public class NewEmployee extends JFrame {
             dispose();
         });
     }
+
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private static boolean isValidPassword(String password) {
+        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+        return password.matches(regex);
+    }
+
     public boolean checkBlank() {
         if (firstField.getText().isEmpty()) {
             errorLabel.setVisible(true);
         }
         if (lastField.getText().isEmpty()) {
-            lastField.setBorder(new LineBorder(Color.red,1));
+            lastField.setBorder(new LineBorder(Color.red, 1));
             problem = true;
         }
         if (emailField.getText().isEmpty()) {
-            emailField.setBorder(new LineBorder(Color.red,1));
+            emailField.setBorder(new LineBorder(Color.red, 1));
             problem = true;
         }
         if (passwordField.getPassword().length == 0) {
-            passwordField.setBorder(new LineBorder(Color.red,1));
+            passwordField.setBorder(new LineBorder(Color.red, 1));
             problem = true;
         }
         if (cpasswordField.getPassword().length == 0) {
-            cpasswordField.setBorder(new LineBorder(Color.red,1));
+            cpasswordField.setBorder(new LineBorder(Color.red, 1));
             problem = true;
         }
 
-        if (problem == true){
+        if (problem == true) {
             errorLabel.setText("Fill in the highlighted Fields");
             problem = false;
         } else {
             return true;
         }
         return false;
-    }
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
-    }
-    private static boolean isValidPassword(String password) {
-        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-        return password.matches(regex);
     }
 }

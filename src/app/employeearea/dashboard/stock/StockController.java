@@ -8,6 +8,8 @@ import java.awt.*;
 import java.sql.*;
 
 public class StockController extends JFrame {
+    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Part ID", "Name", "Price", "Quantity"}, 0);
+    private final String db;
     private JPanel panel;
     private JButton logoutButton;
     private JButton addItemButton;
@@ -29,9 +31,7 @@ public class StockController extends JFrame {
     private JTextField priceEditField;
     private JTextField quantityEditField;
     private JButton returnButton;
-    private final DefaultTableModel model = new DefaultTableModel(new String[]{"Part ID", "Name", "Price", "Quantity"}, 0);
     private Connection connection;
-    private final String db;
 
     public StockController(int employeeID, String fname, String db) {
         this.db = db;
@@ -41,7 +41,7 @@ public class StockController extends JFrame {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         try {
@@ -156,7 +156,7 @@ public class StockController extends JFrame {
                 errorLabel.setVisible(false);
                 int selectedID = (Integer.parseInt(model.getValueAt(table1.getSelectedRow(), 0).toString()));
                 int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this item?");
-                if(input == 0) {
+                if (input == 0) {
                     try {
                         PreparedStatement deleteItem = connection.prepareStatement("DELETE FROM Parts WHERE partID = ?");
                         deleteItem.setInt(1, selectedID);

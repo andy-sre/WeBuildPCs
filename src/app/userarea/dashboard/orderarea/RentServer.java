@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.Objects;
 
 public class RentServer extends JFrame {
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    Date current = new Date();
     private JButton logoutButton;
     private JComboBox<Item> serverDropdown;
     private JTextField serverPrice;
@@ -28,8 +30,6 @@ public class RentServer extends JFrame {
     private JLabel dueLabel;
     private Connection connection;
     private double serverPriceFinal;
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    Date current = new Date();
     private Item serverItem;
 
     public RentServer(int userID, String fname) {
@@ -117,7 +117,7 @@ public class RentServer extends JFrame {
 
                             PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, paymentStatus, dueDate, remainingBal) VALUES (?,?,?,?,?,?)");
                             createPayment.setInt(1, userID);
-                            PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = "+userID);
+                            PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = " + userID);
                             ResultSet rs = getOrderID.executeQuery();
                             while (rs.next()) {
                                 createPayment.setInt(2, rs.getInt("orderID"));
@@ -176,35 +176,6 @@ public class RentServer extends JFrame {
         }
     }
 
-    private static class Item {
-        private final int itemID;
-        private final String name;
-        private final double price;
-        private final int quantity;
-
-        private Item(Integer itemID, String name, Double price, int quantity) {
-            this.itemID = itemID;
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-        }
-
-        private int getItemID() { return itemID; }
-
-        private String getItemName() {
-            return name;
-        }
-
-        private double getPrice() { return price; }
-
-        private int getQuantity() { return quantity; }
-
-        @Override
-        public String toString() {
-            return getItemName();
-        }
-    }
-
     private void updatePrice() {
         double totalPrice = (serverPriceFinal * Integer.parseInt(Objects.requireNonNull(serverQuantity.getSelectedItem()).toString()));
         BigDecimal round = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP);
@@ -232,6 +203,41 @@ public class RentServer extends JFrame {
             updateCPUStock.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    private static class Item {
+        private final int itemID;
+        private final String name;
+        private final double price;
+        private final int quantity;
+
+        private Item(Integer itemID, String name, Double price, int quantity) {
+            this.itemID = itemID;
+            this.name = name;
+            this.price = price;
+            this.quantity = quantity;
+        }
+
+        private int getItemID() {
+            return itemID;
+        }
+
+        private String getItemName() {
+            return name;
+        }
+
+        private double getPrice() {
+            return price;
+        }
+
+        private int getQuantity() {
+            return quantity;
+        }
+
+        @Override
+        public String toString() {
+            return getItemName();
         }
     }
 

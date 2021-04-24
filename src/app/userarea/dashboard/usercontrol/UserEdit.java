@@ -7,15 +7,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class UserEdit extends JFrame{
+public class UserEdit extends JFrame {
     private JPanel panel;
     private JButton logoutButton;
     private JTextField lastField;
     private JTextField emailField;
     private JPasswordField passwordField;
     private JButton returnButton;
-    private JButton editMyProfileButton;
-    private JButton deleteProfile;
     private JButton submitButton;
     private JLabel errorLabel;
     private JTextField eircode;
@@ -29,7 +27,7 @@ public class UserEdit extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         try {
@@ -41,7 +39,7 @@ public class UserEdit extends JFrame{
             PreparedStatement getEmployee = connection.prepareStatement("SELECT * FROM Users WHERE userID = ?");
             getEmployee.setInt(1, userID);
             ResultSet rs = getEmployee.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 firstField.setText(rs.getString("fname"));
                 lastField.setText(rs.getString("lname"));
                 emailField.setText(rs.getString("email"));
@@ -54,8 +52,8 @@ public class UserEdit extends JFrame{
             System.out.println(updateUserErr.getMessage());
         }
         submitButton.addActionListener(e -> {
-            if(checkBlank()) {
-                if(isValidEmail(emailField.getText())) {
+            if (checkBlank()) {
+                if (isValidEmail(emailField.getText())) {
                     errorLabel.setVisible(false);
                     password = new String(passwordField.getPassword());
                     if (BCrypt.checkpw(password, passwordHashed)) {
@@ -104,6 +102,12 @@ public class UserEdit extends JFrame{
             dispose();
         });
     }
+
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
     public boolean checkBlank() {
         if (firstField.getText().isEmpty()) {
             errorLabel.setText("Please enter a first name");
@@ -114,19 +118,15 @@ public class UserEdit extends JFrame{
         } else if (emailField.getText().isEmpty()) {
             errorLabel.setText("Please enter a email");
             errorLabel.setVisible(true);
-        }  else if (passwordField.getPassword().length == 0) {
+        } else if (passwordField.getPassword().length == 0) {
             errorLabel.setText("Please enter a password");
             errorLabel.setVisible(true);
         } else if (eircode.getText().isEmpty()) {
             errorLabel.setText("Please enter a eircode");
             errorLabel.setVisible(true);
-        }else {
+        } else {
             return true;
         }
         return false;
-    }
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
     }
 }

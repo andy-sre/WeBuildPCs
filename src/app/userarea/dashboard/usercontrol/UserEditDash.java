@@ -7,7 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class UserEditDash extends JFrame{
+public class UserEditDash extends JFrame {
     private JButton logoutButton;
     private JButton editMyProfileButton;
     private JButton returnButton;
@@ -20,7 +20,7 @@ public class UserEditDash extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
 
@@ -35,13 +35,13 @@ public class UserEditDash extends JFrame{
         });
         deleteMyProfileButton.addActionListener(e -> {
             int input = JOptionPane.showConfirmDialog(null,
-                    "Do you want to proceed?", "Deleting Your Account...",JOptionPane.YES_NO_CANCEL_OPTION);
+                    "Do you want to proceed?", "Deleting Your Account...", JOptionPane.YES_NO_CANCEL_OPTION);
             if (input == 0) {
                 try {
                     PreparedStatement checkBalances = connection.prepareStatement("SELECT remainingBal FROM Payments WHERE userID = ?");
                     checkBalances.setInt(1, userID);
                     ResultSet rs = checkBalances.executeQuery();
-                    while(rs.next()) {
+                    while (rs.next()) {
                         if (rs.getDouble("remainingBal") > 0) {
                             balance = rs.getDouble("remainingBal");
                         } else {
@@ -55,19 +55,19 @@ public class UserEditDash extends JFrame{
                             PreparedStatement deleteUser = connection.prepareStatement("DELETE FROM Users WHERE userID = ?");
                             deleteUser.setInt(1, userID);
                             int rowsAffectedUsers = deleteUser.executeUpdate();
-                            if(rowsAffectedUsers == 1) {
+                            if (rowsAffectedUsers == 1) {
                                 try {
                                     deleteUser.close();
                                     PreparedStatement deletePayments = connection.prepareStatement("DELETE FROM Payments WHERE userID = ?");
                                     deletePayments.setInt(1, userID);
                                     int rowsAffectedPayments = deletePayments.executeUpdate();
-                                    if(rowsAffectedPayments == 1) {
+                                    if (rowsAffectedPayments == 1) {
                                         deletePayments.close();
                                         try {
                                             PreparedStatement deleteOrder = connection.prepareStatement("DELETE FROM Orders WHERE userID = ?");
                                             deleteOrder.setInt(1, userID);
                                             int rowsAffectedOrder = deleteOrder.executeUpdate();
-                                            if(rowsAffectedOrder == 1) {
+                                            if (rowsAffectedOrder == 1) {
                                                 deleteUser.close();
                                                 connection.close();
                                                 new App();

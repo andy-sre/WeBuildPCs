@@ -11,7 +11,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ViewOrders extends JFrame{
+public class ViewOrders extends JFrame {
+    private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type", "Remaining Balance", "Payment Status", "Overdue"}, 0);
+    private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type", "Remaining Balance", "Payment Status", "Overdue"}, 0);
+    private final int employeeID;
+    private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private final Date current = new Date();
     private JButton viewOrderButton;
     private JTable newOrderTable;
     private JTable myOrdersTable;
@@ -20,14 +25,9 @@ public class ViewOrders extends JFrame{
     private JButton logoutButton;
     private JLabel errorLabel;
     private JButton returnButton;
-    private final DefaultTableModel newOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type","Remaining Balance", "Payment Status", "Overdue"}, 0);
-    private final DefaultTableModel myOrder = new DefaultTableModel(new String[]{"Order ID", "Order Status", "Order Type", "Remaining Balance", "Payment Status", "Overdue"}, 0);
     private Connection connection;
-    private final int employeeID;
     private String date = "";
     private Date dueDate;
-    private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private final Date current = new Date();
     private Double balance;
 
     public ViewOrders(int employeeID, String fname) {
@@ -36,7 +36,7 @@ public class ViewOrders extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         try {
@@ -110,7 +110,7 @@ public class ViewOrders extends JFrame{
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-            new EmployeeDash(employeeID,fname);
+            new EmployeeDash(employeeID, fname);
             dispose();
         });
         viewOrderButton.addActionListener(e -> {
@@ -124,6 +124,7 @@ public class ViewOrders extends JFrame{
             }
         });
     }
+
     private void getMyOrders() {
         myOrder.setRowCount(0);
         try {
@@ -136,8 +137,8 @@ public class ViewOrders extends JFrame{
                 balance = rs.getDouble("remainingBal");
                 try {
                     dueDate = sFormat.parse(date);
-                    if(current.compareTo(dueDate) >= 0) {
-                        if (balance == 0.0 ) {
+                    if (current.compareTo(dueDate) >= 0) {
+                        if (balance == 0.0) {
                             myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "False"});
                         } else {
                             myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "True"});
@@ -156,6 +157,7 @@ public class ViewOrders extends JFrame{
             System.err.println(e.getMessage());
         }
     }
+
     private void getNewOrders() {
         newOrder.setRowCount(0);
         try {
@@ -171,8 +173,8 @@ public class ViewOrders extends JFrame{
                 System.out.println("Test 0");
                 try {
                     dueDate = sFormat.parse(date);
-                    if(current.compareTo(dueDate) >= 0) {
-                        if (balance == 0.0 ) {
+                    if (current.compareTo(dueDate) >= 0) {
+                        if (balance == 0.0) {
                             myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "False"});
                         } else {
                             myOrder.addRow(new Object[]{orderID, rs.getString("orderStatus"), rs.getString("orderType"), balance, rs.getString("paymentStatus"), "True"});
