@@ -4,7 +4,7 @@ import app.App;
 import app.userarea.dashboard.orderarea.OrderCreate;
 import app.userarea.dashboard.orderarea.OrderViewDash;
 import app.userarea.dashboard.orderarea.RentServer;
-import app.userarea.dashboard.usercontrol.UserControlDash;
+import app.userarea.dashboard.usercontrol.UserEditDash;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,7 +85,7 @@ public class UserDash extends JFrame{
             dispose();
         });
         editDetailsButton.addActionListener(e -> {
-            new UserControlDash(userID, fname);
+            new UserEditDash(userID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {

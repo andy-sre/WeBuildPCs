@@ -7,22 +7,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
 
-public class UserControlDash extends JFrame{
+public class UserEditDash extends JFrame{
     private JButton logoutButton;
-    private JButton deleteProfile;
     private JButton editMyProfileButton;
     private JButton returnButton;
+    private JButton deleteMyProfileButton;
     private JPanel panel;
     private Connection connection;
     private Double balance;
 
-    public UserControlDash(int userID, String fname) {
+    public UserEditDash(int userID, String fname) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(0,0,size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException throwables) {
@@ -32,7 +33,7 @@ public class UserControlDash extends JFrame{
             new UserEdit(userID, fname);
             dispose();
         });
-        deleteProfile.addActionListener(e -> {
+        deleteMyProfileButton.addActionListener(e -> {
             int input = JOptionPane.showConfirmDialog(null,
                     "Do you want to proceed?", "Deleting Your Account...",JOptionPane.YES_NO_CANCEL_OPTION);
             if (input == 0) {
@@ -89,7 +90,7 @@ public class UserControlDash extends JFrame{
                 } catch (SQLException updateUserErr) {
                     System.out.println(updateUserErr.getMessage());
                 }
-                    }
+            }
         });
         logoutButton.addActionListener(e -> {
             try {
@@ -111,3 +112,4 @@ public class UserControlDash extends JFrame{
         });
     }
 }
+
