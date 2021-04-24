@@ -42,66 +42,70 @@ public class Register extends JFrame {
             dispose();
         });
         submitButton.addActionListener(e -> {
-            String email = emailField.getText().toLowerCase(Locale.ROOT);
-            errorLabel.setVisible(false);
-            if (checkBlank()) {
-                if (isValidEmail(email)) {
-                    if (isValidPassword(new String(passwordField.getPassword()))) {
-                        if (Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
-                            try {
-                                PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
-                                checkUserExists.setString(1, email);
-                                ResultSet rs = checkUserExists.executeQuery();
-                                if (rs.next()) {
-                                    errorLabel.setText("User already exists.  Try logging in!");
-                                    errorLabel.setVisible(true);
-                                } else {
-                                    String passString = new String(passwordField.getPassword());
-                                    String passHashed = BCrypt.hashpw(passString, BCrypt.gensalt());
-                                    rs.close();
-                                    checkUserExists.close();
-                                    try {
-                                        checkUserExists.close();
-                                        PreparedStatement createUser = connection.prepareStatement("INSERT INTO Users (fname, lname, eircode, password, email) VALUES (?,?,?,?,?)");
-                                        createUser.setString(1, firstNameField.getText());
-                                        createUser.setString(2, lastNameField.getText());
-                                        createUser.setString(3, eircodeField.getText());
-                                        createUser.setString(4, passHashed);
-                                        createUser.setString(5, email);
-                                        int rowsAffected = createUser.executeUpdate();
-                                        if (rowsAffected == 1) {
-                                            JOptionPane.showMessageDialog(null, "Account created!  Redirecting you to login now");
-                                            createUser.close();
-                                            connection.close();
-                                            new Login();
-                                            dispose();
-                                        }
-                                    } catch (SQLException registerUser) {
-                                        System.err.println(registerUser.getMessage());
-                                    }
-                                }
-                            } catch (SQLException checkUser) {
-                                System.err.println(checkUser.getMessage());
-                            }
+            submit();
+        });
+    }
 
-                        } else {
-                            errorLabel.setText("Passwords do not match.  Please try again!");
-                            passwordField.setBorder(new LineBorder(Color.red, 1));
-                            cpasswordField.setBorder(new LineBorder(Color.red, 1));
-                            errorLabel.setVisible(true);
+    private void submit(){
+        String email = emailField.getText().toLowerCase(Locale.ROOT);
+        errorLabel.setVisible(false);
+        if (checkBlank()) {
+            if (isValidEmail(email)) {
+                if (isValidPassword(new String(passwordField.getPassword()))) {
+                    if (Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
+                        try {
+                            PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                            checkUserExists.setString(1, email);
+                            ResultSet rs = checkUserExists.executeQuery();
+                            if (rs.next()) {
+                                errorLabel.setText("User already exists.  Try logging in!");
+                                errorLabel.setVisible(true);
+                            } else {
+                                String passString = new String(passwordField.getPassword());
+                                String passHashed = BCrypt.hashpw(passString, BCrypt.gensalt());
+                                rs.close();
+                                checkUserExists.close();
+                                try {
+                                    checkUserExists.close();
+                                    PreparedStatement createUser = connection.prepareStatement("INSERT INTO Users (fname, lname, eircode, password, email) VALUES (?,?,?,?,?)");
+                                    createUser.setString(1, firstNameField.getText());
+                                    createUser.setString(2, lastNameField.getText());
+                                    createUser.setString(3, eircodeField.getText());
+                                    createUser.setString(4, passHashed);
+                                    createUser.setString(5, email);
+                                    int rowsAffected = createUser.executeUpdate();
+                                    if (rowsAffected == 1) {
+                                        JOptionPane.showMessageDialog(null, "Account created!  Redirecting you to login now");
+                                        createUser.close();
+                                        connection.close();
+                                        new Login();
+                                        dispose();
+                                    }
+                                } catch (SQLException registerUser) {
+                                    System.err.println(registerUser.getMessage());
+                                }
+                            }
+                        } catch (SQLException checkUser) {
+                            System.err.println(checkUser.getMessage());
                         }
+
                     } else {
-                        errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
+                        errorLabel.setText("Passwords do not match.  Please try again!");
                         passwordField.setBorder(new LineBorder(Color.red, 1));
+                        cpasswordField.setBorder(new LineBorder(Color.red, 1));
                         errorLabel.setVisible(true);
                     }
                 } else {
-                    errorLabel.setText("Email is not valid, please try again");
-                    emailField.setBorder(new LineBorder(Color.red, 1));
+                    errorLabel.setText("Password must have: 8 Characters, 1 Number, 1 Lowercase Letter, 1 Uppercase Letter, 1 Special Character");
+                    passwordField.setBorder(new LineBorder(Color.red, 1));
                     errorLabel.setVisible(true);
                 }
+            } else {
+                errorLabel.setText("Email is not valid, please try again");
+                emailField.setBorder(new LineBorder(Color.red, 1));
+                errorLabel.setVisible(true);
             }
-        });
+        }
     }
 
     private static boolean isValidEmail(String email) {

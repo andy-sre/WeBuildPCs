@@ -95,22 +95,7 @@ public class ViewOrder extends JFrame {
             dispose();
         });
         refundOrderButton.addActionListener(e -> {
-            try {
-                PreparedStatement setRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
-                setRefund.setString(1, "Refund Requested");
-                setRefund.setInt(2, orderID);
-                int rowsAffected = setRefund.executeUpdate();
-                if (rowsAffected == 1) {
-                    setRefund.close();
-                    JOptionPane.showMessageDialog(null, "Refund requested on order: " + orderID);
-                    connection.close();
-                    new ViewOrder(userID, orderID, fname);
-                    dispose();
-                }
-            } catch (SQLException getOrder) {
-                System.out.println(getOrder.getMessage());
-            }
-
+            refundOrder(fname);
         });
         returnButton.addActionListener(e -> {
             closeConnection();
@@ -118,6 +103,24 @@ public class ViewOrder extends JFrame {
             dispose();
 
         });
+    }
+
+    private void refundOrder(String fname){
+        try {
+            PreparedStatement setRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
+            setRefund.setString(1, "Refund Requested");
+            setRefund.setInt(2, orderID);
+            int rowsAffected = setRefund.executeUpdate();
+            if (rowsAffected == 1) {
+                setRefund.close();
+                JOptionPane.showMessageDialog(null, "Refund requested on order: " + orderID);
+                connection.close();
+                new ViewOrder(userID, orderID, fname);
+                dispose();
+            }
+        } catch (SQLException getOrder) {
+            System.out.println(getOrder.getMessage());
+        }
     }
 
     private void getOrder() {

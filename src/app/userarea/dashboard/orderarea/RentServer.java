@@ -75,68 +75,72 @@ public class RentServer extends JFrame {
             dispose();
         });
         submitButton.addActionListener(e -> {
-            if (checkBox()) {
-                errorLabel.setVisible(false);
-                try {
-                    PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
-                            "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
-                            "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType, serverID, serverAmount) " +
-                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                    createOrder.setString(1, "Awaiting Shipment");
-                    createOrder.setInt(2, userID);
-                    createOrder.setInt(3, 0);
-                    createOrder.setInt(4, 0);
-                    createOrder.setInt(5, 0);
-                    createOrder.setInt(6, 0);
-                    createOrder.setInt(7, 0);
-                    createOrder.setInt(8, 0);
-                    createOrder.setInt(9, 0);
-                    createOrder.setInt(10, 0);
-                    createOrder.setInt(11, 0);
-                    createOrder.setInt(12, 0);
-                    createOrder.setInt(13, 0);
-                    createOrder.setInt(14, 0);
-                    createOrder.setInt(15, 0);
-                    createOrder.setInt(16, 0);
-                    createOrder.setString(17, "Rental");
-                    createOrder.setInt(18, serverItem.getItemID());
-                    createOrder.setInt(19, Integer.parseInt(serverQuantity.getSelectedItem().toString()));
-                    int rowsAffectedO = createOrder.executeUpdate();
-                    if (rowsAffectedO == 1) {
-                        createOrder.close();
-                        try {
-
-                            PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, paymentStatus, dueDate, remainingBal) VALUES (?,?,?,?,?,?)");
-                            createPayment.setInt(1, userID);
-                            PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = " + userID);
-                            ResultSet rs = getOrderID.executeQuery();
-                            while (rs.next()) {
-                                createPayment.setInt(2, rs.getInt("orderID"));
-                            }
-                            getOrderID.close();
-                            rs.close();
-                            createPayment.setDouble(3, Double.parseDouble(priceLabel.getText()));
-                            createPayment.setString(4, "Due On Due Date");
-                            createPayment.setString(5, dateFormat.format(futureDate));
-                            createPayment.setDouble(6, Double.parseDouble(priceLabel.getText()));
-                            int rowsAffectedP = createPayment.executeUpdate();
-                            if (rowsAffectedP == 1) {
-                                createPayment.close();
-                                updateStock();
-                                JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
-                                connection.close();
-                                new UserDash(userID, fname);
-                                dispose();
-                            }
-                        } catch (SQLException createPayment) {
-                            System.out.println(createPayment.getMessage());
-                        }
-                    }
-                } catch (SQLException createOrder) {
-                    System.out.println(createOrder.getMessage());
-                }
-            }
+            submit(userID, fname, futureDate);
         });
+    }
+
+    private void submit(int userID, String fname, Date futureDate){
+        if (checkBox()) {
+            errorLabel.setVisible(false);
+            try {
+                PreparedStatement createOrder = connection.prepareStatement("INSERT INTO Orders (orderStatus, " +
+                        "userID, cpuID, cpuAmount, gpuID, gpuAmount, ramID, ramAmount, motherBoardID, " +
+                        "motherBoardAmount, pcCaseID, pcCaseAmount, psuID, psuAmount, storageAmount, storageID, orderType, serverID, serverAmount) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                createOrder.setString(1, "Awaiting Shipment");
+                createOrder.setInt(2, userID);
+                createOrder.setInt(3, 0);
+                createOrder.setInt(4, 0);
+                createOrder.setInt(5, 0);
+                createOrder.setInt(6, 0);
+                createOrder.setInt(7, 0);
+                createOrder.setInt(8, 0);
+                createOrder.setInt(9, 0);
+                createOrder.setInt(10, 0);
+                createOrder.setInt(11, 0);
+                createOrder.setInt(12, 0);
+                createOrder.setInt(13, 0);
+                createOrder.setInt(14, 0);
+                createOrder.setInt(15, 0);
+                createOrder.setInt(16, 0);
+                createOrder.setString(17, "Rental");
+                createOrder.setInt(18, serverItem.getItemID());
+                createOrder.setInt(19, Integer.parseInt(serverQuantity.getSelectedItem().toString()));
+                int rowsAffectedO = createOrder.executeUpdate();
+                if (rowsAffectedO == 1) {
+                    createOrder.close();
+                    try {
+
+                        PreparedStatement createPayment = connection.prepareStatement("INSERT INTO Payments (userID, orderID, price, paymentStatus, dueDate, remainingBal) VALUES (?,?,?,?,?,?)");
+                        createPayment.setInt(1, userID);
+                        PreparedStatement getOrderID = connection.prepareStatement("SELECT orderID FROM Orders WHERE userID = " + userID);
+                        ResultSet rs = getOrderID.executeQuery();
+                        while (rs.next()) {
+                            createPayment.setInt(2, rs.getInt("orderID"));
+                        }
+                        getOrderID.close();
+                        rs.close();
+                        createPayment.setDouble(3, Double.parseDouble(priceLabel.getText()));
+                        createPayment.setString(4, "Due On Due Date");
+                        createPayment.setString(5, dateFormat.format(futureDate));
+                        createPayment.setDouble(6, Double.parseDouble(priceLabel.getText()));
+                        int rowsAffectedP = createPayment.executeUpdate();
+                        if (rowsAffectedP == 1) {
+                            createPayment.close();
+                            updateStock();
+                            JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
+                            connection.close();
+                            new UserDash(userID, fname);
+                            dispose();
+                        }
+                    } catch (SQLException createPayment) {
+                        System.out.println(createPayment.getMessage());
+                    }
+                }
+            } catch (SQLException createOrder) {
+                System.out.println(createOrder.getMessage());
+            }
+        }
     }
 
     private void getParts() {

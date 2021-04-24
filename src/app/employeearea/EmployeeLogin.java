@@ -36,41 +36,45 @@ public class EmployeeLogin extends JFrame {
             dispose();
         });
         loginButton.addActionListener(e -> {
-            errorLabel.setVisible(false);
-            if (checkBlank()) {
-                if (isValidEmail(emailField.getText())) {
-                    try {
-                        connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
-                        PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
-                        loginUser.setString(1, emailField.getText().toLowerCase(Locale.ROOT));
-                        ResultSet rs = loginUser.executeQuery();
-                        while (rs.next()) {
-                            passHashed = rs.getString("password");
-                            employeeID = rs.getInt("employeeID");
-                            fname = rs.getString("fname");
-                        }
-                        passString = new String(passwordField.getPassword());
-                        if (BCrypt.checkpw(passString, passHashed)) {
-                            rs.close();
-                            connection.close();
-                            JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
-                            new EmployeeDash(employeeID, fname);
-                            dispose();
-                        } else {
-                            rs.close();
-                            errorLabel.setText("Password or email incorrect, please try again!");
-                            errorLabel.setVisible(true);
-                        }
-                    } catch (SQLException loginError) {
-                        System.err.println(loginError.getMessage());
-                    }
-                } else {
-                    errorLabel.setText("Email is not a valid email");
-                    emailField.setBorder(new LineBorder(Color.red, 1));
-                    errorLabel.setVisible(true);
-                }
-            }
+            login();
         });
+    }
+
+    private void login(){
+        errorLabel.setVisible(false);
+        if (checkBlank()) {
+            if (isValidEmail(emailField.getText())) {
+                try {
+                    connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+                    PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
+                    loginUser.setString(1, emailField.getText().toLowerCase(Locale.ROOT));
+                    ResultSet rs = loginUser.executeQuery();
+                    while (rs.next()) {
+                        passHashed = rs.getString("password");
+                        employeeID = rs.getInt("employeeID");
+                        fname = rs.getString("fname");
+                    }
+                    passString = new String(passwordField.getPassword());
+                    if (BCrypt.checkpw(passString, passHashed)) {
+                        rs.close();
+                        connection.close();
+                        JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
+                        new EmployeeDash(employeeID, fname);
+                        dispose();
+                    } else {
+                        rs.close();
+                        errorLabel.setText("Password or email incorrect, please try again!");
+                        errorLabel.setVisible(true);
+                    }
+                } catch (SQLException loginError) {
+                    System.err.println(loginError.getMessage());
+                }
+            } else {
+                errorLabel.setText("Email is not a valid email");
+                emailField.setBorder(new LineBorder(Color.red, 1));
+                errorLabel.setVisible(true);
+            }
+        }
     }
 
     private static boolean isValidEmail(String email) {
