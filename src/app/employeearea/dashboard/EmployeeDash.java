@@ -8,7 +8,7 @@ import app.employeearea.dashboard.stock.StockDash;
 import javax.swing.*;
 import java.awt.*;
 
-public class EmployeeDash extends JFrame{
+public class EmployeeDash extends JFrame {
     private JPanel panel;
     private JButton logoutButton;
     private JButton stockButton;
@@ -21,7 +21,7 @@ public class EmployeeDash extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         stockButton.addActionListener(e -> {

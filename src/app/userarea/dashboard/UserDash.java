@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class UserDash extends JFrame{
+public class UserDash extends JFrame {
     private JPanel panel;
     private JButton logoutButton;
     private JButton newOrderButton;
@@ -30,7 +30,7 @@ public class UserDash extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         paymentAlertPanel.setVisible(false);
@@ -50,9 +50,9 @@ public class UserDash extends JFrame{
                 try {
                     SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     Date dueDate = sFormat.parse(date);
-                    if(balance > 0) {
+                    if (balance > 0) {
                         Date current = new Date();
-                        if(current.compareTo(dueDate) >= 0) {
+                        if (current.compareTo(dueDate) >= 0) {
                             paymentAlertMsg.setText("You are overdue on your invoices!");
                             paymentAlertPanel.setVisible(true);
                             paymentAlertMsg.setVisible(true);

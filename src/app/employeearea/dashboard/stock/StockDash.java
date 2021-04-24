@@ -25,7 +25,7 @@ public class StockDash extends JFrame {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         CPUButton.addActionListener(e -> {
@@ -33,31 +33,31 @@ public class StockDash extends JFrame {
             dispose();
         });
         GPUButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"gpu");
+            new StockController(employeeID, fname, "gpu");
             dispose();
         });
         RAMButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"ram");
+            new StockController(employeeID, fname, "ram");
             dispose();
         });
         MOBOButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"mobo");
+            new StockController(employeeID, fname, "mobo");
             dispose();
         });
         PSUButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"psu");
+            new StockController(employeeID, fname, "psu");
             dispose();
         });
         storageButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"storage");
+            new StockController(employeeID, fname, "storage");
             dispose();
         });
         caseButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"pcCase");
+            new StockController(employeeID, fname, "pcCase");
             dispose();
         });
         serverButton.addActionListener(e -> {
-            new StockController(employeeID, fname,"server");
+            new StockController(employeeID, fname, "server");
             dispose();
         });
         returnButton.addActionListener(e -> {

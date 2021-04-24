@@ -9,7 +9,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ViewOrderEmployee extends JFrame{
+public class ViewOrderEmployee extends JFrame {
+    private final int orderID;
+    private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private final Date current = new Date();
     private JPanel panel;
     private JButton logoutButton;
     private Connection connection;
@@ -60,11 +63,8 @@ public class ViewOrderEmployee extends JFrame{
     private int mobo;
     private int pcCase;
     private int storage;
-    private final int orderID;
     private int userID;
     private String date = "";
-    private final SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private final Date current = new Date();
     private Double balance;
     private int server;
     private String orderType;
@@ -74,7 +74,7 @@ public class ViewOrderEmployee extends JFrame{
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
         this.setTitle("Computer Shop - Welcome");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(0,0,size.width, size.height);
+        this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
         refundArea.setVisible(false);
@@ -212,7 +212,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getOrders = connection.prepareStatement("select * FROM Orders where orderID = ?");
             getOrders.setInt(1, orderID);
             ResultSet rs = getOrders.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 orderStatus.setText(rs.getString("orderStatus"));
                 orderType = rs.getString("orderType");
                 if (orderType.equals("PC")) {
@@ -237,19 +237,19 @@ public class ViewOrderEmployee extends JFrame{
                 }
                 userID = rs.getInt("userID");
             }
-        if (orderStatus.getText().equals("Refund Requested")) {
-            refundArea.setVisible(true);
-            OrderView.setVisible(false);
-        } else if (orderStatus.getText().equals("Refund Approved")){
-            refundArea.setVisible(true);
-            refundLabel.setVisible(true);
-            approveRefundButton.setVisible(false);
-            rejectRefundButton.setVisible(false);
-            OrderView.setVisible(false);
-        } else {
-            refundArea.setVisible(false);
-            OrderView.setVisible(true);
-        }
+            if (orderStatus.getText().equals("Refund Requested")) {
+                refundArea.setVisible(true);
+                OrderView.setVisible(false);
+            } else if (orderStatus.getText().equals("Refund Approved")) {
+                refundArea.setVisible(true);
+                refundLabel.setVisible(true);
+                approveRefundButton.setVisible(false);
+                rejectRefundButton.setVisible(false);
+                OrderView.setVisible(false);
+            } else {
+                refundArea.setVisible(false);
+                OrderView.setVisible(true);
+            }
             rs.close();
             getOrders.close();
         } catch (SQLException getOrder) {
@@ -262,7 +262,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getCPU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getCPU.setInt(1, cpu);
             ResultSet rs = getCPU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 cpuPart.setText(rs.getString("partName"));
                 cpuPrice.setText(rs.getString("price"));
             }
@@ -275,7 +275,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getGPU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getGPU.setInt(1, gpu);
             ResultSet rs = getGPU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 gpuPart.setText(rs.getString("partName"));
                 gpuPrice.setText(rs.getString("price"));
             }
@@ -288,7 +288,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getRAM = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getRAM.setInt(1, ram);
             ResultSet rs = getRAM.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 ramPart.setText(rs.getString("partName"));
                 ramPrice.setText(rs.getString("price"));
             }
@@ -301,7 +301,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getMobo = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getMobo.setInt(1, mobo);
             ResultSet rs = getMobo.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 moboPart.setText(rs.getString("partName"));
                 moboPrice.setText(rs.getString("price"));
             }
@@ -314,7 +314,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getPSU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getPSU.setInt(1, psu);
             ResultSet rs = getPSU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 psuPart.setText(rs.getString("partName"));
                 psuPrice.setText(rs.getString("price"));
             }
@@ -327,7 +327,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getStorage = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getStorage.setInt(1, storage);
             ResultSet rs = getStorage.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 storagePart.setText(rs.getString("partName"));
                 storagePrice.setText(rs.getString("price"));
             }
@@ -340,7 +340,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getCase = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getCase.setInt(1, pcCase);
             ResultSet rs = getCase.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 casePart.setText(rs.getString("partName"));
                 casePrice.setText(rs.getString("price"));
             }
@@ -353,7 +353,7 @@ public class ViewOrderEmployee extends JFrame{
             PreparedStatement getCPU = connection.prepareStatement("SELECT partName, price FROM Parts where partID = ?");
             getCPU.setInt(1, server);
             ResultSet rs = getCPU.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 serverPart.setText(rs.getString("partName"));
                 serverPrice.setText(rs.getString("price"));
             }
@@ -363,12 +363,13 @@ public class ViewOrderEmployee extends JFrame{
             System.out.println(getPart.getMessage());
         }
     }
+
     private void getPrice() {
         try {
             PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price, dueDate FROM Payments where orderID = ?");
             getPrice.setInt(1, orderID);
             ResultSet rs = getPrice.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 date = rs.getString("dueDate");
                 pcPrice.setText(String.valueOf(rs.getDouble("price")));
                 balance = rs.getDouble("remainingBal");
@@ -377,18 +378,19 @@ public class ViewOrderEmployee extends JFrame{
             remainingBal.setText(String.valueOf(balance));
             try {
                 Date dueDate = sFormat.parse(date);
-                if(current.compareTo(dueDate) >= 0) {
-                    if (balance == 0 ) {
+                if (current.compareTo(dueDate) >= 0) {
+                    if (balance == 0) {
                         overdueLabel.setText("Payment In Full");
                     } else {
                         overdueLabel.setText("Payment was due on: " + date);
                     }
                 } else {
-                    if (balance == 0 ) {
+                    if (balance == 0) {
                         overdueLabel.setText("Payment In Full");
                     } else {
                         overdueLabel.setText("Payment is due on: " + date);
-                    }                }
+                    }
+                }
             } catch (ParseException e) {
                 System.out.println(e.getMessage());
             }
@@ -398,12 +400,13 @@ public class ViewOrderEmployee extends JFrame{
             System.out.println(getOrder.getMessage());
         }
     }
+
     private void getUserDetails() {
         try {
             PreparedStatement getEircode = connection.prepareStatement("select * FROM Users where userID = ?");
             getEircode.setInt(1, userID);
             ResultSet rs = getEircode.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 eircodeLabel.setText(rs.getString("eircode"));
                 customerName.setText(rs.getString("fname") + " " + rs.getString("lname"));
             }
