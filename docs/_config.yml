@@ -1,6 +1,10 @@
 theme: jekyll-theme-cayman
 
 layout: page
+title: "Homepage"
+permalink: /index.md
+
+layout: page
 title: "User Guide"
 permalink: /user.md
 
