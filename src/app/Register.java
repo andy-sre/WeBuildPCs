@@ -141,7 +141,7 @@ public class Register extends JFrame {
             problem = true;
 
         }
-        if (problem == true) {
+        if (problem) {
             errorLabel.setText("Fill in the highlighted Fields");
             errorLabel.setVisible(true);
             problem = false;

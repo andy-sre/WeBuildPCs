@@ -15,8 +15,8 @@ import java.util.Date;
 import java.util.Objects;
 
 public class RentServer extends JFrame {
-    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    Date current = new Date();
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    private Date current = new Date();
     private JButton logoutButton;
     private JComboBox<Item> serverDropdown;
     private JTextField serverPrice;
@@ -64,22 +64,13 @@ public class RentServer extends JFrame {
             updatePrice();
         });
         serverQuantity.addActionListener(e -> updatePrice());
-
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new UserDash(userID, fname);
             dispose();
         });
@@ -178,7 +169,7 @@ public class RentServer extends JFrame {
 
     private void updatePrice() {
         double totalPrice = (serverPriceFinal * Integer.parseInt(Objects.requireNonNull(serverQuantity.getSelectedItem()).toString()));
-        BigDecimal round = new BigDecimal(totalPrice).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal round = new BigDecimal(String.valueOf(totalPrice)).setScale(2, RoundingMode.HALF_UP);
         double finalPrice = round.doubleValue();
         priceLabel.setText(String.valueOf(finalPrice));
     }
@@ -240,5 +231,11 @@ public class RentServer extends JFrame {
             return getItemName();
         }
     }
-
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

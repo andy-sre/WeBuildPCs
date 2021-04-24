@@ -86,11 +86,7 @@ public class ViewOrder extends JFrame {
         }
         makePaymentButton.setVisible(Double.parseDouble(remainingBal.getText()) != 0 && !orderStatus.getText().equals("Refund Requested"));
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -117,11 +113,7 @@ public class ViewOrder extends JFrame {
 
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new OrderViewDash(userID, fname);
             dispose();
 
@@ -134,6 +126,7 @@ public class ViewOrder extends JFrame {
             getOrders.setInt(1, orderID);
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
+                orderStatus.setText(rs.getString("orderStatus"));
                 orderType = rs.getString("orderType");
                 if (orderType.equals("PC")) {
                     cpu = rs.getInt("cpuID");
@@ -305,6 +298,14 @@ public class ViewOrder extends JFrame {
             getEircode.close();
         } catch (SQLException getOrder) {
             System.out.println(getOrder.getMessage());
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

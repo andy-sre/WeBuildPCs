@@ -24,7 +24,6 @@ public class UserDash extends JFrame {
     private JLabel welcomeLabel;
     private JLabel paymentAlertMsg;
     private JPanel paymentAlertPanel;
-    private Connection connection;
 
     public UserDash(int userID, String fname) {
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
@@ -33,6 +32,7 @@ public class UserDash extends JFrame {
         this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+        Connection connection = null;
         paymentAlertPanel.setVisible(false);
         paymentAlertMsg.setVisible(false);
         try {

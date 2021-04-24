@@ -148,7 +148,7 @@ public class NewEmployee extends JFrame {
             problem = true;
         }
 
-        if (problem == true) {
+        if (problem) {
             errorLabel.setText("Fill in the highlighted Fields");
             problem = false;
         } else {

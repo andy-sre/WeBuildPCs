@@ -64,8 +64,6 @@ public class ViewOrderEmployee extends JFrame {
     private int pcCase;
     private int storage;
     private int userID;
-    private String date = "";
-    private Double balance;
     private int server;
     private String orderType;
 
@@ -365,6 +363,8 @@ public class ViewOrderEmployee extends JFrame {
     }
 
     private void getPrice() {
+        String date = "";
+        Double balance = 0.0;
         try {
             PreparedStatement getPrice = connection.prepareStatement("select remainingBal, paymentStatus, price, dueDate FROM Payments where orderID = ?");
             getPrice.setInt(1, orderID);
