@@ -254,7 +254,7 @@ public class OrderCreate extends JFrame {
                                     createPayment.close();
                                     updateStock();
                                     JOptionPane.showMessageDialog(null, "Order Created, redirecting you to your orders area");
-                                    connection.close();
+                                    closeConnection();
                                     new UserDash(userID, fname);
                                     dispose();
                                 }
@@ -269,20 +269,12 @@ public class OrderCreate extends JFrame {
             }
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new UserDash(userID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -437,7 +429,7 @@ public class OrderCreate extends JFrame {
                 (casePriceFinal * Integer.parseInt(Objects.requireNonNull(caseQuantity.getSelectedItem()).toString())) +
                 (storagePriceFinal * Integer.parseInt(Objects.requireNonNull(storageQuantity.getSelectedItem()).toString())) +
                 (storagePriceFinal * Integer.parseInt(storageQuantity.getSelectedItem().toString()));
-        BigDecimal round = new BigDecimal(pcPrice).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal round = new BigDecimal(String.valueOf(pcPrice)).setScale(2, RoundingMode.HALF_UP);
         pcPrice = round.doubleValue();
         totalPrice.setText(String.valueOf(pcPrice));
     }
@@ -574,6 +566,13 @@ public class OrderCreate extends JFrame {
         @Override
         public String toString() {
             return getItemName();
+        }
+    }
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

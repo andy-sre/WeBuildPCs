@@ -46,20 +46,12 @@ public class OrderViewDash extends JFrame {
             }
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new UserDash(userID, fname);
             dispose();
         });
@@ -81,6 +73,13 @@ public class OrderViewDash extends JFrame {
             connection.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

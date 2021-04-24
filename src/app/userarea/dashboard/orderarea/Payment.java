@@ -67,11 +67,7 @@ public class Payment extends JFrame {
             }
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -92,7 +88,7 @@ public class Payment extends JFrame {
                             getPrice.close();
                             try {
                                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                                Date current = new java.util.Date();
+                                Date current = new Date();
                                 Calendar c = Calendar.getInstance();
                                 c.setTime(current);
                                 c.add(Calendar.MONTH, 1);
@@ -157,13 +153,16 @@ public class Payment extends JFrame {
             }
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new ViewOrder(userID, orderID, fname);
             dispose();
         });
+    }
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
