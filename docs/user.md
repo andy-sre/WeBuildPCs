@@ -3,9 +3,8 @@
 The below titles show you how to do each of the possible tasks on the user dashboard.
 
 
-<details open>
+<details>
 <summary>## Registration</summary>
-<br>
 Step 1. On the home page click on the "Registration" button
 
 ![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2020.45.04.png?token=ASXKTQOBT4HXESMEX37SLCDARX23G)
