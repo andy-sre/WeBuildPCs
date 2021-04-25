@@ -82,9 +82,27 @@ Step 1. To pay for an order follow the steps to view a purchase/rental above.
 
 ### PC Payment
 
-Step 2. 
+Step 2. On the View order page, click on the "Make Payment" button in yellow
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.50.png?token=ASXKTQPM4N4CRNZJ3QPM3I3AR3YFM)
+
+Step 3. Enter in the amount you'd like to pay into the text area.  For PC builds you have one month to pay off your balance before you are overdue on your account.  When you are happy with the amount you put in.  Click submit in green.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.14.06.png?token=ASXKTQJ4XM7EO6VT6YGPT3DAR3YJY)
 
 ### Rental Payment
+
+Step 2. On the View order page, click on the "Make Payment" button in yellow
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?token=ASXKTQPG4UINULZPD2EXLILAR3Y6G)
+
+Step 3. Enter in the amount you'd like to pay into the text area.  For rentals, each time you pay the balance you extend your rental by one month.  If you want to you can prepay a year by paying for the rental 12 times.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.22.png?token=ASXKTQPTXBJ5PIXYN2MNEK3AR3YYO)
+
+Step 4. As you can see below the due date has been extended by another month
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.31.png?token=ASXKTQOO5V6POSH6Z2T5U4LAR3YWC)
 
 ## Refund/Return Order
 
