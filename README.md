@@ -4,7 +4,8 @@
 TU819 - COMP4604 - AS &amp; AH
 https://github.com/IAmAndyIE/ComputerShop
 
-Credits
+Credits:
+
 https://github.com/jeremyh/jBCrypt
 
 https://fontawesome.com/icons
