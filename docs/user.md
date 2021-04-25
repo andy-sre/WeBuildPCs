@@ -116,6 +116,7 @@ PC Order Refund/Return:
 Rental Order Refund/Return:
 ![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?token=ASXKTQMDGMFWXKUFI7LNWCDAR23H2)
 
+### Note: An employee has to approve a refund before you can get your money back.
 
 ## Edit Profile
 
@@ -147,4 +148,4 @@ Step 3. From there you will be prompted to confirm you'd like to delete your pro
 
 ![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-25%20at%2000.50.10.png?token=ASXKTQPNHLUWSPF6CF5VCL3AR24SO)
 
-Note: You can only delete your account if you do not owe any money
+###Note: You can only delete your account if you do not owe any money
