@@ -2,6 +2,9 @@
 
 The below titles show you how to do each of the possible tasks on the employee dashboard.
 
+To get to the dashboard click [Here](https://iamandyie.github.io/WeBuildPCs/)
+To view the user documentation click [Here](https://iamandyie.github.io/WeBuildPCs/user)
+
 ## Login
 
 Step 1. On the Welcome page click on "Login"
