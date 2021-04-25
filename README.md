@@ -6,11 +6,19 @@ https://github.com/IAmAndyIE/ComputerShop
 
 Credits
 https://github.com/jeremyh/jBCrypt
+
 https://fontawesome.com/icons
+
 https://thenounproject.com/search/?q=CPU&i=3862558
+
 https://thenounproject.com/search/?q=gpu&i=1132937
+
 https://thenounproject.com/search/?q=Motherboard&i=3741339
+
 https://thenounproject.com/search/?q=RAM&i=1981478
+
 https://thenounproject.com/search/?q=HDD&i=2823831
+
 https://thenounproject.com/search/?q=PSU&i=3535356
+
 https://thenounproject.com/search/?q=PC+Case&i=3140594
