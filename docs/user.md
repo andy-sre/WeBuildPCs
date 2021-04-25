@@ -91,5 +91,32 @@ Rental Order Refund/Return:
 
 ## Edit Profile
 
+Step 1. To edit your user account click on "Edit Details" the icon with the person and pencil in it.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/EditDetails.png?token=ASXKTQPFR55MGCHWRKDISYLAR23YQ)
+
+Step 2. On the edit user dashboard, select the left "Edit My Profile" button with the person and pencil in it.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-25%20at%2000.49.49.png?token=ASXKTQNVRIO74SXGTJCBYHDAR24A6)
+
+Step 3. From there you can edit your first name, last name email and eircode on this menu.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-25%20at%2000.50.00.png?token=ASXKTQO5T4XID4BPMZHENZDAR24KY)
+
+Step 4. When you're happy with your changes, enter your password and click on the "Submit" button in green.
+
 ## Delete Profile
 
+Step 1. To delete your user account click on "Edit Details" the icon with the person and pencil in it.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/EditDetails.png?token=ASXKTQPFR55MGCHWRKDISYLAR23YQ)
+
+Step 2. On the edit user dashboard, select the right "Delete My Profile" button with the person and X symbol in it.
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-25%20at%2000.49.49.png?token=ASXKTQNVRIO74SXGTJCBYHDAR24A6)
+
+Step 3. From there you will be prompted to confirm you'd like to delete your profile
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-25%20at%2000.50.10.png?token=ASXKTQPNHLUWSPF6CF5VCL3AR24SO)
+
+Note: You can only delete your account if you do not owe any money
