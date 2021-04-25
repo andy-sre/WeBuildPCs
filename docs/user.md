@@ -3,6 +3,11 @@
 The below titles show you how to do each of the possible tasks on the user dashboard.
 
 
+To get to the dashboard click [Here](https://iamandyie.github.io/WeBuildPCs/)
+
+To view the employee documentation click [Here](https://iamandyie.github.io/WeBuildPCs/employee)
+
+
 ## Registration
 Step 1. On the home page click on the "Registration" button
 
