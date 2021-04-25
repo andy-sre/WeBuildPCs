@@ -76,6 +76,16 @@ Step 3. Click on the order you'd like to view until it's highlighted in blue lik
 
 ![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.12.52.png?token=ASXKTQPNZ4CTN6CRFLEOQYLAR23GI)
 
+## Payment For Order
+
+Step 1. To pay for an order follow the steps to view a purchase/rental above.
+
+### PC Payment
+
+Step 2. 
+
+### Rental Payment
+
 ## Refund/Return Order
 
 Step 1. To refund/return an order follow the steps to view a purchase/rental above.
