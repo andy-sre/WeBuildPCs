@@ -50,7 +50,44 @@ Step 3. When you've done selecting your items press the "Submit" button with the
 
 ## View Orders
 
+Step 1. On the user dashboard click on the "View Orders" button with the eye icon.
+
+![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/ViewOrder.png?raw=true)
+
+### View PC Build Purchases
+
+Step 2. To view a PC build purchase look at the "Order Type" column and find the "PC" option
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.12.52.png?token=ASXKTQK7M73JFB7WWKADAWLAR2YO6)
+
+Step 3. Click on the order you'd like to view until it's highlighted in blue like the above image.  Then click on the "View Order" button to the view the selected order
+
+![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.50.png?raw=true)
+
+Step 4. From there you can view all details about your order.
+
+### View Rental Purchases
+
+Step 2. To view a rental purchase look at the "Order Type" column and find the "Rental" option
+
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.12.52.png?token=ASXKTQK7M73JFB7WWKADAWLAR2YO6)
+
+Step 3. Click on the order you'd like to view until it's highlighted in blue like the above image.  Then click on the "View Order" button to the view the selected order
+
+![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?raw=true)
+
 ## Refund/Return Order
+
+Step 1. To refund/return an order follow the steps to view a purchase/rental above.
+
+Step 2. On the selected order you'd like to return/refund the item, click on the "Refund/Return Order" button with the blue text.
+
+PC Order Refund/Return:
+![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?raw=true)
+
+Rental Order Refund/Return:
+![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?raw=true)
+
 
 ## Edit Profile
 
