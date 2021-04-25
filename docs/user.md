@@ -4,7 +4,7 @@ The below titles show you how to do each of the possible tasks on the user dashb
 
 ## Registration
 
-![image](/img/Screen%20Shot%202021-04-25%20at%2000.50.10.png)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-25%20at%2000.50.10.png?token=ASXKTQK4ENICLARIXINWEY3ARX2YE)
 
 ## Login
 
