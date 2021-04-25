@@ -30,7 +30,7 @@ Step 1. On the user dashboard click on the "Rent A Server" button with the stack
 
 Step 2. Using the first dropdown on the left select the server you'd like to rent.  Then using the second dropdown on the right select the quantity of servers youd like to rent.  You can also see the price of the server too.
 
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.07.10.png)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.07.10.png?token=ASXKTQLOJE7RTR7UEGCLYJDAR23QI)
 
 Step 3. When you're done click the "Submit" button with the green text.
 
@@ -38,7 +38,7 @@ Step 3. When you're done click the "Submit" button with the green text.
 
 Step 1. On the user dashboard click on the "New Order" button with the + icon.
 
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/NewOrder.png?raw=true)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/NewOrder.png?token=ASXKTQOI353O2SQEUIVLDCDAR23CM)
 
 Step 2. Select your desired CPU, GPU, RAM, PSU, Case, Motherboard and Storage devices on the left dropdowns and select the quantity of each item you'd like to purchase on the right dropdowns.
 
@@ -52,7 +52,7 @@ Step 3. When you've done selecting your items press the "Submit" button with the
 
 Step 1. On the user dashboard click on the "View Orders" button with the eye icon.
 
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/ViewOrder.png?raw=true)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/ViewOrder.png?token=ASXKTQJX2SCGLU2PKVZJXA3AR23DU)
 
 ### View PC Build Purchases
 
@@ -62,7 +62,7 @@ Step 2. To view a PC build purchase look at the "Order Type" column and find the
 
 Step 3. Click on the order you'd like to view until it's highlighted in blue like the above image.  Then click on the "View Order" button to the view the selected order
 
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.50.png?raw=true)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.50.png?token=ASXKTQN2C24ZEV7HKUL6W4TAR23KO)
 
 Step 4. From there you can view all details about your order.
 
@@ -74,7 +74,7 @@ Step 2. To view a rental purchase look at the "Order Type" column and find the "
 
 Step 3. Click on the order you'd like to view until it's highlighted in blue like the above image.  Then click on the "View Order" button to the view the selected order
 
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?raw=true)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.12.52.png?token=ASXKTQPNZ4CTN6CRFLEOQYLAR23GI)
 
 ## Refund/Return Order
 
@@ -83,10 +83,10 @@ Step 1. To refund/return an order follow the steps to view a purchase/rental abo
 Step 2. On the selected order you'd like to return/refund the item, click on the "Refund/Return Order" button with the blue text.
 
 PC Order Refund/Return:
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?raw=true)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.50.png?token=ASXKTQN2C24ZEV7HKUL6W4TAR23KO)
 
 Rental Order Refund/Return:
-![image](https://github.com/IAmAndyIE/WeBuildPCs/blob/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?raw=true)
+![image](https://raw.githubusercontent.com/IAmAndyIE/WeBuildPCs/master/docs/img/Screen%20Shot%202021-04-24%20at%2021.13.07.png?token=ASXKTQMDGMFWXKUFI7LNWCDAR23H2)
 
 
 ## Edit Profile
