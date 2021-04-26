@@ -74,21 +74,39 @@ public class ViewOrders extends JFrame {
                         }
                     }
                 } else {
-                    try {
-                        PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
-                        setOrder.setInt(1, employeeID);
-                        setOrder.setString(2, "Builder Assigned");
-                        setOrder.setInt(3, selectedID);
-                        int rowsAffected = setOrder.executeUpdate();
-                        if (rowsAffected == 1) {
-                            JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
-                            setOrder.close();
-                            connection.close();
-                            new ViewOrders(employeeID, fname);
-                            dispose();
+                    if (newOrder.getValueAt(newOrderTable.getSelectedRow(), 1).toString().equals("Refund Requested")) {
+                        try {
+                            PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ? WHERE orderID = ?");
+                            setOrder.setInt(1, employeeID);
+                            setOrder.setInt(2, selectedID);
+                            int rowsAffected = setOrder.executeUpdate();
+                            if (rowsAffected == 1) {
+                                JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
+                                setOrder.close();
+                                connection.close();
+                                new ViewOrders(employeeID, fname);
+                                dispose();
+                            }
+                        } catch (SQLException error) {
+                            System.err.println(error.getMessage());
                         }
-                    } catch (SQLException error) {
-                        System.err.println(error.getMessage());
+                    } else {
+                        try {
+                            PreparedStatement setOrder = connection.prepareStatement("UPDATE Orders SET employeeID = ?, orderStatus = ? WHERE orderID = ?");
+                            setOrder.setInt(1, employeeID);
+                            setOrder.setString(2, "Builder Assigned");
+                            setOrder.setInt(3, selectedID);
+                            int rowsAffected = setOrder.executeUpdate();
+                            if (rowsAffected == 1) {
+                                JOptionPane.showMessageDialog(null, "You assigned yourself this order!");
+                                setOrder.close();
+                                connection.close();
+                                new ViewOrders(employeeID, fname);
+                                dispose();
+                            }
+                        } catch (SQLException error) {
+                            System.err.println(error.getMessage());
+                        }
                     }
                 }
 
