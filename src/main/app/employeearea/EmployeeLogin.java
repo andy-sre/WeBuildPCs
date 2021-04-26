@@ -60,12 +60,19 @@ public class EmployeeLogin extends JFrame {
                             JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
                             new EmployeeDash(employeeID, fname);
                             dispose();
+                        } else {
+                            errorLabel.setText("Password or email incorrect, please try again!");
+                            errorLabel.setVisible(true);
+                            rs.close();
+                            loginUser.close();
+                            connection.close();
                         }
                     } else {
-                        rs.close();
-                        loginUser.close();
                         errorLabel.setText("Password or email incorrect, please try again!");
                         errorLabel.setVisible(true);
+                        rs.close();
+                        loginUser.close();
+                        connection.close();
                     }
                 } catch (SQLException loginError) {
                     System.err.println(loginError.getMessage());
