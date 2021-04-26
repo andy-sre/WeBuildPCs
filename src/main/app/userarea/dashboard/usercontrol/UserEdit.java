@@ -52,20 +52,12 @@ public class UserEdit extends JFrame {
         }
         submitButton.addActionListener(e -> submit(userID));
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new UserEditDash(userID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -129,5 +121,13 @@ public class UserEdit extends JFrame {
             return true;
         }
         return false;
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

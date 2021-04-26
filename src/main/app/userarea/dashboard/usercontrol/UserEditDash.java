@@ -35,20 +35,12 @@ public class UserEditDash extends JFrame {
         });
         deleteMyProfileButton.addActionListener(e -> delete(userID));
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new UserDash(userID, fname);
             dispose();
         });
@@ -111,6 +103,13 @@ public class UserEditDash extends JFrame {
             } catch (SQLException updateUserErr) {
                 System.out.println(updateUserErr.getMessage());
             }
+        }
+    }
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

@@ -98,20 +98,12 @@ public class ViewOrderEmployee extends JFrame {
             OrderView.setVisible(false);
         }
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new ViewOrders(employeeID, fname);
             dispose();
         });
@@ -427,6 +419,14 @@ public class ViewOrderEmployee extends JFrame {
             getEircode.close();
         } catch (SQLException getOrder) {
             System.out.println(getOrder.getMessage());
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

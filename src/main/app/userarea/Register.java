@@ -62,7 +62,7 @@ public class Register extends JFrame {
                 if (isValidPassword(new String(passwordField.getPassword()))) {
                     if (Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
                         try {
-                            PreparedStatement checkUserExists = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
+                            PreparedStatement checkUserExists = connection.prepareStatement("SELECT email FROM Users WHERE email = ?");
                             checkUserExists.setString(1, email);
                             ResultSet rs = checkUserExists.executeQuery();
                             if (rs.next()) {

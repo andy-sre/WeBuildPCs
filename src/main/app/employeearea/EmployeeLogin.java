@@ -17,9 +17,6 @@ public class EmployeeLogin extends JFrame {
     private JButton loginButton;
     private JLabel errorLabel;
     private JPanel panel;
-    private String passHashed;
-    private int employeeID;
-    private String fname;
 
     public EmployeeLogin() {
         errorLabel.setVisible(false);
@@ -47,21 +44,22 @@ public class EmployeeLogin extends JFrame {
             if (isValidEmail(emailField.getText())) {
                 try {
                     Connection connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
-                    PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
+                    PreparedStatement loginUser = connection.prepareStatement("SELECT employeeID, fname, password FROM Employee WHERE email = ?");
                     loginUser.setString(1, emailField.getText().toLowerCase(Locale.ROOT));
                     ResultSet rs = loginUser.executeQuery();
-                    while (rs.next()) {
-                        passHashed = rs.getString("password");
-                        employeeID = rs.getInt("employeeID");
-                        fname = rs.getString("fname");
-                    }
-                    String passString = new String(passwordField.getPassword());
-                    if (BCrypt.checkpw(passString, passHashed)) {
-                        rs.close();
-                        connection.close();
-                        JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
-                        new EmployeeDash(employeeID, fname);
-                        dispose();
+                    if (rs.next()) {
+                        int employeeID = rs.getInt("employeeID");
+                        String fname = rs.getString("fname");
+                        String passHashed = rs.getString("password");
+                        String passString = new String(passwordField.getPassword());
+                        if (BCrypt.checkpw(passString, passHashed)) {
+                            System.out.println("Test 2");
+                            rs.close();
+                            connection.close();
+                            JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
+                            new EmployeeDash(employeeID, fname);
+                            dispose();
+                        }
                     } else {
                         rs.close();
                         errorLabel.setText("Password or email incorrect, please try again!");

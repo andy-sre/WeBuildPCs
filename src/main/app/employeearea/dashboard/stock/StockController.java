@@ -90,11 +90,7 @@ public class StockController extends JFrame {
             });
         });
         cancelAddButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new StockController(employeeID, fname, db);
             dispose();
         });
@@ -175,29 +171,17 @@ public class StockController extends JFrame {
             }
         });
         cancelEditButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new StockController(employeeID, fname, db);
             dispose();
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new StockDash(employeeID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -221,6 +205,14 @@ public class StockController extends JFrame {
             getParts.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

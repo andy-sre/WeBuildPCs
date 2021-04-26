@@ -22,6 +22,7 @@ public class Payment extends JFrame {
     private JLabel remainingBalLabel;
     private JLabel afterPaymentLabel;
     private JPanel panel;
+    private JLabel errorLabel;
     private Connection connection;
     private String orderType;
     private String dueDateString;
@@ -34,6 +35,7 @@ public class Payment extends JFrame {
         this.setBounds(0, 0, size.width, size.height);
         this.setVisible(true);
         this.add(panel);
+        errorLabel.setVisible(false);
         afterPaymentLabel.setText("Please Enter Amount To Pay Below and Hit Enter On Keyboard");
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
@@ -80,6 +82,15 @@ public class Payment extends JFrame {
     }
 
     private void submit(int userID, int orderID, String fname) {
+        errorLabel.setVisible(false);
+        try {
+            Double.parseDouble(total.getText());
+        } catch (NumberFormatException e) {
+            errorLabel.setText("Entered value is not a number");
+            errorLabel.setVisible(true);
+            System.out.println(e.getMessage());
+            return;
+        }
         double remaining = Double.parseDouble(remainingBalLabel.getText()) - Double.parseDouble(total.getText());
         BigDecimal round = new BigDecimal(String.valueOf(remaining)).setScale(2, RoundingMode.HALF_UP);
         double remaingingRound = round.doubleValue();
