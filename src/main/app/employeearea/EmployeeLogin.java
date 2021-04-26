@@ -55,6 +55,7 @@ public class EmployeeLogin extends JFrame {
                         if (BCrypt.checkpw(passString, passHashed)) {
                             System.out.println("Test 2");
                             rs.close();
+                            loginUser.close();
                             connection.close();
                             JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
                             new EmployeeDash(employeeID, fname);
@@ -62,6 +63,7 @@ public class EmployeeLogin extends JFrame {
                         }
                     } else {
                         rs.close();
+                        loginUser.close();
                         errorLabel.setText("Password or email incorrect, please try again!");
                         errorLabel.setVisible(true);
                     }
