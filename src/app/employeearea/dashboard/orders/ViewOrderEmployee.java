@@ -115,33 +115,25 @@ public class ViewOrderEmployee extends JFrame {
             new ViewOrders(employeeID, fname);
             dispose();
         });
-        approveRefundButton.addActionListener(e -> {
-            approveRefund(employeeID,orderID,fname);
-        });
+        approveRefundButton.addActionListener(e -> approveRefund(employeeID, orderID, fname));
 
-        rejectRefundButton.addActionListener(e -> {
-            rejectRefund(employeeID,orderID,fname);
-        });
+        rejectRefundButton.addActionListener(e -> rejectRefund(employeeID, orderID, fname));
 
         if (orderStatus.getText().equals("Builder Assigned")) {
             finishBuildButton.setVisible(false);
             beginBuildButton.setVisible(true);
         }
-        beginBuildButton.addActionListener(e -> {
-            beginBuild(employeeID, orderID, fname);
-        });
+        beginBuildButton.addActionListener(e -> beginBuild(employeeID, orderID, fname));
 
         if (orderStatus.getText().equals("Build Started")) {
             finishBuildButton.setVisible(true);
             beginBuildButton.setVisible(false);
         }
 
-        finishBuildButton.addActionListener(e -> {
-            finishBuild(employeeID,orderID,fname);
-        });
+        finishBuildButton.addActionListener(e -> finishBuild(employeeID, orderID, fname));
     }
 
-    private void finishBuild(int employeeID, int orderID, String fname){
+    private void finishBuild(int employeeID, int orderID, String fname) {
         try {
             PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
             beginBuild.setString(1, "Order Complete & Shipped");
@@ -159,7 +151,7 @@ public class ViewOrderEmployee extends JFrame {
         }
     }
 
-    private void beginBuild(int employeeID, int orderID, String fname){
+    private void beginBuild(int employeeID, int orderID, String fname) {
         try {
             PreparedStatement beginBuild = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
             beginBuild.setString(1, "Build Started");
@@ -177,7 +169,7 @@ public class ViewOrderEmployee extends JFrame {
         }
     }
 
-    private void rejectRefund(int employeeID, int orderID, String fname){
+    private void rejectRefund(int employeeID, int orderID, String fname) {
         try {
             PreparedStatement declineRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
             declineRefund.setString(1, "Refund Declined");
@@ -195,7 +187,7 @@ public class ViewOrderEmployee extends JFrame {
         }
     }
 
-    private void approveRefund(int employeeID, int orderID,String fname){
+    private void approveRefund(int employeeID, int orderID, String fname) {
         try {
             PreparedStatement approveRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
             approveRefund.setString(1, "Refund Approved");

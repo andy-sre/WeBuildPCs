@@ -75,6 +75,7 @@ public class OrderViewDash extends JFrame {
             System.err.println(e.getMessage());
         }
     }
+
     private void closeConnection() {
         try {
             connection.close();

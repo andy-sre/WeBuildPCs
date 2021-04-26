@@ -41,6 +41,7 @@ public class UserDash extends JFrame {
             throwables.printStackTrace();
         }
         try {
+            assert connection != null;
             PreparedStatement checkPayment = connection.prepareStatement("SELECT * FROM Payments WHERE userID = ?");
             checkPayment.setInt(1, userID);
             ResultSet rs = checkPayment.executeQuery();

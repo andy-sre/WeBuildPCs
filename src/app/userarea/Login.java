@@ -19,9 +19,7 @@ public class Login extends JFrame {
     private JButton loginButton;
     private JLabel errorLabel;
     private JButton employeeLogin;
-    private Connection connection;
     private String passHashed;
-    private String passString;
     private int userID;
     private String fname;
 
@@ -37,22 +35,25 @@ public class Login extends JFrame {
             new App();
             dispose();
         });
-        loginButton.addActionListener(e -> {
-            login();
-        });
+        loginButton.addActionListener(e -> login());
         employeeLogin.addActionListener(e -> {
             new EmployeeLogin();
             dispose();
         });
     }
 
-    private void login(){
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private void login() {
         String email = emailField.getText().toLowerCase(Locale.ROOT);
         errorLabel.setVisible(false);
         if (checkBlank()) {
             if (isValidEmail(email)) {
                 try {
-                    connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+                    Connection connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
                     PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Users WHERE email = ?");
                     loginUser.setString(1, email);
                     ResultSet rs = loginUser.executeQuery();
@@ -61,7 +62,7 @@ public class Login extends JFrame {
                         userID = rs.getInt("userID");
                         fname = rs.getString("fname");
                     }
-                    passString = new String(passwordField.getPassword());
+                    String passString = new String(passwordField.getPassword());
                     if (BCrypt.checkpw(passString, passHashed)) {
                         rs.close();
                         connection.close();
@@ -82,11 +83,6 @@ public class Login extends JFrame {
                 errorLabel.setVisible(true);
             }
         }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
     }
 
     public boolean checkBlank() {

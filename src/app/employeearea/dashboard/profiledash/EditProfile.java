@@ -19,7 +19,6 @@ public class EditProfile extends JFrame {
     private JLabel errorLabel;
     private Connection connection;
     private String passwordHashed;
-    private String password;
 
     public EditProfile(int employeeID, String fname) {
         errorLabel.setVisible(false);
@@ -48,9 +47,7 @@ public class EditProfile extends JFrame {
         } catch (SQLException updateEmployeeErr) {
             System.out.println(updateEmployeeErr.getMessage());
         }
-        submitButton.addActionListener(e -> {
-            submit(employeeID);
-        });
+        submitButton.addActionListener(e -> submit(employeeID));
 
         returnButton.addActionListener(e -> {
             try {
@@ -72,11 +69,16 @@ public class EditProfile extends JFrame {
         });
     }
 
-    private void submit(int employeeID){
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private void submit(int employeeID) {
         if (checkBlank()) {
             if (isValidEmail(emailField.getText())) {
                 errorLabel.setVisible(false);
-                password = new String(passwordField.getPassword());
+                String password = new String(passwordField.getPassword());
                 if (BCrypt.checkpw(password, passwordHashed)) {
                     try {
                         PreparedStatement updateEmployee = connection.prepareStatement("UPDATE Employee SET fname = ?, lname = ?, email = ? WHERE employeeID = " + employeeID);
@@ -101,11 +103,6 @@ public class EditProfile extends JFrame {
                 errorLabel.setVisible(true);
             }
         }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
     }
 
     public boolean checkBlank() {

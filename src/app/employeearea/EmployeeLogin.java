@@ -17,9 +17,7 @@ public class EmployeeLogin extends JFrame {
     private JButton loginButton;
     private JLabel errorLabel;
     private JPanel panel;
-    private Connection connection;
     private String passHashed;
-    private String passString;
     private int employeeID;
     private String fname;
 
@@ -35,17 +33,20 @@ public class EmployeeLogin extends JFrame {
             new App();
             dispose();
         });
-        loginButton.addActionListener(e -> {
-            login();
-        });
+        loginButton.addActionListener(e -> login());
     }
 
-    private void login(){
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private void login() {
         errorLabel.setVisible(false);
         if (checkBlank()) {
             if (isValidEmail(emailField.getText())) {
                 try {
-                    connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
+                    Connection connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
                     PreparedStatement loginUser = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
                     loginUser.setString(1, emailField.getText().toLowerCase(Locale.ROOT));
                     ResultSet rs = loginUser.executeQuery();
@@ -54,7 +55,7 @@ public class EmployeeLogin extends JFrame {
                         employeeID = rs.getInt("employeeID");
                         fname = rs.getString("fname");
                     }
-                    passString = new String(passwordField.getPassword());
+                    String passString = new String(passwordField.getPassword());
                     if (BCrypt.checkpw(passString, passHashed)) {
                         rs.close();
                         connection.close();
@@ -75,11 +76,6 @@ public class EmployeeLogin extends JFrame {
                 errorLabel.setVisible(true);
             }
         }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
     }
 
     public boolean checkBlank() {

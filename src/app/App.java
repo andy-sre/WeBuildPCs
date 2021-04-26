@@ -1,6 +1,7 @@
 package app;
 
 import app.userarea.Login;
+import app.userarea.Register;
 
 import javax.swing.*;
 import java.awt.*;

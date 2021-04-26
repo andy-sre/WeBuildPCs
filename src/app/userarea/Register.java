@@ -1,6 +1,6 @@
-package app;
+package app.userarea;
 
-import app.userarea.Login;
+import app.App;
 import utils.BCrypt;
 
 import javax.swing.*;
@@ -41,12 +41,20 @@ public class Register extends JFrame {
             new App();
             dispose();
         });
-        submitButton.addActionListener(e -> {
-            submit();
-        });
+        submitButton.addActionListener(e -> submit());
     }
 
-    private void submit(){
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private static boolean isValidPassword(String password) {
+        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+        return password.matches(regex);
+    }
+
+    private void submit() {
         String email = emailField.getText().toLowerCase(Locale.ROOT);
         errorLabel.setVisible(false);
         if (checkBlank()) {
@@ -106,16 +114,6 @@ public class Register extends JFrame {
                 errorLabel.setVisible(true);
             }
         }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
-    }
-
-    private static boolean isValidPassword(String password) {
-        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-        return password.matches(regex);
     }
 
     public boolean checkBlank() {

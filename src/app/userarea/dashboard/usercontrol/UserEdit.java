@@ -20,7 +20,6 @@ public class UserEdit extends JFrame {
     private JTextField firstField;
     private Connection connection;
     private String passwordHashed;
-    private String password;
 
     public UserEdit(int userID, String fname) {
         errorLabel.setVisible(false);
@@ -51,9 +50,7 @@ public class UserEdit extends JFrame {
         } catch (SQLException updateUserErr) {
             System.out.println(updateUserErr.getMessage());
         }
-        submitButton.addActionListener(e -> {
-            submit(userID);
-        });
+        submitButton.addActionListener(e -> submit(userID));
         returnButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -74,11 +71,16 @@ public class UserEdit extends JFrame {
         });
     }
 
-    private void submit(int userID){
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private void submit(int userID) {
         if (checkBlank()) {
             if (isValidEmail(emailField.getText())) {
                 errorLabel.setVisible(false);
-                password = new String(passwordField.getPassword());
+                String password = new String(passwordField.getPassword());
                 if (BCrypt.checkpw(password, passwordHashed)) {
                     try {
                         PreparedStatement updateUser = connection.prepareStatement("UPDATE Users SET fname = ?, lname = ?, email = ?, eircode = ? WHERE userID = ?");
@@ -105,11 +107,6 @@ public class UserEdit extends JFrame {
                 errorLabel.setVisible(true);
             }
         }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
     }
 
     public boolean checkBlank() {
