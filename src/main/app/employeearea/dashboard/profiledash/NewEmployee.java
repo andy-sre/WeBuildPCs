@@ -39,20 +39,12 @@ public class NewEmployee extends JFrame {
         }
         submitButton.addActionListener(e -> submit());
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new ProfileDash(employeeID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -75,7 +67,7 @@ public class NewEmployee extends JFrame {
                     if (Arrays.equals(passwordField.getPassword(), cpasswordField.getPassword())) {
                         try {
                             errorLabel.setVisible(false);
-                            PreparedStatement checkEmployee = connection.prepareStatement("SELECT * FROM Employee WHERE email = ?");
+                            PreparedStatement checkEmployee = connection.prepareStatement("SELECT email FROM Employee WHERE email = ?");
                             checkEmployee.setString(1, emailField.getText());
                             ResultSet rs = checkEmployee.executeQuery();
                             if (rs.next()) {
@@ -157,5 +149,13 @@ public class NewEmployee extends JFrame {
             return true;
         }
         return false;
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }

@@ -42,7 +42,7 @@ public class UserDash extends JFrame {
         }
         try {
             assert connection != null;
-            PreparedStatement checkPayment = connection.prepareStatement("SELECT * FROM Payments WHERE userID = ?");
+            PreparedStatement checkPayment = connection.prepareStatement("SELECT dueDate, remainingBal FROM Payments WHERE userID = ?");
             checkPayment.setInt(1, userID);
             ResultSet rs = checkPayment.executeQuery();
             while (rs.next()) {

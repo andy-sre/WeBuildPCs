@@ -96,20 +96,12 @@ public class ViewOrders extends JFrame {
             }
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new EmployeeDash(employeeID, fname);
             dispose();
         });
@@ -128,7 +120,7 @@ public class ViewOrders extends JFrame {
     private void getMyOrders() {
         myOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("SELECT * FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE employeeID = ?");
+            PreparedStatement getOrders = connection.prepareStatement("SELECT O.orderID, orderStatus, orderType, paymentStatus, dueDate, remainingBal FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE employeeID = ?");
             getOrders.setInt(1, employeeID);
             ResultSet rs = getOrders.executeQuery();
             while (rs.next()) {
@@ -161,7 +153,7 @@ public class ViewOrders extends JFrame {
     private void getNewOrders() {
         newOrder.setRowCount(0);
         try {
-            PreparedStatement getOrders = connection.prepareStatement("select * FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.employeeID IS NULL AND P.paymentStatus = ? or O.orderStatus = ? or O.orderStatus = ?");
+            PreparedStatement getOrders = connection.prepareStatement("select O.orderID, dueDate, remainingBal, orderStatus, orderType, paymentStatus FROM Orders O INNER JOIN Payments P on O.orderID = P.orderID WHERE O.employeeID IS NULL AND P.paymentStatus = ? or O.orderStatus = ? or O.orderStatus = ?");
             getOrders.setString(1, "Payment Received");
             getOrders.setString(2, "Refund Requested");
             getOrders.setString(3, "Awaiting Shipment");
@@ -191,6 +183,14 @@ public class ViewOrders extends JFrame {
             getOrders.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
+        }
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 }

@@ -50,20 +50,12 @@ public class EditProfile extends JFrame {
         submitButton.addActionListener(e -> submit(employeeID));
 
         returnButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new ProfileDash(employeeID, fname);
             dispose();
         });
         logoutButton.addActionListener(e -> {
-            try {
-                connection.close();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
+            closeConnection();
             new App();
             dispose();
         });
@@ -122,5 +114,13 @@ public class EditProfile extends JFrame {
             return true;
         }
         return false;
+    }
+
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
