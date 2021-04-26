@@ -180,7 +180,6 @@ public class ViewOrders extends JFrame {
                 int orderID = rs.getInt("orderID");
                 date = rs.getString("dueDate");
                 balance = rs.getDouble("remainingBal");
-                System.out.println("Test 0");
                 try {
                     dueDate = sFormat.parse(date);
                     if (current.compareTo(dueDate) >= 0) {

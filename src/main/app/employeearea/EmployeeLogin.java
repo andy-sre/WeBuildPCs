@@ -53,7 +53,6 @@ public class EmployeeLogin extends JFrame {
                         String passHashed = rs.getString("password");
                         String passString = new String(passwordField.getPassword());
                         if (BCrypt.checkpw(passString, passHashed)) {
-                            System.out.println("Test 2");
                             rs.close();
                             loginUser.close();
                             connection.close();

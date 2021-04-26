@@ -80,7 +80,6 @@ public class ViewOrderEmployee extends JFrame {
         refundLabel.setVisible(false);
         beginBuildButton.setVisible(false);
         finishBuildButton.setVisible(false);
-
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:identifier.sqlite");
         } catch (SQLException connectionStart) {
@@ -186,7 +185,6 @@ public class ViewOrderEmployee extends JFrame {
             approveRefund.setInt(2, orderID);
             int rowsAffected = approveRefund.executeUpdate();
             if (rowsAffected == 1) {
-                System.out.println("Test Approve");
                 approveRefund.close();
                 try {
                     PreparedStatement setBalance = connection.prepareStatement("UPDATE Payments SET remainingBal = ?, paymentStatus = ? WHERE orderID = ?");

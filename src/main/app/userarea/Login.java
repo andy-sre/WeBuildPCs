@@ -60,17 +60,24 @@ public class Login extends JFrame {
                         String passHashed = rs.getString("password");
                         String passString = new String(passwordField.getPassword());
                         if (BCrypt.checkpw(passString, passHashed)) {
-                            System.out.println("Test 2");
                             rs.close();
                             connection.close();
                             JOptionPane.showMessageDialog(null, "Login Successful!  Logging you in now!");
                             new UserDash(userID, fname);
                             dispose();
+                        } else {
+                            errorLabel.setText("Password or email incorrect, please try again!");
+                            errorLabel.setVisible(true);
+                            rs.close();
+                            loginUser.close();
+                            connection.close();
                         }
                     } else {
-                        rs.close();
                         errorLabel.setText("Password or email incorrect, please try again!");
                         errorLabel.setVisible(true);
+                        rs.close();
+                        loginUser.close();
+                        connection.close();
                     }
                 } catch (SQLException loginError) {
                     System.err.println(loginError.getMessage());
