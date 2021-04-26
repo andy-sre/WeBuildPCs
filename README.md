@@ -1,4 +1,5 @@
 # WeBuildPC's
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/70e9ff88569d4b7e86bde8937bbfa1cb)](https://app.codacy.com/gh/IAmAndyIE/WeBuildPCs?utm_source=github.com&utm_medium=referral&utm_content=IAmAndyIE/WeBuildPCs&utm_campaign=Badge_Grade_Settings)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/cbe1aa9fefdc4ec984ba34dd535e01c0)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=IAmAndyIE/ComputerShop&amp;utm_campaign=Badge_Grade)
 
 TU819 - COMP4604 - AS &amp; AH
