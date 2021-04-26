@@ -149,9 +149,7 @@ public class OrderCreate extends JFrame {
         ramQuantity.addActionListener(e -> updatePrice());
         storageQuantity.addActionListener(e -> updatePrice());
 
-        submitButton.addActionListener(e -> {
-            submit(userID,fname);
-        });
+        submitButton.addActionListener(e -> submit(userID, fname));
         returnButton.addActionListener(e -> {
             closeConnection();
             new UserDash(userID, fname);
@@ -164,7 +162,7 @@ public class OrderCreate extends JFrame {
         });
     }
 
-    private void submit(int userID, String fname){
+    private void submit(int userID, String fname) {
         if (checkBox()) {
             errorLabel.setVisible(false);
             try {
@@ -538,6 +536,14 @@ public class OrderCreate extends JFrame {
         }
     }
 
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     private static class Item {
         private final int itemID;
         private final String name;
@@ -570,13 +576,6 @@ public class OrderCreate extends JFrame {
         @Override
         public String toString() {
             return getItemName();
-        }
-    }
-    private void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 }

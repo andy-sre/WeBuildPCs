@@ -94,9 +94,7 @@ public class ViewOrder extends JFrame {
             new Payment(userID, orderID, fname);
             dispose();
         });
-        refundOrderButton.addActionListener(e -> {
-            refundOrder(fname);
-        });
+        refundOrderButton.addActionListener(e -> refundOrder(fname));
         returnButton.addActionListener(e -> {
             closeConnection();
             new OrderViewDash(userID, fname);
@@ -105,7 +103,7 @@ public class ViewOrder extends JFrame {
         });
     }
 
-    private void refundOrder(String fname){
+    private void refundOrder(String fname) {
         try {
             PreparedStatement setRefund = connection.prepareStatement("UPDATE Orders SET orderStatus = ? WHERE orderID = ?");
             setRefund.setString(1, "Refund Requested");

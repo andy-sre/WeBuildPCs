@@ -15,8 +15,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class RentServer extends JFrame {
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-    private Date current = new Date();
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     private JButton logoutButton;
     private JComboBox<Item> serverDropdown;
     private JTextField serverPrice;
@@ -40,6 +39,7 @@ public class RentServer extends JFrame {
         this.setVisible(true);
         this.add(panel);
         Calendar c = Calendar.getInstance();
+        Date current = new Date();
         c.setTime(current);
         c.add(Calendar.MONTH, 1);
         c.set(Calendar.HOUR_OF_DAY, 0);
@@ -74,12 +74,10 @@ public class RentServer extends JFrame {
             new UserDash(userID, fname);
             dispose();
         });
-        submitButton.addActionListener(e -> {
-            submit(userID, fname, futureDate);
-        });
+        submitButton.addActionListener(e -> submit(userID, fname, futureDate));
     }
 
-    private void submit(int userID, String fname, Date futureDate){
+    private void submit(int userID, String fname, Date futureDate) {
         if (checkBox()) {
             errorLabel.setVisible(false);
             try {
@@ -105,7 +103,7 @@ public class RentServer extends JFrame {
                 createOrder.setInt(16, 0);
                 createOrder.setString(17, "Rental");
                 createOrder.setInt(18, serverItem.getItemID());
-                createOrder.setInt(19, Integer.parseInt(serverQuantity.getSelectedItem().toString()));
+                createOrder.setInt(19, Integer.parseInt(Objects.requireNonNull(serverQuantity.getSelectedItem()).toString()));
                 int rowsAffectedO = createOrder.executeUpdate();
                 if (rowsAffectedO == 1) {
                     createOrder.close();
@@ -201,6 +199,14 @@ public class RentServer extends JFrame {
         }
     }
 
+    private void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     private static class Item {
         private final int itemID;
         private final String name;
@@ -233,13 +239,6 @@ public class RentServer extends JFrame {
         @Override
         public String toString() {
             return getItemName();
-        }
-    }
-    private void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 }

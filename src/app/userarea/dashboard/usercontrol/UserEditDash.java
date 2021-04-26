@@ -33,9 +33,7 @@ public class UserEditDash extends JFrame {
             new UserEdit(userID, fname);
             dispose();
         });
-        deleteMyProfileButton.addActionListener(e -> {
-            delete(userID);
-        });
+        deleteMyProfileButton.addActionListener(e -> delete(userID));
         logoutButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -56,7 +54,7 @@ public class UserEditDash extends JFrame {
         });
     }
 
-    private void delete(int userID){
+    private void delete(int userID) {
         int input = JOptionPane.showConfirmDialog(null,
                 "Do you want to proceed?", "Deleting Your Account...", JOptionPane.YES_NO_CANCEL_OPTION);
         if (input == 0) {

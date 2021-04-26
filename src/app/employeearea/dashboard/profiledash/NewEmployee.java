@@ -37,9 +37,7 @@ public class NewEmployee extends JFrame {
         } catch (SQLException connect) {
             System.out.println(connect.getMessage());
         }
-        submitButton.addActionListener(e -> {
-            submit();
-        });
+        submitButton.addActionListener(e -> submit());
         returnButton.addActionListener(e -> {
             try {
                 connection.close();
@@ -60,7 +58,17 @@ public class NewEmployee extends JFrame {
         });
     }
 
-    private void submit(){
+    private static boolean isValidEmail(String email) {
+        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        return email.matches(regex);
+    }
+
+    private static boolean isValidPassword(String password) {
+        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+        return password.matches(regex);
+    }
+
+    private void submit() {
         if (checkBlank()) {
             if (isValidEmail(emailField.getText())) {
                 if (isValidPassword(new String(passwordField.getPassword()))) {
@@ -119,16 +127,6 @@ public class NewEmployee extends JFrame {
                 errorLabel.setVisible(true);
             }
         }
-    }
-
-    private static boolean isValidEmail(String email) {
-        String regex = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return email.matches(regex);
-    }
-
-    private static boolean isValidPassword(String password) {
-        String regex = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
-        return password.matches(regex);
     }
 
     public boolean checkBlank() {

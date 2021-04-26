@@ -71,9 +71,7 @@ public class Payment extends JFrame {
             new App();
             dispose();
         });
-        submitButton.addActionListener(e -> {
-            submit(userID, orderID,fname);
-        });
+        submitButton.addActionListener(e -> submit(userID, orderID, fname));
         returnButton.addActionListener(e -> {
             closeConnection();
             new ViewOrder(userID, orderID, fname);
@@ -81,7 +79,7 @@ public class Payment extends JFrame {
         });
     }
 
-    private void submit(int userID, int orderID, String fname){
+    private void submit(int userID, int orderID, String fname) {
         double remaining = Double.parseDouble(remainingBalLabel.getText()) - Double.parseDouble(total.getText());
         BigDecimal round = new BigDecimal(String.valueOf(remaining)).setScale(2, RoundingMode.HALF_UP);
         double remaingingRound = round.doubleValue();
